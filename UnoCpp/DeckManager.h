@@ -1,18 +1,19 @@
 #pragma once
 #include "BaseCard.h"
-#include <list>
+#include <vector>
 #include "DeckData.h"
 class DeckManager
 {
 private:
-	std::list<BaseCard> _cards;
-	std::list<BaseCard> _discardPile;
+	std::vector<BaseCard> _cards;
+	std::vector<BaseCard> _discardPile;
 
 public:
 	void CreateDeck();
 	void ShuffleDeck();
 	void ResetDeck();
 	void GetBackPlayerCards(/*Player[] player*/);
-	BaseCard GetTopCard();
+	BaseCard& GetTopCard();
+	BaseCard& BuyTopCardAndRemoveFromDeck();
 };
 

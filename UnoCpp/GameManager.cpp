@@ -8,8 +8,8 @@ int GameManager::EntryPoint()
 
 void GameManager::Awake()
 {
-	_turnHandler = TurnHandler();
 	_deckManager = DeckManager();
+	_turnHandler = TurnHandler(_deckManager);
 }
 
 void GameManager::WaitPlayerInputToStart()
