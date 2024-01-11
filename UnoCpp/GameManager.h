@@ -4,8 +4,8 @@
 class GameManager
 {
 private:
-	TurnHandler turnHandler;
-	DeckManager deckManager;
+	TurnHandler _turnHandler;
+	DeckManager _deckManager;
 
 	void Awake();
 	void WaitPlayerInputToStart();

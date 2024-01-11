@@ -1,3 +1,3 @@
 #include "BaseAction.h"
 
-void BaseAction::Execute() { }
+void BaseAction::Execute() { };

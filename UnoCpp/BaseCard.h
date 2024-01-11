@@ -2,15 +2,17 @@
 
 #include "Enums.h"
 #include <string>
-
+#include "TurnHandler.h"
 class BaseCard
 {
 private:
-	Enums::CardColor color;
-	std::string symbol;
+	Enums::CardColor _color;
+	std::string _symbol;
+
+	TurnHandler& _turnHandler;
 
 public:
 	Enums::CardColor GetColor() const;
-	std::string GetSymbol();
+	std::string GetSymbol() const;
 };
 

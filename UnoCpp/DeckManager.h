@@ -5,8 +5,8 @@
 class DeckManager
 {
 private:
-	std::list<BaseCard> cards;
-	std::list<BaseCard> discardPile;
+	std::list<BaseCard> _cards;
+	std::list<BaseCard> _discardPile;
 
 public:
 	void CreateDeck();

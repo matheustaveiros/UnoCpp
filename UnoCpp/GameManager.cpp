@@ -8,8 +8,8 @@ int GameManager::EntryPoint()
 
 void GameManager::Awake()
 {
-	turnHandler = TurnHandler();
-	deckManager = DeckManager();
+	_turnHandler = TurnHandler();
+	_deckManager = DeckManager();
 }
 
 void GameManager::WaitPlayerInputToStart()
@@ -19,13 +19,13 @@ void GameManager::WaitPlayerInputToStart()
 
 void GameManager::StartGame()
 {
-	deckManager.CreateDeck();
+	_deckManager.CreateDeck();
 }
 
 int GameManager::GameLoop()
 {
-	while (turnHandler.IsGameRunning()) {
-		turnHandler.TurnLoop();
+	while (_turnHandler.IsGameRunning()) {
+		_turnHandler.TurnLoop();
 	}
 
 	return AskForRestartOrQuit();

@@ -5,11 +5,11 @@
 class TurnHandler
 {
 private:
-	int gameDirection;
-	int currentPlayerIndex;
-	bool gameIsRunning;
-	std::list<BaseAction> actionQueue;
-	std::list<Player> players;
+	int _gameDirection;
+	int _currentPlayerIndex;
+	bool _gameIsRunning;
+	std::list<BaseAction> _actionQueue;
+	std::list<Player> _players;
 public:
 	int GetGameDirection();
 	void TurnLoop();

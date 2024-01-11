@@ -23,5 +23,5 @@ void TurnHandler::StartCurrentPlayerTurn()
 
 bool TurnHandler::IsGameRunning()
 {
-    return gameIsRunning;
+    return _gameIsRunning;
 }

@@ -4,7 +4,7 @@
 class Player
 {
 private:
-	std::list<BaseCard> cardsInHand;
+	std::list<BaseCard> _cardsInHand;
 
 public:
 	void StartTurn();

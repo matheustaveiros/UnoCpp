@@ -2,10 +2,10 @@
 
 Enums::CardColor BaseCard::GetColor() const
 {
-	return Enums::CardColor();
+	return _color;
 }
 
-std::string BaseCard::GetSymbol()
+std::string BaseCard::GetSymbol() const
 {
-	return std::string();
+	return _symbol;
 }
