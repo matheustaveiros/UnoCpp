@@ -1,11 +1,13 @@
 #pragma once
-#include "DeckManager.h"
-#include "TurnHandler.h"
+#include <memory>
+
+class TurnHandler;
+class DeckManager;
 class GameManager
 {
 private:
-	TurnHandler _turnHandler;
-	DeckManager _deckManager;
+	std::shared_ptr<TurnHandler> _turnHandler;
+	std::shared_ptr<DeckManager> _deckManager;
 
 	void Awake();
 	void WaitPlayerInputToStart();

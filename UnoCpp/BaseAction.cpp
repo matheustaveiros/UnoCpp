@@ -1,6 +1,6 @@
 #include "BaseAction.h"
 
-BaseAction::BaseAction(std::shared_ptr<TurnHandler> turnHandler)
+BaseAction::BaseAction(std::shared_ptr<TurnHandler> turnHandler) : _turnHandler { turnHandler }
 {
-	_turnHandler = turnHandler;
+
 }

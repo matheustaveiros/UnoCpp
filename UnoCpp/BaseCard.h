@@ -2,10 +2,11 @@
 
 #include "Enums.h"
 #include <string>
-#include "TurnHandler.h"
-#include "BaseAction.h"
 #include <vector>
 #include <memory>
+
+class BaseAction;
+class TurnHandler;
 class BaseCard
 {
 private:
@@ -23,9 +24,8 @@ public:
 	virtual void Awake() = 0;
 	void AddAction(BaseAction& baseAction);
 	void Execute();
-	std::vector<BaseAction>& GetActions();
+	std::vector<BaseAction> GetActions();
 
-	BaseCard() = default;
-	~BaseCard() = default;
+	virtual ~BaseCard() = default;
 };
 

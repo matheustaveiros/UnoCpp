@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
-#include "BaseCard.h"
 #include <memory>
+#include "TurnHandler.h"
+
+class BaseCard;
 class Player
 {
 private:

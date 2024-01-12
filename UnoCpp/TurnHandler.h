@@ -1,24 +1,23 @@
 #pragma once
 #include <vector>
-#include "BaseAction.h"
-#include "Player.h"
 #include "BaseCard.h"
+#include "BaseAction.h"
 #include "DeckManager.h"
+
+class Player;
 class TurnHandler
 {
 private:
 	int _gameDirection;
 	int _currentPlayerIndex;
 	bool _gameIsRunning;
-	BaseCard& _throwedCard;
+	BaseCard* _throwedCard;
 	std::vector<BaseAction> _actionQueue;
 	std::vector<Player> _players;
 	std::vector<BaseCard> _stackedCardPile;
-	DeckManager _deckManager;
+	std::shared_ptr<DeckManager> _deckManager;
 public:
-	TurnHandler(const DeckManager& deckManager) {
-		_deckManager = deckManager;
-	};
+	explicit TurnHandler(std::shared_ptr<DeckManager> deckManager);
 
 	int GetGameDirection();
 	void TurnLoop();

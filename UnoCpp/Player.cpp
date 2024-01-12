@@ -34,7 +34,7 @@ bool Player::HasValidActions(BaseCard& cardToCompare)
 
 void Player::ValidateCardCount()
 {
-	if (_cardsInHand.size() == 0)
+	if (_cardsInHand.empty())
 	{
 		DispatchWinCondition();
 	}

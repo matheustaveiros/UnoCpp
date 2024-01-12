@@ -18,10 +18,12 @@ void DeckManager::GetBackPlayerCards()
 
 BaseCard& DeckManager::GetTopCard()
 {
-	// TODO: insert return statement here
+	//TODO fix me
+	return _cards[0];
 }
 
 BaseCard& DeckManager::BuyTopCardAndRemoveFromDeck()
 {
-	// TODO: insert return statement here
+	//TODO fix me
+	return _cards[0];
 }

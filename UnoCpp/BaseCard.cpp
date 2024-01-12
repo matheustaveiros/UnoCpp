@@ -1,4 +1,5 @@
 #include "BaseCard.h"
+#include "TurnHandler.h"
 
 Enums::CardColor BaseCard::GetColor() const
 {
@@ -20,8 +21,12 @@ void BaseCard::Execute()
 	_turnHandler->UseCard(*this);
 }
 
-std::vector<BaseAction>& BaseCard::GetActions()
+std::vector<BaseAction> BaseCard::GetActions()
 {
 	return _baseActions;
+}
+
+BaseCard::~BaseCard()
+{
 }
 

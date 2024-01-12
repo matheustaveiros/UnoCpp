@@ -1,4 +1,10 @@
 #include "TurnHandler.h"
+#include "Player.h"
+
+TurnHandler::TurnHandler(std::shared_ptr<DeckManager> deckManager)
+{
+    _deckManager = deckManager;
+}
 
 int TurnHandler::GetGameDirection()
 {
@@ -21,7 +27,7 @@ void TurnHandler::RemoveActionFromQueue(BaseAction& action)
 
 void TurnHandler::ExecuteActionInQueue()
 {
-    while (_actionQueue.size() != 0)
+    while (!_actionQueue.empty())
     {
         BaseAction& action = _actionQueue[0];
         action.Execute();
@@ -63,7 +69,7 @@ void TurnHandler::BuyCardsFromDeck(int amount)
 {
     for (int i = 0; i < amount; i++)
     {
-        _stackedCardPile.push_back(_deckManager.BuyTopCardAndRemoveFromDeck());
+        _stackedCardPile.push_back(_deckManager->BuyTopCardAndRemoveFromDeck());
     }
 }
 
@@ -80,7 +86,7 @@ void TurnHandler::ApplyStackCardsToPlayer()
 
 void TurnHandler::UseCard(BaseCard& baseCard)
 {
-    std::vector<BaseAction>& cardActions = baseCard.GetActions();
+    std::vector<BaseAction> cardActions = baseCard.GetActions();
     for (int i = 0; i < cardActions.size(); i++)
     {
         AddActionInQueue(cardActions[i]);
@@ -92,7 +98,7 @@ void TurnHandler::UseCard(BaseCard& baseCard)
 bool TurnHandler::HasValidCard()
 {
     Player& player = _players[_currentPlayerIndex];
-    return player.HasValidActions(_throwedCard);
+    return player.HasValidActions(*_throwedCard);
 }
 
 bool TurnHandler::IsGameRunning()

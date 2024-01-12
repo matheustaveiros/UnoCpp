@@ -4,5 +4,5 @@
 
 void PlusTwoCard::Awake() {
 	std::shared_ptr<BuyCardsAction> buyCardsAction = std::make_shared<BuyCardsAction>(_turnHandler);
-	AddAction(*buyCardsAction);
+	AddAction(*buyCardsAction.get());
 }

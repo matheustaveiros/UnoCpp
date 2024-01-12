@@ -1,18 +1,18 @@
 #pragma once
+#include <memory>
 #include "TurnHandler.h"
-#include "memory"
+
+class TurnHandler;
 class BaseAction
 {
 
 public:
-	BaseAction(std::shared_ptr<TurnHandler> turnHandler);
+	BaseAction(std::shared_ptr<TurnHandler> turnHandler) : _turnHandler{ turnHandler } { }
 
 	virtual void Execute() = 0;
 
-	BaseAction() = default;
 	virtual ~BaseAction() = default;
 
-protected:
 	std::shared_ptr<TurnHandler> _turnHandler;
 };
 

@@ -4,5 +4,5 @@
 
 void JumpCard::Awake() {
 	std::shared_ptr<JumpPlayerAction> jumpPlayerAction = std::make_shared<JumpPlayerAction>(_turnHandler);
-	AddAction(*jumpPlayerAction);
+	AddAction(*jumpPlayerAction.get());
 }

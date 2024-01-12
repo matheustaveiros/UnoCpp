@@ -2,8 +2,6 @@
 #include "BaseAction.h"
 class JumpPlayerAction : public BaseAction
 {
-	void Execute() override {
-		
-	}
+	void Execute() override;
 };
 

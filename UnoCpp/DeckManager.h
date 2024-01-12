@@ -1,7 +1,7 @@
 #pragma once
-#include "BaseCard.h"
 #include <vector>
 #include "DeckData.h"
+class BaseCard;
 class DeckManager
 {
 private:
@@ -12,7 +12,7 @@ public:
 	void CreateDeck();
 	void ShuffleDeck();
 	void ResetDeck();
-	void GetBackPlayerCards(/*Player[] player*/);
+	void GetBackPlayerCards();
 	BaseCard& GetTopCard();
 	BaseCard& BuyTopCardAndRemoveFromDeck();
 };

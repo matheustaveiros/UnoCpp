@@ -6,8 +6,8 @@ private:
 	int _amount;
 
 public:
-	BuyCardsAction(int amount);
+	BuyCardsAction(std::shared_ptr<TurnHandler> turnHandler, int amount);
 
-	void Execute() override { };
+	void Execute() override;
 };
 
