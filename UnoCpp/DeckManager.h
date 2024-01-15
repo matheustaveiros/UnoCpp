@@ -2,6 +2,7 @@
 #include "BaseCard.h"
 #include <vector>
 #include "DeckData.h"
+#include "Enums.h"
 class BaseCard;
 class DeckManager
 {
@@ -11,6 +12,10 @@ private:
 
 public:
 	void CreateDeck();
+	void CreateNumberCards(Enums::CardColor cardColor);
+	void CreateJumpCards(Enums::CardColor cardColor);
+	void CreateReverseCards(Enums::CardColor cardColor);
+	void CreatePlusTwoCards(Enums::CardColor cardColor);
 	void ShuffleDeck();
 	void ResetDeck();
 	void GetBackPlayerCards();

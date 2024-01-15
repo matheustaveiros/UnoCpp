@@ -1,10 +1,12 @@
 #include "GameManager.h"
 #include "TurnHandler.h"
 #include "DeckManager.h"
+#include <iostream>
 
 int GameManager::EntryPoint()
 {
 	Awake();
+	WaitPlayerInputToStart();
 	return GameLoop();
 }
 
@@ -12,16 +14,21 @@ void GameManager::Awake()
 {
 	_deckManager = std::make_shared<DeckManager>();
 	_turnHandler = std::make_shared<TurnHandler>(_deckManager);
+
+	_deckManager->CreateDeck();
 }
 
 void GameManager::WaitPlayerInputToStart()
 {
-	
+	//temp
+	std::cout << "Press Any Key to Start The Game";
+	std::cin.get();
+	StartGame();
 }
 
 void GameManager::StartGame()
 {
-	_deckManager->CreateDeck();
+	
 }
 
 int GameManager::GameLoop()
