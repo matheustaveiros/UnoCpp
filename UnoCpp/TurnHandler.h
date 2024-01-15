@@ -1,10 +1,13 @@
 #pragma once
-#include <vector>
 #include "BaseCard.h"
 #include "BaseAction.h"
+#include "Player.h"
 #include "DeckManager.h"
+#include <vector>
 
 class Player;
+class BaseAction;
+class DeckManager;
 class TurnHandler
 {
 private:

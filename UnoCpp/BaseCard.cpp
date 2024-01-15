@@ -25,8 +25,3 @@ std::vector<BaseAction> BaseCard::GetActions()
 {
 	return _baseActions;
 }
-
-BaseCard::~BaseCard()
-{
-}
-

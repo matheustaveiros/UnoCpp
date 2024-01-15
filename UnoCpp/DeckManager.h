@@ -1,4 +1,5 @@
 #pragma once
+#include "BaseCard.h"
 #include <vector>
 #include "DeckData.h"
 class BaseCard;

@@ -2,6 +2,7 @@
 
 #include "Enums.h"
 #include <string>
+#include "BaseAction.h"
 #include <vector>
 #include <memory>
 
@@ -14,10 +15,9 @@ private:
 	std::string _symbol;
 	std::vector<BaseAction> _baseActions;
 
-protected:
+public:
 	std::shared_ptr<TurnHandler> _turnHandler;
 
-public:
 	Enums::CardColor GetColor() const;
 	std::string GetSymbol() const;
 

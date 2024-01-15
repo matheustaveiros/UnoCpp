@@ -4,6 +4,7 @@ BuyCardsAction::BuyCardsAction(std::shared_ptr<TurnHandler> turnHandler, int amo
 	
 }
 
-void BuyCardsAction::Execute() {
+void BuyCardsAction::Execute()
+{
 	_turnHandler->BuyCardsFromDeck(_amount);
 }
