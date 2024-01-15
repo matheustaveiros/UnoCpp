@@ -14,18 +14,18 @@ private:
 	int _gameDirection;
 	int _currentPlayerIndex;
 	bool _gameIsRunning;
-	BaseCard* _throwedCard;
-	std::vector<BaseAction> _actionQueue;
-	std::vector<Player> _players;
-	std::vector<BaseCard> _stackedCardPile;
+	std::shared_ptr<BaseCard> _throwedCard;
+	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
+	std::vector<std::shared_ptr<Player>> _players;
+	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
 	std::shared_ptr<DeckManager> _deckManager;
 public:
 	explicit TurnHandler(std::shared_ptr<DeckManager> deckManager);
 
 	int GetGameDirection();
 	void TurnLoop();
-	void AddActionInQueue(BaseAction& action);
-	void RemoveActionFromQueue(BaseAction& action);
+	void AddActionInQueue(std::shared_ptr<BaseAction> action);
+	void RemoveActionFromQueue(std::shared_ptr<BaseAction> action);
 	void ExecuteActionInQueue();
 	void StartCurrentPlayerTurn();
 	void SkipToNextPlayer();
@@ -33,7 +33,7 @@ public:
 	void JumpPlayer();
 	void BuyCardsFromDeck(int amount);
 	void ApplyStackCardsToPlayer();
-	void UseCard(BaseCard& baseCard);
+	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	bool HasValidCard();
 	bool IsGameRunning();
 };

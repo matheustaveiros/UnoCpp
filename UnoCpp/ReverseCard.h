@@ -2,6 +2,7 @@
 #include "BaseCard.h"
 class ReverseCard : public BaseCard
 {
-	void Awake() override;
+public:
+	ReverseCard(std::shared_ptr<BaseCard> myPointer);
 };
 

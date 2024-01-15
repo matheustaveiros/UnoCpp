@@ -2,7 +2,8 @@
 #include <memory>
 #include "GoToNextPlayerAction.h"
 
-void NumberCard::Awake() {
+NumberCard::NumberCard(std::shared_ptr<BaseCard> myPointer) : BaseCard(myPointer)
+{
 	std::shared_ptr<GoToNextPlayerAction> goToNextPlayerAction = std::make_shared<GoToNextPlayerAction>(_turnHandler);
-	AddAction(*goToNextPlayerAction.get());
+	AddAction(goToNextPlayerAction);
 }

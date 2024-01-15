@@ -4,20 +4,21 @@ void Player::StartTurn()
 {
 }
 
-Player::Player(std::shared_ptr<TurnHandler> turnHandler)
+Player::Player(std::shared_ptr<TurnHandler> turnHandler) : _turnHandler { turnHandler }
 {
-	_turnHandler = turnHandler;
+	
 }
 
 void Player::DrawCards()
 {
+
 }
 
 void Player::ShowActions()
 {
 }
 
-bool Player::HasValidActions(BaseCard& cardToCompare)
+bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 {
 	if (&cardToCompare != nullptr)
 	{
@@ -44,7 +45,7 @@ void Player::DispatchWinCondition()
 {
 }
 
-void Player::AddCardToHand(BaseCard& card)
+void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
 {
 	_cardsInHand.push_back(card);
 }
@@ -57,7 +58,7 @@ void Player::UseOption(int option)
 		_inUnoState = true;
 	}
 	else {
-		BaseCard& currentUseCard = _cardsInHand[option];
+		std::shared_ptr<BaseCard> currentUseCard = _cardsInHand[option];
 		_turnHandler->UseCard(currentUseCard);
 	}
 }

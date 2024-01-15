@@ -37,7 +37,7 @@ int GameManager::AskForRestartOrQuit()
 {
 	//GetInput
 	//If restart
-	//RestarGame
+	//RestartGame
 	//else
 	//QuitGame
 

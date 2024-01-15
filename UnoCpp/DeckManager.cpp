@@ -16,13 +16,13 @@ void DeckManager::GetBackPlayerCards()
 {
 }
 
-BaseCard& DeckManager::GetTopCard()
+std::shared_ptr<BaseCard> DeckManager::GetTopCard()
 {
 	//TODO fix me
 	return _cards[0];
 }
 
-BaseCard& DeckManager::BuyTopCardAndRemoveFromDeck()
+std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDeck()
 {
 	//TODO fix me
 	return _cards[0];

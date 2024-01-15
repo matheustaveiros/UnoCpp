@@ -2,6 +2,7 @@
 #include "BaseCard.h"
 class NumberCard : public BaseCard
 {
-	void Awake() override;
+public:
+	NumberCard(std::shared_ptr<BaseCard> myPointer);
 };
 

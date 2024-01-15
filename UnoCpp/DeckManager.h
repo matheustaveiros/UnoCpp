@@ -6,15 +6,15 @@ class BaseCard;
 class DeckManager
 {
 private:
-	std::vector<BaseCard> _cards;
-	std::vector<BaseCard> _discardPile;
+	std::vector<std::shared_ptr<BaseCard>> _cards;
+	std::vector<std::shared_ptr<BaseCard>> _discardPile;
 
 public:
 	void CreateDeck();
 	void ShuffleDeck();
 	void ResetDeck();
 	void GetBackPlayerCards();
-	BaseCard& GetTopCard();
-	BaseCard& BuyTopCardAndRemoveFromDeck();
+	std::shared_ptr<BaseCard> GetTopCard();
+	std::shared_ptr<BaseCard> BuyTopCardAndRemoveFromDeck();
 };
 

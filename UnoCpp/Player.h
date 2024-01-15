@@ -9,7 +9,7 @@ class TurnHandler;
 class Player
 {
 private:
-	std::vector<BaseCard> _cardsInHand;
+	std::vector<std::shared_ptr<BaseCard>> _cardsInHand;
 	const int YELL_UNO_OPTION_INDEX = 99999;
 	bool _inUnoState;
 
@@ -21,10 +21,10 @@ public:
 	void StartTurn();
 	void DrawCards();
 	void ShowActions();
-	bool HasValidActions(BaseCard& cardToCompare);
+	bool HasValidActions(std::shared_ptr<BaseCard> cardToCompare);
 	void ValidateCardCount();
 	void DispatchWinCondition();
-	void AddCardToHand(BaseCard& card);
+	void AddCardToHand(std::shared_ptr<BaseCard> card);
 	void UseOption(int option);
 };
 
