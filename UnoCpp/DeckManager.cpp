@@ -4,6 +4,14 @@
 #include "JumpCard.h"
 #include "ReverseCard.h"
 #include "PlusTwoCard.h"
+#include <algorithm>
+#include <random>
+#include "TurnHandler.h"
+
+DeckManager::DeckManager(std::shared_ptr<PlayersManager> playersManager) : _playersManager { playersManager }
+{
+	
+}
 
 void DeckManager::CreateDeck()
 {
@@ -17,6 +25,8 @@ void DeckManager::CreateDeck()
 		CreateReverseCards(cardColor);
 		CreatePlusTwoCards(cardColor);
 	}
+
+	ShuffleDeck();
 }
 
 void DeckManager::CreateNumberCards(Enums::CardColor cardColor)
@@ -60,6 +70,8 @@ void DeckManager::CreatePlusTwoCards(Enums::CardColor cardColor)
 
 void DeckManager::ShuffleDeck()
 {
+	auto rng = std::default_random_engine{};
+	std::shuffle(std::begin(_cards), std::end(_cards), rng);
 }
 
 void DeckManager::ResetDeck()
@@ -68,16 +80,42 @@ void DeckManager::ResetDeck()
 
 void DeckManager::GetBackPlayerCards()
 {
+	/*std::vector<std::shared_ptr<Player>> players = _playersManager->GetPlayers();
+	for (int i = 0; i < players.size(); i++)
+	{
+		std::vector<std::shared_ptr<BaseCard>> playerCards = players[i]->GetCards();
+		for (int j = 0; j < playerCards.size(); j++)
+		{
+			_cards.push_back(playerCards[j]);
+		}
+
+		players[i]->CleanPlayerHand();
+	}*/
+
 }
 
+/// <summary>
+/// Top card will be always first
+/// </summary>
+/// <returns></returns>
 std::shared_ptr<BaseCard> DeckManager::GetTopCard()
 {
-	//TODO fix me
+	if (_cards.empty())
+	{
+		return nullptr;
+	}
+
 	return _cards[0];
 }
 
 std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDeck()
 {
-	//TODO fix me
-	return _cards[0];
+	if (_cards.empty())
+	{
+		return nullptr;
+	}
+
+	std::shared_ptr<BaseCard> card = _cards[0];
+	_cards.erase(_cards.begin());
+	return card;
 }

@@ -1,7 +1,8 @@
 #include "TurnHandler.h"
 #include "Player.h"
 
-TurnHandler::TurnHandler(std::shared_ptr<DeckManager> deckManager) : _deckManager { deckManager }
+TurnHandler::TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager) 
+    : _deckManager{ deckManager }, _playersManager { playersManager }
 {
     
 }
@@ -37,19 +38,19 @@ void TurnHandler::ExecuteActionInQueue()
 
 void TurnHandler::StartCurrentPlayerTurn()
 {
-    std::shared_ptr<Player> player = _players[_currentPlayerIndex];
+    std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
     player->StartTurn();
 }
 
 void TurnHandler::SkipToNextPlayer()
 {
     _currentPlayerIndex += _gameDirection;
-    if (_currentPlayerIndex >= _players.size())
+    if (_currentPlayerIndex >= _playersManager->GetPlayers().size())
     {
         _currentPlayerIndex = 0;
     }
     else if (_currentPlayerIndex < 0) {
-        _currentPlayerIndex = _players.size() - 1;
+        _currentPlayerIndex = _playersManager->GetPlayers().size() - 1;
     }
 }
 
@@ -75,7 +76,7 @@ void TurnHandler::BuyCardsFromDeck(int amount)
 
 void TurnHandler::ApplyStackCardsToPlayer()
 {
-    std::shared_ptr<Player> player = _players[_currentPlayerIndex];
+    std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
     for (int i = 0; i < _stackedCardPile.size(); i++)
     {
         player->AddCardToHand(_stackedCardPile[i]);
@@ -97,7 +98,7 @@ void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
 
 bool TurnHandler::HasValidCard()
 {
-    std::shared_ptr<Player> player = _players[_currentPlayerIndex];
+    std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
     return player->HasValidActions(_throwedCard);
 }
 

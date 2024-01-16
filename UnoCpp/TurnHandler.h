@@ -1,26 +1,28 @@
 #pragma once
 #include "BaseCard.h"
 #include "BaseAction.h"
-#include "Player.h"
 #include "DeckManager.h"
 #include <vector>
 
 class Player;
 class BaseAction;
 class DeckManager;
+class PlayersManager;
+class BaseCard;
 class TurnHandler
 {
 private:
-	int _gameDirection;
-	int _currentPlayerIndex;
-	bool _gameIsRunning;
+	int _gameDirection = 1;
+	int _currentPlayerIndex = 0;
+	bool _gameIsRunning = false;
 	std::shared_ptr<BaseCard> _throwedCard;
 	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
-	std::vector<std::shared_ptr<Player>> _players;
+	
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
 	std::shared_ptr<DeckManager> _deckManager;
+	std::shared_ptr<PlayersManager> _playersManager;
 public:
-	explicit TurnHandler(std::shared_ptr<DeckManager> deckManager);
+	TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 
 	int GetGameDirection();
 	void TurnLoop();
@@ -36,5 +38,6 @@ public:
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	bool HasValidCard();
 	bool IsGameRunning();
+
 };
 

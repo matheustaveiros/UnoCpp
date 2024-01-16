@@ -3,14 +3,19 @@
 #include <vector>
 #include "DeckData.h"
 #include "Enums.h"
+#include "PlayersManager.h"
+
 class BaseCard;
+class PlayersManager;
 class DeckManager
 {
 private:
+	std::shared_ptr<PlayersManager> _playersManager;
 	std::vector<std::shared_ptr<BaseCard>> _cards;
 	std::vector<std::shared_ptr<BaseCard>> _discardPile;
 
 public:
+	DeckManager(std::shared_ptr<PlayersManager> playersManager);
 	void CreateDeck();
 	void CreateNumberCards(Enums::CardColor cardColor);
 	void CreateJumpCards(Enums::CardColor cardColor);

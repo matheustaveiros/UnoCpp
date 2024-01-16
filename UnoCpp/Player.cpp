@@ -4,7 +4,7 @@ void Player::StartTurn()
 {
 }
 
-Player::Player(std::shared_ptr<TurnHandler> turnHandler) : _turnHandler { turnHandler }
+Player::Player(std::shared_ptr<TurnHandler> turnHandler, std::string name) : _turnHandler{ turnHandler }, _name { name }
 {
 	
 }
@@ -61,4 +61,19 @@ void Player::UseOption(int option)
 		std::shared_ptr<BaseCard> currentUseCard = _cardsInHand[option];
 		_turnHandler->UseCard(currentUseCard);
 	}
+}
+
+std::vector<std::shared_ptr<BaseCard>> Player::GetCards()
+{
+	return _cardsInHand;
+}
+
+void Player::CleanPlayerHand()
+{
+	_cardsInHand.clear();
+}
+
+std::string& Player::GetName()
+{
+	return _name;
 }
