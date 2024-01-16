@@ -96,6 +96,11 @@ void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
     ExecuteActionInQueue();
 }
 
+void TurnHandler::SetStarterPlayerOrder(int index)
+{
+    _currentPlayerIndex = index;
+}
+
 bool TurnHandler::HasValidCard()
 {
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);

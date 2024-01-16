@@ -3,12 +3,18 @@
 class Enums
 {
 public:
-	enum CardColor
+	enum class CardColor
 	{
 		Blue,
 		Green,
 		Red,
 		Yellow,
+	};
+
+	enum class DisplayLevel
+	{
+		Developer,
+		Player
 	};
 };
 

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <random>
 #include "TurnHandler.h"
+#include "ConsoleHelper.h"
 
 DeckManager::DeckManager(std::shared_ptr<PlayersManager> playersManager) : _playersManager { playersManager }
 {
@@ -15,7 +16,7 @@ DeckManager::DeckManager(std::shared_ptr<PlayersManager> playersManager) : _play
 
 void DeckManager::CreateDeck()
 {
-	std::vector<Enums::CardColor> colorList{ Enums::Blue, Enums::Green, Enums::Red, Enums::Yellow };
+	std::vector<Enums::CardColor> colorList{ Enums::CardColor::Blue, Enums::CardColor::Green, Enums::CardColor::Red, Enums::CardColor::Yellow };
 
 	for (int i = 0; i < colorList.size(); i++)
 	{
@@ -25,6 +26,8 @@ void DeckManager::CreateDeck()
 		CreateReverseCards(cardColor);
 		CreatePlusTwoCards(cardColor);
 	}
+
+	ConsoleHelper::PrintMessage("Cards Created\n", Enums::DisplayLevel::Developer);
 
 	ShuffleDeck();
 }
@@ -72,6 +75,8 @@ void DeckManager::ShuffleDeck()
 {
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(_cards), std::end(_cards), rng);
+
+	ConsoleHelper::PrintMessage("Cards Shuffled\n", Enums::DisplayLevel::Developer);
 }
 
 void DeckManager::ResetDeck()

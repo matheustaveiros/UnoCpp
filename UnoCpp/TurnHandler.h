@@ -36,6 +36,7 @@ public:
 	void BuyCardsFromDeck(int amount);
 	void ApplyStackCardsToPlayer();
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
+	void SetStarterPlayerOrder(int index);
 	bool HasValidCard();
 	bool IsGameRunning();
 
