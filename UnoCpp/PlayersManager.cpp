@@ -1,9 +1,12 @@
 #include "PlayersManager.h"
 #include "Player.h"
+#include "DeckData.h"
+#include "ConsoleHelper.h"
 
-void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler)
+void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<DeckManager> deckManager)
 {
     _turnHandler = turnHandler;
+    _deckManager = deckManager;
 }
 
 std::vector<std::shared_ptr<Player>> PlayersManager::GetPlayers()
@@ -32,3 +35,16 @@ void PlayersManager::DestroyAllPlayers()
 {
 }
 
+void PlayersManager::GiveFirstCardsToPlayers()
+{
+    for (int playerIndex = 0; playerIndex < _players.size(); playerIndex++)
+    {
+        for (int cardsIndex = 0; cardsIndex < DeckData::AMOUNT_OF_INITIAL_CARDS; cardsIndex++)
+        {
+            std::shared_ptr<BaseCard> card = _deckManager->BuyTopCardAndRemoveFromDeck();
+            _players[playerIndex]->AddCardToHand(card);
+        }
+    }
+
+    ConsoleHelper::PrintMessage("All players Received Initial Cards\n", Enums::DisplayLevel::Developer);
+}

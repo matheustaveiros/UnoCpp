@@ -25,7 +25,7 @@ void GameManager::Awake()
 	_playersManager = std::make_shared<PlayersManager>();
 	_deckManager = std::make_shared<DeckManager>(_playersManager);
 	_turnHandler = std::make_shared<TurnHandler>(_deckManager, _playersManager);
-	_playersManager->Initialize(_turnHandler);
+	_playersManager->Initialize(_turnHandler, _deckManager);
 
 	_deckManager->CreateDeck();
 }
@@ -65,12 +65,14 @@ void GameManager::RandomizeFirstPlayer()
 	int selectedPlayer = RandomHelper::Range(0, playersSize);
 	_turnHandler->SetStarterPlayerOrder(selectedPlayer);
 
-	ConsoleHelper::PrintMessage("Player Randomly Selected: " + _playersManager->GetPlayer(selectedPlayer)->GetName());
+	ConsoleHelper::PrintMessage("Player Randomly Selected: " + _playersManager->GetPlayer(selectedPlayer)->GetName() + "\n");
 }
 
 void GameManager::StartGame()
 {
-	
+	_playersManager->GiveFirstCardsToPlayers();
+	_turnHandler->ThrowCardFromDeckToDiscardPile();
+	_turnHandler->SetGameState(true);
 }
 
 int GameManager::GameLoop()

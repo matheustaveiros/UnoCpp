@@ -24,7 +24,9 @@ public:
 	void ShuffleDeck();
 	void ResetDeck();
 	void GetBackPlayerCards();
-	std::shared_ptr<BaseCard> GetTopCard();
+	std::shared_ptr<BaseCard> GetTopCardFromDeck();
 	std::shared_ptr<BaseCard> BuyTopCardAndRemoveFromDeck();
+	void AddCardToDiscardPile(std::shared_ptr<BaseCard> card);
+	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 

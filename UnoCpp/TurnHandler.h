@@ -25,6 +25,8 @@ public:
 	TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 
 	int GetGameDirection();
+	std::string GetGameDirectionDisplay() const;
+	void SetGameState(bool isRunning);
 	void TurnLoop();
 	void AddActionInQueue(std::shared_ptr<BaseAction> action);
 	void RemoveActionFromQueue(std::shared_ptr<BaseAction> action);
@@ -34,11 +36,13 @@ public:
 	void ReverseGame();
 	void JumpPlayer();
 	void BuyCardsFromDeck(int amount);
+	void BuyCardsFromStackPile(int amount);
 	void ApplyStackCardsToPlayer();
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	void SetStarterPlayerOrder(int index);
+	void ThrowCardFromDeckToDiscardPile();
 	bool HasValidCard();
 	bool IsGameRunning();
-
+	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 

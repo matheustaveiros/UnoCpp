@@ -103,7 +103,7 @@ void DeckManager::GetBackPlayerCards()
 /// Top card will be always first
 /// </summary>
 /// <returns></returns>
-std::shared_ptr<BaseCard> DeckManager::GetTopCard()
+std::shared_ptr<BaseCard> DeckManager::GetTopCardFromDeck()
 {
 	if (_cards.empty())
 	{
@@ -123,4 +123,14 @@ std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDeck()
 	std::shared_ptr<BaseCard> card = _cards[0];
 	_cards.erase(_cards.begin());
 	return card;
+}
+
+void DeckManager::AddCardToDiscardPile(std::shared_ptr<BaseCard> card)
+{
+	_discardPile.push_back(card);
+}
+
+std::shared_ptr<BaseCard> DeckManager::GetTopCardFromDiscardPile()
+{
+	return _discardPile[_discardPile.size() - 1];
 }
