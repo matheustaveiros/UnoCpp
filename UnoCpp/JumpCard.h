@@ -3,6 +3,6 @@
 class JumpCard : public BaseCard
 {
 public:
-	JumpCard(std::shared_ptr<BaseCard> myPointer);
+	JumpCard(std::shared_ptr<BaseCard> myPointer, Enums::CardColor color, std::string symbol);
 };
 

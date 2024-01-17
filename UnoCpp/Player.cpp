@@ -1,33 +1,60 @@
 #include "Player.h"
+#include "ConsoleHelper.h"
+#include "CardDrawHelper.h"
 
 void Player::StartTurn()
 {
+	DrawCards();
+	ShowExtraActions();
+	WaitForActionInput();
 }
 
-Player::Player(std::shared_ptr<TurnHandler> turnHandler) : _turnHandler { turnHandler }
+Player::Player(std::shared_ptr<TurnHandler> turnHandler, std::string name) : _turnHandler{ turnHandler }, _name{ name }
 {
-	
+
 }
 
 void Player::DrawCards()
 {
-
+	ConsoleHelper::PrintMessage("Player Hand:\n");
+	CardDrawHelper::DrawCards(_cardsInHand);
 }
 
-void Player::ShowActions()
+void Player::ShowExtraActions()
 {
+	int startOffset = _cardsInHand.size();
+	_buyCardActionValue = startOffset;
+	_yellUnoActionValue = startOffset + 1;
+
+	ConsoleHelper::PrintMessage("Type Any Card Id to Use Or\n");
+	ConsoleHelper::PrintMessage("Type " + std::to_string(_buyCardActionValue) + " to Buy One Card\n");
+	ConsoleHelper::PrintMessage("Type " + std::to_string(_yellUnoActionValue) + " to Yell Uno\n");
+}
+
+void Player::WaitForActionInput()
+{
+	int selectedAction = ConsoleHelper::GetInput<int>("Insert the number of the action to Play: \n");
+	UseOption(selectedAction);
 }
 
 bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 {
-	if (&cardToCompare != nullptr)
+	if (&cardToCompare != nullptr) // in case of a special card
 	{
-		//Search in Hand for Equal Card
+		for (int i = 0; i < _cardsInHand.size(); i++)
+		{
+			if (_cardsInHand[i]->GetSymbol() == cardToCompare->GetSymbol())
+				return true;
+		}
 	}
 	else {
-		//Get top card on deck
-		//Compare the Color if matches
-		//else if Compare the symbol
+		for (int i = 0; i < _cardsInHand.size(); i++)
+		{
+			bool isCompatible = CardIsCompatible(_cardsInHand[i]);
+
+			if (isCompatible)
+				return true;
+		}
 	}
 
 	return false;
@@ -41,6 +68,17 @@ void Player::ValidateCardCount()
 	}
 }
 
+bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
+{
+	std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
+	if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
+		return true;
+	if (card->GetColor() == cardFromDiscardPile->GetColor())
+		return true;
+
+	return false;
+}
+
 void Player::DispatchWinCondition()
 {
 }
@@ -52,13 +90,44 @@ void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
 
 void Player::UseOption(int option)
 {
-	if (option == YELL_UNO_OPTION_INDEX)
+	if (option == _yellUnoActionValue)
 	{
-		//Display Yell Uno
 		_inUnoState = true;
+
+		ConsoleHelper::PrintMessage("Player: " + _name + " Yelled Uno!\n");
+
+		StartTurn();
 	}
-	else {
+	else if (option == _buyCardActionValue)
+	{
+		_turnHandler->BuyCardsFromDeck(1);
+	}
+	else
+	{
 		std::shared_ptr<BaseCard> currentUseCard = _cardsInHand[option];
-		_turnHandler->UseCard(currentUseCard);
+		if (CardIsCompatible(currentUseCard))
+		{
+			_turnHandler->UseCard(currentUseCard);
+		}
+		else
+		{
+			ConsoleHelper::PrintMessage("Invalid Action, Please Select a Card With Compatible Symbol or Color\n");
+			WaitForActionInput();
+		}
 	}
+}
+
+std::vector<std::shared_ptr<BaseCard>> Player::GetCards()
+{
+	return _cardsInHand;
+}
+
+void Player::CleanPlayerHand()
+{
+	_cardsInHand.clear();
+}
+
+std::string& Player::GetName()
+{
+	return _name;
 }

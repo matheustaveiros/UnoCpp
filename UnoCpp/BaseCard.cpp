@@ -1,7 +1,7 @@
 #include "BaseCard.h"
 #include "TurnHandler.h"
 
-BaseCard::BaseCard(std::shared_ptr<BaseCard> myPointer) : _myPointer { myPointer }
+BaseCard::BaseCard(std::shared_ptr<BaseCard> myPointer, Enums::CardColor color, std::string symbol) : _myPointer{ myPointer }, _color{ color }, _symbol { symbol }
 {
 	
 }
