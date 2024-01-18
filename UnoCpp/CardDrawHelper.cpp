@@ -48,11 +48,8 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, int id)
     DrawCard(card, currentPosition, id);
 }
 
-void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, int id)
+void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, const HANDLE console)
 {
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(console, position);
-
     if (card->GetColor() == Enums::CardColor::Red)
     {
         SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_INTENSITY);
@@ -69,6 +66,14 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, in
     {
         SetConsoleTextAttribute(console, FOREGROUND_YELLOW | FOREGROUND_INTENSITY);
     }
+}
+
+void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, int id)
+{
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(console, position);
+
+    SetTextColorByCardColor(card, console);
 
     int cardWidth = static_cast<int>(card->GetSymbol().length()) + 4;
 

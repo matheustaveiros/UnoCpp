@@ -30,6 +30,11 @@ public:
 	void DispatchWinCondition();
 	void AddCardToHand(std::shared_ptr<BaseCard> card);
 	void UseOption(int option);
+	void HandleYellUnoOption();
+	void HandleBuyCardOption();
+	void HandleUseCardOption(int option);
+	void HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, int option);
+	void HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void TurnEnded();
 	std::vector<std::shared_ptr<BaseCard>> GetCards();
 	void CleanPlayerHand();

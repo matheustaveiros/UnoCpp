@@ -13,6 +13,7 @@ private:
 public:
 	static void DrawCards(std::vector<std::shared_ptr<BaseCard>> cards);
 	static void DrawCard(std::shared_ptr<BaseCard> card, int id = -1);
+	static void SetTextColorByCardColor(std::shared_ptr<BaseCard> card, const HANDLE console);
 	static void DrawCard(std::shared_ptr<BaseCard> card, COORD position, int id = -1);
 };
 
