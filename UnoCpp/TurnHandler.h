@@ -15,7 +15,6 @@ private:
 	int _gameDirection = 1;
 	int _currentPlayerIndex = 0;
 	bool _gameIsRunning = false;
-	std::shared_ptr<BaseCard> _throwedCard;
 	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
 	
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;

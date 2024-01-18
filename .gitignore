@@ -34,13 +34,13 @@
 # Directories
 .vs/
 Binaries/
+UnoCpp/x64/Debug/
 
 # Files
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
 *.log
-*.tlog
 Makefile
 
 # Exclude

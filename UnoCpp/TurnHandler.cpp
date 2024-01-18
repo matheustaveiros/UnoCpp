@@ -122,7 +122,7 @@ void TurnHandler::ApplyStackCardsToPlayer()
         player->AddCardToHand(_stackedCardPile[i]);
     }
 
-    ConsoleHelper::PrintMessage("Stack Pile(cards: " + std::to_string(_stackedCardPile.size()) + ") applied to" + player->GetName() + " hand\n");
+    ConsoleHelper::PrintMessage("Stack Pile(cards: " + std::to_string(_stackedCardPile.size()) + ") Applied to Player:" + player->GetName() + " Hand\n");
     _stackedCardPile.clear();
 }
 
@@ -133,6 +133,8 @@ void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
     {
         AddActionInQueue(cardActions[i]);
     }
+
+    _deckManager->AddCardToDiscardPile(baseCard);
 
     ConsoleHelper::PrintMessage("Card Used: \n");
     CardDrawHelper::DrawCard(baseCard);
@@ -163,7 +165,7 @@ void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
 bool TurnHandler::HasValidCard()
 {
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-    return player->HasValidActions(_throwedCard);
+    return player->HasValidActions(_deckManager->GetTopCardFromDiscardPile());
 }
 
 bool TurnHandler::IsGameRunning()

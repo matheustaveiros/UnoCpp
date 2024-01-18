@@ -79,6 +79,8 @@ bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
 
 void Player::DispatchWinCondition()
 {
+	ConsoleHelper::PrintMessage("Victory! Player: " + _name + " Won the Game\n");
+	_turnHandler->SetGameState(false);
 }
 
 void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
@@ -91,11 +93,17 @@ void Player::UseOption(int option)
 	ConsoleHelper::Clear();
 	if (option == _yellUnoActionValue)
 	{
-		_inUnoState = true;
-
-		ConsoleHelper::PrintMessage("Player: " + _name + " Yelled Uno!\n");
-
-		StartTurn();
+		if (_cardsInHand.size() <= 2)
+		{
+			_inUnoState = true;
+			ConsoleHelper::PrintMessage("Player: " + _name + " Yelled Uno!\n");
+			StartTurn();
+		}
+		else
+		{
+			ConsoleHelper::PrintMessage("Can't Yell Uno Yet, Consider Yelling When You Have 2 Cards In Hand\n");
+			WaitForActionInput();
+		}
 	}
 	else if (option == _buyCardActionValue)
 	{
@@ -119,12 +127,14 @@ void Player::UseOption(int option)
 					_turnHandler->BuyCardsFromDeck(DeckData::PENALTY_FOR_NOT_YELL_UNO);
 					_cardsInHand.erase(_cardsInHand.begin() + option);
 					_turnHandler->UseCard(currentUseCard);
+					TurnEnded();
 				}
 			}
 			else
 			{
 				_cardsInHand.erase(_cardsInHand.begin() + option);
 				_turnHandler->UseCard(currentUseCard);
+				TurnEnded();
 			}
 		}
 		else
@@ -132,6 +142,14 @@ void Player::UseOption(int option)
 			ConsoleHelper::PrintMessage("Invalid Action, Please Select a Card With Compatible Symbol or Color\n");
 			WaitForActionInput();
 		}
+	}
+}
+
+void Player::TurnEnded()
+{
+	if (_inUnoState && static_cast<int>(_cardsInHand.size()) > 1)
+	{
+		_inUnoState = false;
 	}
 }
 

@@ -87,11 +87,20 @@ int GameManager::GameLoop()
 
 int GameManager::AskForRestartOrQuit()
 {
-	//GetInput
-	//If restart
-	//RestartGame
-	//else
-	//QuitGame
+	int selection = ConsoleHelper::GetInput<int>("Press 1 to Play Again the Game\nPress 2 to Leave the Game\n");
+	if (selection == 1)
+	{
+		RestartGame();
+	}
+	else if (selection == 2)
+	{
+		return QuitGame();
+	}
+	else
+	{
+		ConsoleHelper::PrintMessage("Invalid Option, Please Type a Valid Option");
+		return AskForRestartOrQuit();
+	}
 
 	return 0;
 }
