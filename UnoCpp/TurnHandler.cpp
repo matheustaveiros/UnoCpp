@@ -45,7 +45,7 @@ void TurnHandler::ExecuteActionInQueue()
 {
     while (!_actionQueue.empty())
     {
-        std::shared_ptr<BaseAction> action = _actionQueue[0];
+        std::shared_ptr<BaseAction> action = _actionQueue.front();
         action->Execute();
         _actionQueue.erase(_actionQueue.begin());
     }
@@ -66,12 +66,12 @@ void TurnHandler::StartCurrentPlayerTurn()
 void TurnHandler::SkipToNextPlayer()
 {
     _currentPlayerIndex += _gameDirection;
-    if (_currentPlayerIndex >= _playersManager->GetPlayers().size())
+    if (_currentPlayerIndex >= static_cast<int>(_playersManager->GetPlayers().size()))
     {
         _currentPlayerIndex = 0;
     }
     else if (_currentPlayerIndex < 0) {
-        _currentPlayerIndex = _playersManager->GetPlayers().size() - 1;
+        _currentPlayerIndex = static_cast<int>(_playersManager->GetPlayers().size()) - 1;
     }
 
     ConsoleHelper::PrintMessage("Player Skipped\n");
@@ -97,10 +97,10 @@ void TurnHandler::BuyCardsFromDeck(int amount)
         std::shared_ptr<BaseCard> grabbedCard = _deckManager->BuyTopCardAndRemoveFromDeck();
 
         std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-        player->AddCardToHand(_stackedCardPile[i]);
+        player->AddCardToHand(grabbedCard);
     }
 
-    ConsoleHelper::PrintMessage(std::to_string(amount) + "Cards Bought\n");
+    ConsoleHelper::PrintMessage(std::to_string(amount) + " Cards Bought\n");
 }
 
 
@@ -111,7 +111,7 @@ void TurnHandler::BuyCardsFromStackPile(int amount)
         _stackedCardPile.push_back(_deckManager->BuyTopCardAndRemoveFromDeck());
     }
 
-    ConsoleHelper::PrintMessage(std::to_string(amount) + "Cards Bought\n");
+    ConsoleHelper::PrintMessage(std::to_string(amount) + " Cards Added to Stack Pile\n");
 }
 
 void TurnHandler::ApplyStackCardsToPlayer()
@@ -145,10 +145,19 @@ void TurnHandler::SetStarterPlayerOrder(int index)
     _currentPlayerIndex = index;
 }
 
-void TurnHandler::ThrowCardFromDeckToDiscardPile()
+void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
 {
-    std::shared_ptr<BaseCard> deckCard = _deckManager->BuyTopCardAndRemoveFromDeck();
-    _deckManager->AddCardToDiscardPile(deckCard);
+    std::shared_ptr<BaseCard> selectedCard;
+    if (ignoreSpecial)
+    {
+        selectedCard = _deckManager->GetFirstNumberCardOnDeckAndRemoveIt();
+    }
+    else
+    {
+        selectedCard = _deckManager->BuyTopCardAndRemoveFromDeck();
+    }
+
+    _deckManager->AddCardToDiscardPile(selectedCard);
 }
 
 bool TurnHandler::HasValidCard()

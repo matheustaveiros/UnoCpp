@@ -40,7 +40,7 @@ public:
 	void ApplyStackCardsToPlayer();
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	void SetStarterPlayerOrder(int index);
-	void ThrowCardFromDeckToDiscardPile();
+	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
 	bool HasValidCard();
 	bool IsGameRunning();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();

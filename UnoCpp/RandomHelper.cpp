@@ -1,7 +1,11 @@
 #include "RandomHelper.h"
+
+std::mt19937 RandomHelper::Generator;
+
 void RandomHelper::Seed()
 {
-    srand(static_cast<unsigned int>(time(nullptr)));
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    Generator.seed(seed);
 }
 
 /// <summary>
@@ -18,7 +22,6 @@ int RandomHelper::Range(int min, int max)
         return 0;
     }
 
-    int rangeSize = max - min + 1;
-
-    return min + (rand() % rangeSize);
+    std::uniform_int_distribution<int> distribution(min, max);
+    return distribution(Generator);
 }

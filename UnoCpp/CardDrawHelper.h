@@ -8,6 +8,7 @@ class CardDrawHelper
 {
 private:
 	static COORD GetCurrentCursorPosition();
+	static bool WillExceedConsoleWidth(const COORD& currentPosition, int spaceOffset);
 
 public:
 	static void DrawCards(std::vector<std::shared_ptr<BaseCard>> cards);

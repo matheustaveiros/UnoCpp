@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "ConsoleHelper.h"
 #include "CardDrawHelper.h"
+#include "DeckData.h"
 
 void Player::StartTurn()
 {
@@ -22,7 +23,7 @@ void Player::DrawCards()
 
 void Player::ShowExtraActions()
 {
-	int startOffset = _cardsInHand.size();
+	int startOffset = static_cast<int>(_cardsInHand.size());
 	_buyCardActionValue = startOffset;
 	_yellUnoActionValue = startOffset + 1;
 
@@ -60,12 +61,9 @@ bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 	return false;
 }
 
-void Player::ValidateCardCount()
+bool Player::CanWin()
 {
-	if (_cardsInHand.empty())
-	{
-		DispatchWinCondition();
-	}
+	return static_cast<int>(_cardsInHand.size()) - 1 == 0;
 }
 
 bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
@@ -90,6 +88,7 @@ void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
 
 void Player::UseOption(int option)
 {
+	ConsoleHelper::Clear();
 	if (option == _yellUnoActionValue)
 	{
 		_inUnoState = true;
@@ -107,7 +106,26 @@ void Player::UseOption(int option)
 		std::shared_ptr<BaseCard> currentUseCard = _cardsInHand[option];
 		if (CardIsCompatible(currentUseCard))
 		{
-			_turnHandler->UseCard(currentUseCard);
+			if (CanWin())
+			{
+				if (_inUnoState)
+				{
+					DispatchWinCondition();
+				}
+				else
+				{
+					ConsoleHelper::PrintMessage("Player Will Suffer Yell UNO! Penalty:\n");
+
+					_turnHandler->BuyCardsFromDeck(DeckData::PENALTY_FOR_NOT_YELL_UNO);
+					_cardsInHand.erase(_cardsInHand.begin() + option);
+					_turnHandler->UseCard(currentUseCard);
+				}
+			}
+			else
+			{
+				_cardsInHand.erase(_cardsInHand.begin() + option);
+				_turnHandler->UseCard(currentUseCard);
+			}
 		}
 		else
 		{

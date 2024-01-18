@@ -17,7 +17,7 @@ private:
 	std::shared_ptr<BaseCard> _myPointer;
 
 public:
-	BaseCard(std::shared_ptr<BaseCard> myPointer, Enums::CardColor color, std::string symbol);
+	BaseCard(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<BaseCard> myPointer, Enums::CardColor color, std::string symbol);
 
 	std::shared_ptr<TurnHandler> _turnHandler;
 

@@ -7,15 +7,18 @@
 
 class BaseCard;
 class PlayersManager;
+class TurnHandler;
 class DeckManager
 {
 private:
 	std::shared_ptr<PlayersManager> _playersManager;
-	std::vector<std::shared_ptr<BaseCard>> _cards;
+	std::vector<std::shared_ptr<BaseCard>> _deck;
 	std::vector<std::shared_ptr<BaseCard>> _discardPile;
+	std::shared_ptr<TurnHandler> _turnHandler;
 
 public:
 	DeckManager(std::shared_ptr<PlayersManager> playersManager);
+	void Initialize(std::shared_ptr<TurnHandler> turnHandler);
 	void CreateDeck();
 	void CreateNumberCards(Enums::CardColor cardColor);
 	void CreateJumpCards(Enums::CardColor cardColor);
@@ -28,5 +31,7 @@ public:
 	std::shared_ptr<BaseCard> BuyTopCardAndRemoveFromDeck();
 	void AddCardToDiscardPile(std::shared_ptr<BaseCard> card);
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
+	void KeepLastCardAndResetDiscardPile();
+	std::shared_ptr<BaseCard> GetFirstNumberCardOnDeckAndRemoveIt();
 };
 

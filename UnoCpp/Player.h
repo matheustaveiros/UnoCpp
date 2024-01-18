@@ -25,7 +25,7 @@ public:
 	void ShowExtraActions();
 	void WaitForActionInput();
 	bool HasValidActions(std::shared_ptr<BaseCard> cardToCompare);
-	void ValidateCardCount();
+	bool CanWin();
 	bool CardIsCompatible(std::shared_ptr<BaseCard> card);
 	void DispatchWinCondition();
 	void AddCardToHand(std::shared_ptr<BaseCard> card);
