@@ -27,6 +27,13 @@ void TurnHandler::SetGameState(bool isRunning)
     _gameIsRunning = isRunning;
 }
 
+void TurnHandler::ResetState()
+{
+    _gameIsRunning = false;
+    _gameDirection = 1;
+    _currentPlayerIndex = 0;
+}
+
 void TurnHandler::TurnLoop()
 {
     StartCurrentPlayerTurn();
@@ -56,9 +63,6 @@ void TurnHandler::StartCurrentPlayerTurn()
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
 
     ConsoleHelper::PrintMessage("Turn Started, Current Player is: " + player->GetName() + "\n");
-    ConsoleHelper::PrintMessage("Current Top Card is:\n");
-
-    CardDrawHelper::DrawCard(GetTopCardFromDiscardPile());
 
     player->StartTurn();
 }

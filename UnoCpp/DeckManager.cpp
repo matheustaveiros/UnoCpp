@@ -9,6 +9,7 @@
 #include "TurnHandler.h"
 #include "ConsoleHelper.h"
 #include "RandomHelper.h"
+#include "Player.h"
 
 DeckManager::DeckManager(std::shared_ptr<PlayersManager> playersManager) : _playersManager { playersManager }
 {
@@ -84,24 +85,28 @@ void DeckManager::ShuffleDeck()
 	ConsoleHelper::PrintMessage("Cards Shuffled\n", Enums::DisplayLevel::Developer);
 }
 
-void DeckManager::ResetDeck()
+void DeckManager::ResetAllCards()
 {
+	GetBackPlayerCards();
+	ResetDiscardPile();
 }
 
 void DeckManager::GetBackPlayerCards()
 {
-	/*std::vector<std::shared_ptr<Player>> players = _playersManager->GetPlayers();
+	std::vector<std::shared_ptr<Player>> players = _playersManager->GetPlayers();
 	for (int i = 0; i < players.size(); i++)
 	{
 		std::vector<std::shared_ptr<BaseCard>> playerCards = players[i]->GetCards();
-		for (int j = 0; j < playerCards.size(); j++)
-		{
-			_cards.push_back(playerCards[j]);
-		}
+		std::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
 
 		players[i]->CleanPlayerHand();
-	}*/
+	}
+}
 
+void DeckManager::ResetDiscardPile()
+{
+	std::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
+	_discardPile.clear();
 }
 
 std::shared_ptr<BaseCard> DeckManager::GetTopCardFromDeck()

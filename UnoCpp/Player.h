@@ -21,6 +21,7 @@ public:
 	Player(std::shared_ptr<TurnHandler> turnHandler, std::string name);
 
 	void StartTurn();
+	void DrawTopCardFromDiscardPile();
 	void DrawCards();
 	void ShowExtraActions();
 	void WaitForActionInput();

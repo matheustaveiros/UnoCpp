@@ -5,6 +5,7 @@
 
 void Player::StartTurn()
 {
+    DrawTopCardFromDiscardPile();
 	DrawCards();
 	ShowExtraActions();
 	WaitForActionInput();
@@ -13,6 +14,12 @@ void Player::StartTurn()
 Player::Player(std::shared_ptr<TurnHandler> turnHandler, std::string name) : _turnHandler{ turnHandler }, _name{ name }
 {
 
+}
+
+void Player::DrawTopCardFromDiscardPile()
+{
+    ConsoleHelper::PrintMessage("Current Top Card is:\n");
+    CardDrawHelper::DrawCard(_turnHandler->GetTopCardFromDiscardPile());
 }
 
 void Player::DrawCards()
@@ -128,9 +135,12 @@ void Player::HandleBuyCardOption()
 
 void Player::HandleUseCardOption(int option)
 {
-    std::shared_ptr<BaseCard> currentUseCard = _cardsInHand[option];
+    std::shared_ptr<BaseCard> currentUseCard;
 
-    if (CardIsCompatible(currentUseCard))
+    if(option < _cardsInHand.size())
+        currentUseCard = _cardsInHand[option];
+
+    if (currentUseCard != nullptr && CardIsCompatible(currentUseCard))
     {
         if (CanWin())
         {
@@ -144,7 +154,7 @@ void Player::HandleUseCardOption(int option)
     else
     {
         ConsoleHelper::PrintMessage("Invalid Action, Please Select a Card With Compatible Symbol or Color\n");
-        WaitForActionInput();
+        StartTurn();
     }
 }
 
@@ -170,63 +180,6 @@ void Player::HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int
     _turnHandler->UseCard(currentUseCard);
     TurnEnded();
 }
-
-//void Player::UseOption(int option)
-//{
-//	ConsoleHelper::Clear();
-//	if (option == _yellUnoActionValue)
-//	{
-//		if (_cardsInHand.size() <= 2)
-//		{
-//			_inUnoState = true;
-//			ConsoleHelper::PrintMessage("Player: " + _name + " Yelled Uno!\n");
-//			StartTurn();
-//		}
-//		else
-//		{
-//			ConsoleHelper::PrintMessage("Can't Yell Uno Yet, Consider Yelling When You Have 2 Cards In Hand\n");
-//			WaitForActionInput();
-//		}
-//	}
-//	else if (option == _buyCardActionValue)
-//	{
-//		_turnHandler->BuyCardsFromDeck(1);
-//	}
-//	else
-//	{
-//		std::shared_ptr<BaseCard> currentUseCard = _cardsInHand[option];
-//		if (CardIsCompatible(currentUseCard))
-//		{
-//			if (CanWin())
-//			{
-//				if (_inUnoState)
-//				{
-//					DispatchWinCondition();
-//				}
-//				else
-//				{
-//					ConsoleHelper::PrintMessage("Player Will Suffer Yell UNO! Penalty:\n");
-//
-//					_turnHandler->BuyCardsFromDeck(DeckData::PENALTY_FOR_NOT_YELL_UNO);
-//					_cardsInHand.erase(_cardsInHand.begin() + option);
-//					_turnHandler->UseCard(currentUseCard);
-//					TurnEnded();
-//				}
-//			}
-//			else
-//			{
-//				_cardsInHand.erase(_cardsInHand.begin() + option);
-//				_turnHandler->UseCard(currentUseCard);
-//				TurnEnded();
-//			}
-//		}
-//		else
-//		{
-//			ConsoleHelper::PrintMessage("Invalid Action, Please Select a Card With Compatible Symbol or Color\n");
-//			WaitForActionInput();
-//		}
-//	}
-//}
 
 void Player::TurnEnded()
 {

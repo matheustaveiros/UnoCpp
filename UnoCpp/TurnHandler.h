@@ -26,6 +26,7 @@ public:
 	int GetGameDirection();
 	std::string GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
+	void ResetState();
 	void TurnLoop();
 	void AddActionInQueue(std::shared_ptr<BaseAction> action);
 	void RemoveActionFromQueue(std::shared_ptr<BaseAction> action);

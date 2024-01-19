@@ -11,6 +11,11 @@ int GameManager::EntryPoint()
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
 
 	Awake();
+	return InitializeGame();
+}
+
+int GameManager::InitializeGame()
+{
 	WaitPlayerInputToStart();
 	AskForPlayerAmount();
 	RandomizeFirstPlayer();
@@ -107,7 +112,11 @@ int GameManager::AskForRestartOrQuit()
 
 void GameManager::RestartGame()
 {
-	//call restart of main classes
+	_deckManager->ResetAllCards();
+	_playersManager->DestroyAllPlayers();
+	_turnHandler->ResetState();
+	ConsoleHelper::Clear();
+	InitializeGame();
 }
 
 int GameManager::QuitGame()

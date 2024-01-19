@@ -25,8 +25,9 @@ public:
 	void CreateReverseCards(Enums::CardColor cardColor);
 	void CreatePlusTwoCards(Enums::CardColor cardColor);
 	void ShuffleDeck();
-	void ResetDeck();
+	void ResetAllCards();
 	void GetBackPlayerCards();
+	void ResetDiscardPile();
 	std::shared_ptr<BaseCard> GetTopCardFromDeck();
 	std::shared_ptr<BaseCard> BuyTopCardAndRemoveFromDeck();
 	void AddCardToDiscardPile(std::shared_ptr<BaseCard> card);

@@ -15,6 +15,7 @@ private:
 	const int MAX_PLAYERS_AMOUNT = 8;
 
 	void Awake();
+	int InitializeGame();
 	void WaitPlayerInputToStart();
 	void AskForPlayerAmount();
 	void CreatePlayers(int amount);
