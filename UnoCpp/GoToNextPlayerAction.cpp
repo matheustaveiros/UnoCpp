@@ -5,6 +5,7 @@ GoToNextPlayerAction::GoToNextPlayerAction(std::shared_ptr<TurnHandler> turnHand
 {
 }
 
-void GoToNextPlayerAction::Execute() {
+void GoToNextPlayerAction::Execute()
+{
 	_turnHandler->SkipToNextPlayer();
 }

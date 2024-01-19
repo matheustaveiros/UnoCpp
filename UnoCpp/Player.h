@@ -28,12 +28,15 @@ public:
 	bool HasValidActions(std::shared_ptr<BaseCard> cardToCompare);
 	bool CanWin();
 	bool CardIsCompatible(std::shared_ptr<BaseCard> card);
-	void DispatchWinCondition();
+	bool CardIsSymbolOnlyCompatible(std::shared_ptr<BaseCard> card);
+	void HandleMandatoryPlay();
+	void ShowCompatibleOptions();
 	void AddCardToHand(std::shared_ptr<BaseCard> card);
 	void UseOption(int option);
 	void HandleYellUnoOption();
 	void HandleBuyCardOption();
 	void HandleUseCardOption(int option);
+	void DispatchWinCondition();
 	void HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void TurnEnded();

@@ -5,7 +5,8 @@ CheckForValidPlayAction::CheckForValidPlayAction(std::shared_ptr<TurnHandler> tu
 {
 }
 
-void CheckForValidPlayAction::Execute() {
+void CheckForValidPlayAction::Execute()
+{
 	if (!_turnHandler->HasValidCard())
 	{
 		_turnHandler->ApplyStackCardsToPlayer();

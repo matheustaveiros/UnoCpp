@@ -6,9 +6,16 @@
 void Player::StartTurn()
 {
     DrawTopCardFromDiscardPile();
-	DrawCards();
-	ShowExtraActions();
-	WaitForActionInput();
+    if (_turnHandler->HasCardsStacked())
+    {
+        HandleMandatoryPlay();
+    }
+    else
+    {
+        DrawCards();
+        ShowExtraActions();
+        WaitForActionInput();
+    }
 }
 
 Player::Player(std::shared_ptr<TurnHandler> turnHandler, std::string name) : _turnHandler{ turnHandler }, _name{ name }
@@ -51,16 +58,14 @@ bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 	{
 		for (int i = 0; i < _cardsInHand.size(); i++)
 		{
-			if (_cardsInHand[i]->GetSymbol() == cardToCompare->GetSymbol())
+			if (CardIsSymbolOnlyCompatible(_cardsInHand[i]))
 				return true;
 		}
 	}
 	else {
 		for (int i = 0; i < _cardsInHand.size(); i++)
 		{
-			bool isCompatible = CardIsCompatible(_cardsInHand[i]);
-
-			if (isCompatible)
+			if (CardIsCompatible(_cardsInHand[i]))
 				return true;
 		}
 	}
@@ -84,6 +89,15 @@ bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
 	return false;
 }
 
+bool Player::CardIsSymbolOnlyCompatible(std::shared_ptr<BaseCard> card)
+{
+    std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
+    if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
+        return true;
+
+    return false;
+}
+
 void Player::DispatchWinCondition()
 {
 	ConsoleHelper::PrintMessage("Victory! Player: " + _name + " Won the Game\n");
@@ -93,6 +107,54 @@ void Player::DispatchWinCondition()
 void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
 {
 	_cardsInHand.push_back(card);
+}
+
+void Player::HandleMandatoryPlay()
+{
+    ConsoleHelper::Clear();
+    DrawTopCardFromDiscardPile();
+    DrawCards();
+
+    std::shared_ptr<BaseCard> topCard = _turnHandler->GetTopCardFromDiscardPile();
+    ConsoleHelper::PrintMessage("Mandatory Use of Special Card Type: " + topCard->GetSymbol() + "\n");
+
+    ShowCompatibleOptions();
+}
+
+void Player::ShowCompatibleOptions()
+{
+    std::vector<int> validCards;
+    std::string displayText = "Select the Following Options to Play: ";
+    for (int i = 0; i < _cardsInHand.size(); i++)
+    {
+        std::shared_ptr<BaseCard> handCard = _cardsInHand[i];
+        if (CardIsSymbolOnlyCompatible(handCard))
+        {
+            displayText += std::to_string(i) + ", ";
+            validCards.push_back(i);
+        }
+    }
+
+    if (validCards.empty())
+    {
+        ConsoleHelper::PrintMessage("No Valid Plays\n");
+        _turnHandler->ApplyStackCardsToPlayer();
+        _turnHandler->SkipToNextPlayer();
+    }
+    else
+    {
+        displayText += "\n";
+
+        int selectedAction = ConsoleHelper::GetInput<int>(displayText);
+        for (int i = 0; i < validCards.size(); i++)
+        {
+            if (selectedAction == validCards[i])
+            {
+                UseOption(selectedAction);
+                break;
+            }
+        }
+    }
 }
 
 void Player::UseOption(int option)

@@ -74,11 +74,12 @@ void TurnHandler::SkipToNextPlayer()
     {
         _currentPlayerIndex = 0;
     }
-    else if (_currentPlayerIndex < 0) {
+    else if (_currentPlayerIndex < 0)
+    {
         _currentPlayerIndex = static_cast<int>(_playersManager->GetPlayers().size()) - 1;
     }
 
-    ConsoleHelper::PrintMessage("Player Skipped\n");
+    ConsoleHelper::PrintMessage("Player Changed\n");
 }
 
 void TurnHandler::ReverseGame()
@@ -108,7 +109,7 @@ void TurnHandler::BuyCardsFromDeck(int amount)
 }
 
 
-void TurnHandler::BuyCardsFromStackPile(int amount)
+void TurnHandler::BuyCardsAndAddInStackPile(int amount)
 {
     for (int i = 0; i < amount; i++)
     {
@@ -175,6 +176,11 @@ bool TurnHandler::HasValidCard()
 bool TurnHandler::IsGameRunning()
 {
     return _gameIsRunning;
+}
+
+bool TurnHandler::HasCardsStacked()
+{
+    return _stackedCardPile.empty() == false;
 }
 
 std::shared_ptr<BaseCard> TurnHandler::GetTopCardFromDiscardPile()

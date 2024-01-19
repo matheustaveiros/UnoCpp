@@ -36,13 +36,14 @@ public:
 	void ReverseGame();
 	void JumpPlayer();
 	void BuyCardsFromDeck(int amount);
-	void BuyCardsFromStackPile(int amount);
+	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	void SetStarterPlayerOrder(int index);
 	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
 	bool HasValidCard();
 	bool IsGameRunning();
+	bool HasCardsStacked();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 
