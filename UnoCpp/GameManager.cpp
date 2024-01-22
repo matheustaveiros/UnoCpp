@@ -1,7 +1,8 @@
+#include <iostream>
+#include <windows.h>
 #include "GameManager.h"
 #include "TurnHandler.h"
 #include "DeckManager.h"
-#include <iostream>
 #include "ConsoleHelper.h"
 #include "RandomHelper.h"
 #include "Player.h"
@@ -11,6 +12,11 @@ int GameManager::EntryPoint()
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
 
 	Awake();
+	return InitializeGame();
+}
+
+int GameManager::InitializeGame()
+{
 	WaitPlayerInputToStart();
 	AskForPlayerAmount();
 	RandomizeFirstPlayer();
@@ -26,6 +32,7 @@ void GameManager::Awake()
 	_deckManager = std::make_shared<DeckManager>(_playersManager);
 	_turnHandler = std::make_shared<TurnHandler>(_deckManager, _playersManager);
 	_playersManager->Initialize(_turnHandler, _deckManager);
+	_deckManager->Initialize(_turnHandler);
 
 	_deckManager->CreateDeck();
 }
@@ -61,7 +68,7 @@ void GameManager::CreatePlayers(int amount)
 
 void GameManager::RandomizeFirstPlayer()
 {
-	int playersSize = _playersManager->GetPlayers().size() - 1;
+	int playersSize = static_cast<int>(_playersManager->GetPlayers().size()) - 1;
 	int selectedPlayer = RandomHelper::Range(0, playersSize);
 	_turnHandler->SetStarterPlayerOrder(selectedPlayer);
 
@@ -71,13 +78,19 @@ void GameManager::RandomizeFirstPlayer()
 void GameManager::StartGame()
 {
 	_playersManager->GiveFirstCardsToPlayers();
-	_turnHandler->ThrowCardFromDeckToDiscardPile();
+	_turnHandler->ThrowCardFromDeckToDiscardPile(true);
+
+	ConsoleHelper::PrintMessage("Game Starting...\n");
+	Sleep(2000);
+	ConsoleHelper::Clear();
+
 	_turnHandler->SetGameState(true);
 }
 
 int GameManager::GameLoop()
 {
-	while (_turnHandler->IsGameRunning()) {
+	while (_turnHandler->IsGameRunning())
+	{
 		_turnHandler->TurnLoop();
 	}
 
@@ -86,18 +99,31 @@ int GameManager::GameLoop()
 
 int GameManager::AskForRestartOrQuit()
 {
-	//GetInput
-	//If restart
-	//RestartGame
-	//else
-	//QuitGame
+	int selection = ConsoleHelper::GetInput<int>("Press 1 to Play Again the Game\nPress 2 to Leave the Game\n");
+	if (selection == 1)
+	{
+		RestartGame();
+	}
+	else if (selection == 2)
+	{
+		return QuitGame();
+	}
+	else
+	{
+		ConsoleHelper::PrintMessage("Invalid Option, Please Type a Valid Option");
+		return AskForRestartOrQuit();
+	}
 
 	return 0;
 }
 
 void GameManager::RestartGame()
 {
-	//call restart of main classes
+	_deckManager->ResetAllCards();
+	_playersManager->DestroyAllPlayers();
+	_turnHandler->ResetState();
+	ConsoleHelper::Clear();
+	InitializeGame();
 }
 
 int GameManager::QuitGame()

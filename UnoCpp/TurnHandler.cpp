@@ -27,6 +27,13 @@ void TurnHandler::SetGameState(bool isRunning)
     _gameIsRunning = isRunning;
 }
 
+void TurnHandler::ResetState()
+{
+    _gameIsRunning = false;
+    _gameDirection = 1;
+    _currentPlayerIndex = 0;
+}
+
 void TurnHandler::TurnLoop()
 {
     StartCurrentPlayerTurn();
@@ -37,15 +44,11 @@ void TurnHandler::AddActionInQueue(std::shared_ptr<BaseAction> action)
     _actionQueue.push_back(action);
 }
 
-void TurnHandler::RemoveActionFromQueue(std::shared_ptr<BaseAction> action)
-{
-}
-
 void TurnHandler::ExecuteActionInQueue()
 {
     while (!_actionQueue.empty())
     {
-        std::shared_ptr<BaseAction> action = _actionQueue[0];
+        std::shared_ptr<BaseAction> action = _actionQueue.front();
         action->Execute();
         _actionQueue.erase(_actionQueue.begin());
     }
@@ -56,9 +59,6 @@ void TurnHandler::StartCurrentPlayerTurn()
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
 
     ConsoleHelper::PrintMessage("Turn Started, Current Player is: " + player->GetName() + "\n");
-    ConsoleHelper::PrintMessage("Current Top Card is:\n");
-
-    CardDrawHelper::DrawCard(GetTopCardFromDiscardPile());
 
     player->StartTurn();
 }
@@ -66,15 +66,16 @@ void TurnHandler::StartCurrentPlayerTurn()
 void TurnHandler::SkipToNextPlayer()
 {
     _currentPlayerIndex += _gameDirection;
-    if (_currentPlayerIndex >= _playersManager->GetPlayers().size())
+    if (_currentPlayerIndex >= static_cast<int>(_playersManager->GetPlayers().size()))
     {
         _currentPlayerIndex = 0;
     }
-    else if (_currentPlayerIndex < 0) {
-        _currentPlayerIndex = _playersManager->GetPlayers().size() - 1;
+    else if (_currentPlayerIndex < 0)
+    {
+        _currentPlayerIndex = static_cast<int>(_playersManager->GetPlayers().size()) - 1;
     }
 
-    ConsoleHelper::PrintMessage("Player Skipped\n");
+    ConsoleHelper::PrintMessage("Player Changed\n");
 }
 
 void TurnHandler::ReverseGame()
@@ -97,21 +98,21 @@ void TurnHandler::BuyCardsFromDeck(int amount)
         std::shared_ptr<BaseCard> grabbedCard = _deckManager->BuyTopCardAndRemoveFromDeck();
 
         std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-        player->AddCardToHand(_stackedCardPile[i]);
+        player->AddCardToHand(grabbedCard);
     }
 
-    ConsoleHelper::PrintMessage(std::to_string(amount) + "Cards Bought\n");
+    ConsoleHelper::PrintMessage(std::to_string(amount) + " Cards Bought\n");
 }
 
 
-void TurnHandler::BuyCardsFromStackPile(int amount)
+void TurnHandler::BuyCardsAndAddInStackPile(int amount)
 {
     for (int i = 0; i < amount; i++)
     {
         _stackedCardPile.push_back(_deckManager->BuyTopCardAndRemoveFromDeck());
     }
 
-    ConsoleHelper::PrintMessage(std::to_string(amount) + "Cards Bought\n");
+    ConsoleHelper::PrintMessage(std::to_string(amount) + " Cards Added to Stack Pile\n");
 }
 
 void TurnHandler::ApplyStackCardsToPlayer()
@@ -122,7 +123,7 @@ void TurnHandler::ApplyStackCardsToPlayer()
         player->AddCardToHand(_stackedCardPile[i]);
     }
 
-    ConsoleHelper::PrintMessage("Stack Pile(cards: " + std::to_string(_stackedCardPile.size()) + ") applied to" + player->GetName() + " hand\n");
+    ConsoleHelper::PrintMessage("Stack Pile(cards: " + std::to_string(_stackedCardPile.size()) + ") Applied to Player:" + player->GetName() + " Hand\n");
     _stackedCardPile.clear();
 }
 
@@ -133,6 +134,8 @@ void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
     {
         AddActionInQueue(cardActions[i]);
     }
+
+    _deckManager->AddCardToDiscardPile(baseCard);
 
     ConsoleHelper::PrintMessage("Card Used: \n");
     CardDrawHelper::DrawCard(baseCard);
@@ -145,21 +148,35 @@ void TurnHandler::SetStarterPlayerOrder(int index)
     _currentPlayerIndex = index;
 }
 
-void TurnHandler::ThrowCardFromDeckToDiscardPile()
+void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
 {
-    std::shared_ptr<BaseCard> deckCard = _deckManager->BuyTopCardAndRemoveFromDeck();
-    _deckManager->AddCardToDiscardPile(deckCard);
+    std::shared_ptr<BaseCard> selectedCard;
+    if (ignoreSpecial)
+    {
+        selectedCard = _deckManager->GetFirstNumberCardOnDeckAndRemoveIt();
+    }
+    else
+    {
+        selectedCard = _deckManager->BuyTopCardAndRemoveFromDeck();
+    }
+
+    _deckManager->AddCardToDiscardPile(selectedCard);
 }
 
 bool TurnHandler::HasValidCard()
 {
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-    return player->HasValidActions(_throwedCard);
+    return player->HasValidActions(_deckManager->GetTopCardFromDiscardPile());
 }
 
 bool TurnHandler::IsGameRunning()
 {
     return _gameIsRunning;
+}
+
+bool TurnHandler::HasCardsStacked()
+{
+    return _stackedCardPile.empty() == false;
 }
 
 std::shared_ptr<BaseCard> TurnHandler::GetTopCardFromDiscardPile()

@@ -15,13 +15,29 @@ COORD CardDrawHelper::GetCurrentCursorPosition()
     return screenBufferInfo.dwCursorPosition;
 }
 
+bool CardDrawHelper::WillExceedConsoleWidth(const COORD& currentPosition, int spaceOffset)
+{
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO screenBufferInfo;
+    GetConsoleScreenBufferInfo(console, &screenBufferInfo);
+
+    return (currentPosition.X + spaceOffset) >= screenBufferInfo.dwSize.X;
+}
+
 void CardDrawHelper::DrawCards(std::vector<std::shared_ptr<BaseCard>> cards)
 {
     COORD currentPosition = GetCurrentCursorPosition();
     for (int i = 0; i < cards.size(); i++)
     {
-        DrawCard(cards[i], currentPosition, i);
         int spaceOffset = std::max<int>(11, static_cast<int>(cards[i]->GetSymbol().length()) + 2);
+
+        if (WillExceedConsoleWidth(currentPosition, spaceOffset))
+        {
+            currentPosition.X = 0;
+            currentPosition.Y += 6;
+        }
+
+        DrawCard(cards[i], currentPosition, i);
         currentPosition.X += spaceOffset;
     }
 }
@@ -32,27 +48,34 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, int id)
     DrawCard(card, currentPosition, id);
 }
 
+void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, const HANDLE console)
+{
+    using enum Enums::CardColor;
+    switch (card->GetColor())
+    {
+    case Red:
+        SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        break;
+    case Blue:
+        SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        break;
+    case Green:
+        SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        break;
+    case Yellow:
+        SetConsoleTextAttribute(console, FOREGROUND_YELLOW | FOREGROUND_INTENSITY);
+        break;
+    default:
+        break;
+    }
+}
+
 void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, int id)
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(console, position);
 
-    if (card->GetColor() == Enums::CardColor::Red)
-    {
-        SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_INTENSITY);
-    }
-    else if (card->GetColor() == Enums::CardColor::Blue)
-    {
-        SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-    }
-    else if (card->GetColor() == Enums::CardColor::Green)
-    {
-        SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-    }
-    else if (card->GetColor() == Enums::CardColor::Yellow)
-    {
-        SetConsoleTextAttribute(console, FOREGROUND_YELLOW | FOREGROUND_INTENSITY);
-    }
+    SetTextColorByCardColor(card, console);
 
     int cardWidth = static_cast<int>(card->GetSymbol().length()) + 4;
 
@@ -105,9 +128,9 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, in
     //Show Id
     if (id != -1)
     {
-        SHORT xOffset = position.X + (cardWidth / 2) + 1;
+        SHORT xOffset = position.X + (cardWidth / 2.0) + 1.0;
         const SHORT yOffset = position.Y + 5;
         SetConsoleCursorPosition(console, { xOffset , yOffset });
-        std::cout << std::to_string(id) << std::endl << "\n";
+        std::cout << std::to_string(id) << std::endl;
     }
 }

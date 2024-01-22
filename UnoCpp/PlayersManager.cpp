@@ -33,6 +33,7 @@ void PlayersManager::CreatePlayers(int amount, std::vector<std::string> playerNa
 
 void PlayersManager::DestroyAllPlayers()
 {
+    _players.clear();
 }
 
 void PlayersManager::GiveFirstCardsToPlayers()

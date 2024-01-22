@@ -6,6 +6,6 @@ private:
 	const int CARDS_TO_BUY = 2;
 
 public:
-	PlusTwoCard(std::shared_ptr<BaseCard> myPointer, Enums::CardColor color, std::string symbol);
+	PlusTwoCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, std::string symbol);
 };
 

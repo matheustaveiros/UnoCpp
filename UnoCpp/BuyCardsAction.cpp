@@ -6,5 +6,5 @@ BuyCardsAction::BuyCardsAction(std::shared_ptr<TurnHandler> turnHandler, int amo
 
 void BuyCardsAction::Execute()
 {
-	_turnHandler->BuyCardsFromStackPile(_amount);
+	_turnHandler->BuyCardsAndAddInStackPile(_amount);
 }

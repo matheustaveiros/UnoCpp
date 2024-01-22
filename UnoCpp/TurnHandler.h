@@ -15,7 +15,6 @@ private:
 	int _gameDirection = 1;
 	int _currentPlayerIndex = 0;
 	bool _gameIsRunning = false;
-	std::shared_ptr<BaseCard> _throwedCard;
 	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
 	
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
@@ -27,22 +26,23 @@ public:
 	int GetGameDirection();
 	std::string GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
+	void ResetState();
 	void TurnLoop();
 	void AddActionInQueue(std::shared_ptr<BaseAction> action);
-	void RemoveActionFromQueue(std::shared_ptr<BaseAction> action);
 	void ExecuteActionInQueue();
 	void StartCurrentPlayerTurn();
 	void SkipToNextPlayer();
 	void ReverseGame();
 	void JumpPlayer();
 	void BuyCardsFromDeck(int amount);
-	void BuyCardsFromStackPile(int amount);
+	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	void SetStarterPlayerOrder(int index);
-	void ThrowCardFromDeckToDiscardPile();
+	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
 	bool HasValidCard();
 	bool IsGameRunning();
+	bool HasCardsStacked();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 

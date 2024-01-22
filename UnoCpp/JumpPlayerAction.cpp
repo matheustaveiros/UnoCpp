@@ -6,6 +6,7 @@ JumpPlayerAction::JumpPlayerAction(std::shared_ptr<TurnHandler> turnHandler)
 
 }
 
-void JumpPlayerAction::Execute() {
+void JumpPlayerAction::Execute()
+{
 	_turnHandler->JumpPlayer();
 }
