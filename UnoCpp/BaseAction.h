@@ -7,7 +7,7 @@ class BaseAction
 {
 
 public:
-	BaseAction(std::shared_ptr<TurnHandler> turnHandler);
+	explicit BaseAction(std::shared_ptr<TurnHandler> turnHandler);
 
 	virtual void Execute() = 0;
 

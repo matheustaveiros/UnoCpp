@@ -9,7 +9,7 @@ void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::s
     _deckManager = deckManager;
 }
 
-std::vector<std::shared_ptr<Player>> PlayersManager::GetPlayers()
+std::vector<std::shared_ptr<Player>> PlayersManager::GetPlayers() const
 {
     return _players;
 }

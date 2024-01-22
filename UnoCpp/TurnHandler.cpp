@@ -9,7 +9,7 @@ TurnHandler::TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_p
     
 }
 
-int TurnHandler::GetGameDirection()
+int TurnHandler::GetGameDirection() const
 {
     return _gameDirection;
 }
@@ -169,12 +169,12 @@ bool TurnHandler::HasValidCard()
     return player->HasValidActions(_deckManager->GetTopCardFromDiscardPile());
 }
 
-bool TurnHandler::IsGameRunning()
+bool TurnHandler::IsGameRunning() const
 {
     return _gameIsRunning;
 }
 
-bool TurnHandler::HasCardsStacked()
+bool TurnHandler::HasCardsStacked() const
 {
     return _stackedCardPile.empty() == false;
 }

@@ -37,7 +37,7 @@ void GameManager::Awake()
 	_deckManager->CreateDeck();
 }
 
-void GameManager::WaitPlayerInputToStart()
+void GameManager::WaitPlayerInputToStart() const
 {
 	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n");
 }
@@ -126,7 +126,7 @@ void GameManager::RestartGame()
 	InitializeGame();
 }
 
-int GameManager::QuitGame()
+int GameManager::QuitGame() const
 {
 	return 0;
 }

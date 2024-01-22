@@ -98,7 +98,7 @@ void DeckManager::GetBackPlayerCards()
 	for (int i = 0; i < players.size(); i++)
 	{
 		std::vector<std::shared_ptr<BaseCard>> playerCards = players[i]->GetCards();
-		std::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
+		std::ranges::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
 
 		players[i]->CleanPlayerHand();
 	}
@@ -106,7 +106,7 @@ void DeckManager::GetBackPlayerCards()
 
 void DeckManager::ResetDiscardPile()
 {
-	std::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
+	std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
 	_discardPile.clear();
 }
 
@@ -151,7 +151,7 @@ void DeckManager::KeepLastCardAndResetDiscardPile()
 	_discardPile.push_back(discardTopCard);
 }
 
-std::shared_ptr<BaseCard> DeckManager::GetFirstNumberCardOnDeckAndRemoveIt()
+std::shared_ptr<BaseCard> DeckManager::GetFirstNumberCardOnDeckAndRemoveIt() //TODO: consider using weak pointer
 {
 	for (int i = 0; i < _deck.size(); i++)
 	{

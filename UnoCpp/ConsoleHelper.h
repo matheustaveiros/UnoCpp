@@ -19,7 +19,7 @@ public:
     template<typename T>
     static T GetInput(std::string_view message);
 
-    static void WaitForAnyKey(std::string message);
+    static void WaitForAnyKey(const std::string& message);
 };
 
 template <typename T>

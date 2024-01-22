@@ -17,7 +17,7 @@ private:
 	std::shared_ptr<TurnHandler> _turnHandler;
 
 public:
-	DeckManager(std::shared_ptr<PlayersManager> playersManager);
+	explicit DeckManager(std::shared_ptr<PlayersManager> playersManager);
 	void Initialize(std::shared_ptr<TurnHandler> turnHandler);
 	void CreateDeck();
 	void CreateNumberCards(Enums::CardColor cardColor);

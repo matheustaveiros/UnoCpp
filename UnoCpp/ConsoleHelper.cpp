@@ -33,7 +33,7 @@ void ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel displayLevel)
     _displayLevel = displayLevel;
 }
 
-void ConsoleHelper::WaitForAnyKey(std::string message)
+void ConsoleHelper::WaitForAnyKey(const std::string& message)
 {
     PrintMessage(message, Enums::DisplayLevel::Player);
     _getch();

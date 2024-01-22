@@ -18,7 +18,7 @@ void Player::StartTurn()
     }
 }
 
-Player::Player(std::shared_ptr<TurnHandler> turnHandler, std::string name) : _turnHandler{ turnHandler }, _name{ name }
+Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
 {
 
 }
@@ -29,7 +29,7 @@ void Player::DrawTopCardFromDiscardPile()
     CardDrawHelper::DrawCard(_turnHandler->GetTopCardFromDiscardPile());
 }
 
-void Player::DrawCards()
+void Player::DrawCards() const
 {
 	ConsoleHelper::PrintMessage("Player Hand:\n");
 	CardDrawHelper::DrawCards(_cardsInHand);
@@ -52,7 +52,7 @@ void Player::WaitForActionInput()
 	UseOption(selectedAction);
 }
 
-bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
+bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare) //TODO: Refactor this
 {
 	if (&cardToCompare != nullptr) // in case of a special card
 	{
@@ -74,7 +74,7 @@ bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 	return false;
 }
 
-bool Player::CanWin()
+bool Player::CanWin() const
 {
 	return static_cast<int>(_cardsInHand.size()) - 1 == 0;
 }
@@ -252,7 +252,7 @@ void Player::TurnEnded()
 	}
 }
 
-std::vector<std::shared_ptr<BaseCard>> Player::GetCards()
+std::vector<std::shared_ptr<BaseCard>> Player::GetCards() const
 {
 	return _cardsInHand;
 }

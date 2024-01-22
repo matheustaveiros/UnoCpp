@@ -7,6 +7,11 @@
 #define NOMINMAX
 #define FOREGROUND_YELLOW     0x0006
 
+#define BACKGROUNDED_RED     0x00041
+#define BACKGROUNDED_BLUE     0x00011
+#define BACKGROUNDED_GREEN     0x00021
+#define BACKGROUNDED_YELLOW     0x00061
+
 COORD CardDrawHelper::GetCurrentCursorPosition()
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);

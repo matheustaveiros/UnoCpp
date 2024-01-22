@@ -23,7 +23,7 @@ private:
 public:
 	TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 
-	int GetGameDirection();
+	int GetGameDirection() const;
 	std::string GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
 	void ResetState();
@@ -41,8 +41,8 @@ public:
 	void SetStarterPlayerOrder(int index);
 	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
 	bool HasValidCard();
-	bool IsGameRunning();
-	bool HasCardsStacked();
+	bool IsGameRunning() const;
+	bool HasCardsStacked() const;
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 
