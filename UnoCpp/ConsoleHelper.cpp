@@ -3,7 +3,7 @@
 
 Enums::DisplayLevel ConsoleHelper::_displayLevel;
 
-void ConsoleHelper::PrintMessage(const std::string& message, Enums::DisplayLevel displayLevel)
+void ConsoleHelper::PrintMessage(std::string_view message, Enums::DisplayLevel displayLevel)
 {
     if (displayLevel == Enums::DisplayLevel::Developer && _displayLevel == Enums::DisplayLevel::Player)
         return;
@@ -11,10 +11,10 @@ void ConsoleHelper::PrintMessage(const std::string& message, Enums::DisplayLevel
     std::cout << message;
 }
 
-void ConsoleHelper::PrintMessage(const std::vector<std::string>& lines, Enums::DisplayLevel displayLevel)
+void ConsoleHelper::PrintMessage(const std::vector<std::string_view>& lines, Enums::DisplayLevel displayLevel)
 {
     std::string fullMessage { };
-    for (const std::string& msg : lines)
+    for (const std::string_view msg : lines)
     {
         fullMessage += msg;
         fullMessage += "\n";

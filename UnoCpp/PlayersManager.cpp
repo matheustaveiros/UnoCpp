@@ -26,7 +26,7 @@ void PlayersManager::CreatePlayers(int amount, std::vector<std::string> playerNa
 {
     for (int i = 0; i < amount; i++)
     {
-        std::shared_ptr<Player> newPlayer = std::make_shared<Player>(_turnHandler, playerNames[i]);
+        auto newPlayer = std::make_shared<Player>(_turnHandler, playerNames[i]);
         _players.push_back(newPlayer);
     }
 }

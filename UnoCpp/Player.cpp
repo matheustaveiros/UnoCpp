@@ -2,6 +2,7 @@
 #include "ConsoleHelper.h"
 #include "CardDrawHelper.h"
 #include "DeckData.h"
+#include <format>
 
 void Player::StartTurn()
 {
@@ -42,8 +43,8 @@ void Player::ShowExtraActions()
 	_yellUnoActionValue = startOffset + 1;
 
 	ConsoleHelper::PrintMessage("Type Any Card Id to Use Or\n");
-	ConsoleHelper::PrintMessage("Type " + std::to_string(_buyCardActionValue) + " to Buy One Card\n");
-	ConsoleHelper::PrintMessage("Type " + std::to_string(_yellUnoActionValue) + " to Yell Uno\n");
+    ConsoleHelper::PrintMessage(std::format("Type {} to Buy One Card\n", _buyCardActionValue));
+    ConsoleHelper::PrintMessage(std::format("Type {} to Yell Uno!\n", _yellUnoActionValue));
 }
 
 void Player::WaitForActionInput()
@@ -81,6 +82,23 @@ bool Player::CanWin() const
 
 bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
 {
+    if (card->GetColor() == Enums::CardColor::Black)
+        return true;
+    if (_turnHandler->GetMandatoryColor() != Enums::CardColor::Empty)
+    {
+        if (card->GetColor() == _turnHandler->GetMandatoryColor())
+        {
+            _turnHandler->ResetMandatoryColor();
+            return true;
+        }
+        else
+        {
+            ConsoleHelper::PrintMessage(std::format("A Mandatory Color is required For This Turn, Color: {}\n", 
+                Enums::GetColorDisplayName(_turnHandler->GetMandatoryColor())));
+            return false;
+        }
+    }
+
 	std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
 	if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
 		return true;
@@ -131,7 +149,7 @@ void Player::ShowCompatibleOptions()
         std::shared_ptr<BaseCard> handCard = _cardsInHand[i];
         if (CardIsSymbolOnlyCompatible(handCard))
         {
-            displayText += std::to_string(i) + ", ";
+            displayText += std::format("{}, ", i);
             validCards.push_back(i);
         }
     }

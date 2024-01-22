@@ -6,6 +6,7 @@
 #include "Enums.h"
 #define NOMINMAX
 #define FOREGROUND_YELLOW     0x0006
+#define FOREGROUND_BLACK     0x0000
 
 #define BACKGROUNDED_RED     0x00041
 #define BACKGROUNDED_BLUE     0x00011
@@ -70,6 +71,9 @@ void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, con
     case Yellow:
         SetConsoleTextAttribute(console, FOREGROUND_YELLOW | FOREGROUND_INTENSITY);
         break;
+    case Black:
+        SetConsoleTextAttribute(console, FOREGROUND_BLACK | FOREGROUND_INTENSITY);
+        break;
     default:
         break;
     }
@@ -133,7 +137,7 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, in
     //Show Id
     if (id != -1)
     {
-        SHORT xOffset = position.X + (cardWidth / 2.0) + 1.0;
+        SHORT xOffset = position.X + (static_cast<SHORT>(cardWidth) / 2) + 1;
         const SHORT yOffset = position.Y + 5;
         SetConsoleCursorPosition(console, { xOffset , yOffset });
         std::cout << std::to_string(id) << std::endl;

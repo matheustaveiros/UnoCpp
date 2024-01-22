@@ -11,8 +11,8 @@ private:
 
 public:
     
-    static void PrintMessage(const std::string& message, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
-    static void PrintMessage(const std::vector<std::string>& lines, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
+    static void PrintMessage(std::string_view, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
+    static void PrintMessage(const std::vector<std::string_view>& lines, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
     static void Clear();
     static void SetDisplayLevel(Enums::DisplayLevel displayLevel);
 

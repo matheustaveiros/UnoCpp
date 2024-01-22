@@ -4,6 +4,7 @@
 #include "JumpCard.h"
 #include "ReverseCard.h"
 #include "PlusTwoCard.h"
+#include "PlusFourCard.h"
 #include <algorithm>
 #include <random>
 #include "TurnHandler.h"
@@ -25,7 +26,7 @@ void DeckManager::CreateDeck()
 {
 	std::vector<Enums::CardColor> colorList{ Enums::CardColor::Blue, Enums::CardColor::Green, Enums::CardColor::Red, Enums::CardColor::Yellow };
 
-	for (int i = 0; i < colorList.size(); i++)
+	for (int i = 0; i < static_cast<int>(colorList.size()) - 1; i++)
 	{
 		Enums::CardColor cardColor = colorList[i];
 		CreateNumberCards(cardColor);
@@ -33,6 +34,8 @@ void DeckManager::CreateDeck()
 		CreateReverseCards(cardColor);
 		CreatePlusTwoCards(cardColor);
 	}
+
+	CreatePlusFourCards(Enums::CardColor::Black);
 
 	ConsoleHelper::PrintMessage("Cards Created\n", Enums::DisplayLevel::Developer);
 
@@ -45,7 +48,7 @@ void DeckManager::CreateNumberCards(Enums::CardColor cardColor)
 	{
 		for (int numberIndex = 0; numberIndex < DeckData::NUMBER_RANGE_IN_CARDS; numberIndex++)
 		{
-			std::shared_ptr<NumberCard> card = std::make_shared<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex));
+			auto card = std::make_shared<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex));
 			_deck.push_back(card);
 		}
 	}
@@ -55,7 +58,7 @@ void DeckManager::CreateJumpCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_JUMP_CARDS_BY_COLOR; cardIndex++)
 	{
-		std::shared_ptr<JumpCard> card = std::make_shared<JumpCard>(_turnHandler, cardColor, DeckData::JUMP_CARD_SYMBOL);
+		auto card = std::make_shared<JumpCard>(_turnHandler, cardColor, DeckData::JUMP_CARD_SYMBOL);
 		_deck.push_back(card);
 	}
 }
@@ -64,7 +67,7 @@ void DeckManager::CreateReverseCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_REVERSE_CARDS_BY_COLOR; cardIndex++)
 	{
-		std::shared_ptr<ReverseCard> card = std::make_shared<ReverseCard>(_turnHandler, cardColor, DeckData::REVERSE_SYMBOL);
+		auto card = std::make_shared<ReverseCard>(_turnHandler, cardColor, DeckData::REVERSE_SYMBOL);
 		_deck.push_back(card);
 	}
 }
@@ -73,7 +76,16 @@ void DeckManager::CreatePlusTwoCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_TWO_CARDS_BY_COLOR; cardIndex++)
 	{
-		std::shared_ptr<PlusTwoCard> card = std::make_shared<PlusTwoCard>(_turnHandler, cardColor, DeckData::PLUS_TWO_SYMBOL);
+		auto card = std::make_shared<PlusTwoCard>(_turnHandler, cardColor, DeckData::PLUS_TWO_SYMBOL);
+		_deck.push_back(card);
+	}
+}
+
+void DeckManager::CreatePlusFourCards(Enums::CardColor cardColor)
+{
+	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_FOUR_CARDS_BY_COLOR; cardIndex++)
+	{
+		auto card = std::make_shared<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL);
 		_deck.push_back(card);
 	}
 }

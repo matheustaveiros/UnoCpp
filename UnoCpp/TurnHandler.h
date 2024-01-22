@@ -15,8 +15,9 @@ private:
 	int _gameDirection = 1;
 	int _currentPlayerIndex = 0;
 	bool _gameIsRunning = false;
-	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
+	Enums::CardColor _mandatoryColor = Enums::CardColor::Empty;
 	
+	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
 	std::shared_ptr<DeckManager> _deckManager;
 	std::shared_ptr<PlayersManager> _playersManager;
@@ -34,6 +35,7 @@ public:
 	void SkipToNextPlayer();
 	void ReverseGame();
 	void JumpPlayer();
+	void AskPlayerToSelectAColor();
 	void BuyCardsFromDeck(int amount);
 	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();
@@ -43,6 +45,8 @@ public:
 	bool HasValidCard();
 	bool IsGameRunning() const;
 	bool HasCardsStacked() const;
+	Enums::CardColor GetMandatoryColor() const;
+	void ResetMandatoryColor();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 

@@ -5,7 +5,7 @@
 #include "GameManager.h"
 int main()
 {
-    GameManager gameManager = GameManager();
+    auto gameManager = GameManager();
 
     return gameManager.EntryPoint();
 }

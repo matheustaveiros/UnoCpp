@@ -47,8 +47,7 @@ void GameManager::AskForPlayerAmount()
 	int amount = 0;
 	while (amount < MIN_PLAYERS_AMOUNT || amount > MAX_PLAYERS_AMOUNT)
 	{
-		amount = ConsoleHelper::GetInput<int>("Type the number of players: (min " + 
-			std::to_string(MIN_PLAYERS_AMOUNT) + ", max " + std::to_string(MAX_PLAYERS_AMOUNT) + ")\n");
+		amount = ConsoleHelper::GetInput<int>(std::format("Type the number of players: (min {}, max {})\n", MIN_PLAYERS_AMOUNT, MAX_PLAYERS_AMOUNT));
 	}
 
 	CreatePlayers(amount);
@@ -59,7 +58,7 @@ void GameManager::CreatePlayers(int amount)
 	std::vector<std::string> playerNames;
 	for (int i = 0; i < amount; i++)
 	{
-		std::string playerName = ConsoleHelper::GetInput<std::string>("Insert Player " + std::to_string(i + 1) + " Name: \n");
+		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name\n", i + 1));
 		playerNames.push_back(playerName);
 	}
 
