@@ -50,21 +50,23 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, int id)
 
 void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, const HANDLE console)
 {
-    if (card->GetColor() == Enums::CardColor::Red)
+    using enum Enums::CardColor;
+    switch (card->GetColor())
     {
+    case Red:
         SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_INTENSITY);
-    }
-    else if (card->GetColor() == Enums::CardColor::Blue)
-    {
+        break;
+    case Blue:
         SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-    }
-    else if (card->GetColor() == Enums::CardColor::Green)
-    {
+        break;
+    case Green:
         SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-    }
-    else if (card->GetColor() == Enums::CardColor::Yellow)
-    {
+        break;
+    case Yellow:
         SetConsoleTextAttribute(console, FOREGROUND_YELLOW | FOREGROUND_INTENSITY);
+        break;
+    default:
+        break;
     }
 }
 

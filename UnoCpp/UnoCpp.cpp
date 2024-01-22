@@ -6,6 +6,7 @@
 int main()
 {
     GameManager gameManager = GameManager();
+
     return gameManager.EntryPoint();
 }
 

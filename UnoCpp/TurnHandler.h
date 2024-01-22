@@ -29,7 +29,6 @@ public:
 	void ResetState();
 	void TurnLoop();
 	void AddActionInQueue(std::shared_ptr<BaseAction> action);
-	void RemoveActionFromQueue(std::shared_ptr<BaseAction> action);
 	void ExecuteActionInQueue();
 	void StartCurrentPlayerTurn();
 	void SkipToNextPlayer();

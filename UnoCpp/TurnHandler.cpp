@@ -44,10 +44,6 @@ void TurnHandler::AddActionInQueue(std::shared_ptr<BaseAction> action)
     _actionQueue.push_back(action);
 }
 
-void TurnHandler::RemoveActionFromQueue(std::shared_ptr<BaseAction> action)
-{
-}
-
 void TurnHandler::ExecuteActionInQueue()
 {
     while (!_actionQueue.empty())

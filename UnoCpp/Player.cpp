@@ -62,7 +62,8 @@ bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 				return true;
 		}
 	}
-	else {
+	else
+    {
 		for (int i = 0; i < _cardsInHand.size(); i++)
 		{
 			if (CardIsCompatible(_cardsInHand[i]))
@@ -186,7 +187,7 @@ void Player::HandleYellUnoOption()
     else
     {
         ConsoleHelper::PrintMessage("Can't Yell Uno Yet, Consider Yelling When You Have 2 Cards In Hand\n");
-        WaitForActionInput();
+        StartTurn();
     }
 }
 

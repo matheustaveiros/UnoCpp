@@ -1,7 +1,8 @@
+#include <iostream>
+#include <windows.h>
 #include "GameManager.h"
 #include "TurnHandler.h"
 #include "DeckManager.h"
-#include <iostream>
 #include "ConsoleHelper.h"
 #include "RandomHelper.h"
 #include "Player.h"
@@ -78,12 +79,18 @@ void GameManager::StartGame()
 {
 	_playersManager->GiveFirstCardsToPlayers();
 	_turnHandler->ThrowCardFromDeckToDiscardPile(true);
+
+	ConsoleHelper::PrintMessage("Game Starting...\n");
+	Sleep(2000);
+	ConsoleHelper::Clear();
+
 	_turnHandler->SetGameState(true);
 }
 
 int GameManager::GameLoop()
 {
-	while (_turnHandler->IsGameRunning()) {
+	while (_turnHandler->IsGameRunning())
+	{
 		_turnHandler->TurnLoop();
 	}
 

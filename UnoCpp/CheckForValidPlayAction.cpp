@@ -3,6 +3,7 @@
 CheckForValidPlayAction::CheckForValidPlayAction(std::shared_ptr<TurnHandler> turnHandler)
 	: BaseAction(turnHandler)
 {
+
 }
 
 void CheckForValidPlayAction::Execute()
