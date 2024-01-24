@@ -36,6 +36,7 @@ public:
 	void ReverseGame();
 	void JumpPlayer();
 	void AskPlayerToSelectAColor();
+	void DrawCardFromPreviousPlayer();
 	void BuyCardsFromDeck(int amount);
 	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();

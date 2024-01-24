@@ -94,12 +94,17 @@ void TurnHandler::JumpPlayer()
 
 void TurnHandler::AskPlayerToSelectAColor()
 {
+    using enum Enums::CardColor;
+
+    ConsoleHelper::PrintMessage("Your Cards:\n");
+    DrawCardFromPreviousPlayer(); //The player turn has already changed, so we have to go back in time
+
     int selectedColor = ConsoleHelper::GetInput<int>(std::format("Please Select a Color By Number For The Next Play: Blue ({}), Green ({}), Red ({}), Yellow ({})\n", 
-        static_cast<int>(Enums::CardColor::Blue), static_cast<int>(Enums::CardColor::Green), static_cast<int>(Enums::CardColor::Red), static_cast<int>(Enums::CardColor::Yellow)));
+        static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
     if (selectedColor <= 0 || selectedColor > 4)
     {
         ConsoleHelper::PrintMessage(std::format("Invalid Input, Please Select a Valid Number ({}, {}, {}, {})\n",
-            static_cast<int>(Enums::CardColor::Blue), static_cast<int>(Enums::CardColor::Green), static_cast<int>(Enums::CardColor::Red), static_cast<int>(Enums::CardColor::Yellow)));
+            static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
         AskPlayerToSelectAColor();
     }
     else
@@ -108,6 +113,20 @@ void TurnHandler::AskPlayerToSelectAColor()
         ConsoleHelper::Clear();
         ConsoleHelper::PrintMessage(std::format("Current Selected Mandatory Color: {}\n", Enums::GetColorDisplayName(_mandatoryColor)));
     }
+}
+
+void TurnHandler::DrawCardFromPreviousPlayer()
+{
+    int playerIndex = _currentPlayerIndex;
+    playerIndex += (_gameDirection * -1);
+    int playerAmount = static_cast<int>(_playersManager->GetPlayers().size());
+
+    if (playerIndex < 0)
+        playerIndex = playerAmount - 1;
+    else if (playerIndex >= playerAmount)
+        playerIndex = 0;
+
+    CardDrawHelper::DrawCards(_playersManager->GetPlayer(playerIndex)->GetCards());
 }
 
 void TurnHandler::BuyCardsFromDeck(int amount)
@@ -142,7 +161,7 @@ void TurnHandler::ApplyStackCardsToPlayer()
         player->AddCardToHand(_stackedCardPile[i]);
     }
 
-    ConsoleHelper::PrintMessage(std::format("Stack Pile(cards: {}) Applied to Player: {} Hand\n", _stackedCardPile.size(), player->GetName()));
+    ConsoleHelper::PrintMessage(std::format("Stack Pile(cards: {})\nThe Cards Will Be Applied to Player: {} Hand\n", _stackedCardPile.size(), player->GetName()));
     _stackedCardPile.clear();
 }
 
