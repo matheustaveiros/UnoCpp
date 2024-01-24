@@ -97,7 +97,7 @@ void TurnHandler::AskPlayerToSelectAColor()
     using enum Enums::CardColor;
 
     ConsoleHelper::PrintMessage("Your Cards:\n");
-    DrawCardFromPreviousPlayer(); //The player turn has already changed, so we have to go back in time
+    _playersManager->GetPlayer(_currentPlayerIndex)->DrawCards();
 
     int selectedColor = ConsoleHelper::GetInput<int>(std::format("Please Select a Color By Number For The Next Play: Blue ({}), Green ({}), Red ({}), Yellow ({})\n", 
         static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
@@ -118,7 +118,7 @@ void TurnHandler::AskPlayerToSelectAColor()
 void TurnHandler::DrawCardFromPreviousPlayer()
 {
     int playerIndex = _currentPlayerIndex;
-    playerIndex += (_gameDirection * -1);
+    playerIndex += -_gameDirection;
     int playerAmount = static_cast<int>(_playersManager->GetPlayers().size());
 
     if (playerIndex < 0)
@@ -199,6 +199,43 @@ void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
     }
 
     _deckManager->AddCardToDiscardPile(selectedCard);
+}
+
+void TurnHandler::AskForHandToSwap()
+{
+    std::vector<int> validIds;
+    std::string idsText;
+    for (int i = 0; i < _playersManager->GetPlayers().size(); i++)
+    {
+        if (i == _currentPlayerIndex)
+            continue;
+
+        validIds.push_back(i);
+        idsText += std::format("({}) ", i);
+    }
+
+    int selectedPlayer = ConsoleHelper::GetInput<int>(std::format("Select The Player To Swap Hands With: {}\n", idsText));
+    if (selectedPlayer != _currentPlayerIndex && selectedPlayer >= 0 && selectedPlayer < _playersManager->GetPlayers().size())
+    {
+        SwapHand(selectedPlayer);
+    }
+    else
+    {
+        AskForHandToSwap();
+    }
+}
+
+void TurnHandler::SwapHand(int selectedPlayer)
+{
+    std::shared_ptr<Player> playerA = _playersManager->GetPlayer(_currentPlayerIndex);
+    std::shared_ptr<Player> playerB = _playersManager->GetPlayer(selectedPlayer);
+    std::vector<std::shared_ptr<BaseCard>> playerACards = playerA->GetCards();
+    std::vector<std::shared_ptr<BaseCard>> playerBCards = playerB->GetCards();
+
+    playerA->ReplaceCardsInHand(playerBCards);
+    playerB->ReplaceCardsInHand(playerACards);
+
+    ConsoleHelper::PrintMessage(std::format("Players Hands Swapped Player: {} With Player: {}\n", playerA->GetName(), playerB->GetName()));
 }
 
 bool TurnHandler::HasValidCard()

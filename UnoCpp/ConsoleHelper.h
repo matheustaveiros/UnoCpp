@@ -15,6 +15,7 @@ public:
     static void PrintMessage(const std::vector<std::string_view>& lines, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
     static void Clear();
     static void SetDisplayLevel(Enums::DisplayLevel displayLevel);
+    static void SetWindowSize(int width, int height);
 
     template<typename T>
     static T GetInput(std::string_view message);

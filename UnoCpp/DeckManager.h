@@ -24,6 +24,7 @@ public:
 	void CreateJumpCards(Enums::CardColor cardColor);
 	void CreateReverseCards(Enums::CardColor cardColor);
 	void CreatePlusTwoCards(Enums::CardColor cardColor);
+	void CreateSwapHandsCards(Enums::CardColor cardColor);
 	void CreatePlusFourCards(Enums::CardColor cardColor);
 	void ShuffleDeck();
 	void ResetAllCards();

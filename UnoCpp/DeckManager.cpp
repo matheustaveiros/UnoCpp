@@ -5,6 +5,7 @@
 #include "ReverseCard.h"
 #include "PlusTwoCard.h"
 #include "PlusFourCard.h"
+#include "SwapHandsCard.h"
 #include <algorithm>
 #include <random>
 #include "TurnHandler.h"
@@ -33,6 +34,7 @@ void DeckManager::CreateDeck()
 		CreateJumpCards(cardColor);
 		CreateReverseCards(cardColor);
 		CreatePlusTwoCards(cardColor);
+		CreateSwapHandsCards(cardColor);
 	}
 
 	CreatePlusFourCards(Enums::CardColor::Black);
@@ -81,15 +83,23 @@ void DeckManager::CreatePlusTwoCards(Enums::CardColor cardColor)
 	}
 }
 
+void DeckManager::CreateSwapHandsCards(Enums::CardColor cardColor)
+{
+	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR; cardIndex++)
+	{
+		auto card = std::make_shared<SwapHandsCard>(_turnHandler, cardColor, DeckData::SWAP_CARD_SYMBOL);
+		_deck.push_back(card);
+	}
+}
+
 void DeckManager::CreatePlusFourCards(Enums::CardColor cardColor)
 {
-	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_FOUR_CARDS_BY_COLOR; cardIndex++)
+	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_FOUR_CARDS; cardIndex++)
 	{
 		auto card = std::make_shared<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL);
 		_deck.push_back(card);
 	}
 }
-
 
 void DeckManager::ShuffleDeck()
 {

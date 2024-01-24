@@ -43,6 +43,8 @@ public:
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	void SetStarterPlayerOrder(int index);
 	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
+	void AskForHandToSwap();
+	void SwapHand(int selectedPlayer);
 	bool HasValidCard();
 	bool IsGameRunning() const;
 	bool HasCardsStacked() const;

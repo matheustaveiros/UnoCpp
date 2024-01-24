@@ -32,7 +32,7 @@ void Player::DrawTopCardFromDiscardPile()
 
 void Player::DrawCards() const
 {
-	ConsoleHelper::PrintMessage("Player Hand:\n");
+	ConsoleHelper::PrintMessage(std::format("Player {} Hand:\n", _name));
 	CardDrawHelper::DrawCards(_cardsInHand);
 }
 
@@ -278,6 +278,11 @@ std::vector<std::shared_ptr<BaseCard>> Player::GetCards() const
 void Player::CleanPlayerHand()
 {
 	_cardsInHand.clear();
+}
+
+void Player::ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards)
+{
+    _cardsInHand = cards;
 }
 
 std::string& Player::GetName()

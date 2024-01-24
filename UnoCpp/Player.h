@@ -42,6 +42,7 @@ public:
 	void TurnEnded();
 	std::vector<std::shared_ptr<BaseCard>> GetCards() const;
 	void CleanPlayerHand();
+	void ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards);
 	std::string& GetName();
 };
 

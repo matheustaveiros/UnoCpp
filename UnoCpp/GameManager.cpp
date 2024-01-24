@@ -9,6 +9,7 @@
 
 int GameManager::EntryPoint()
 {
+	ConsoleHelper::SetWindowSize(1800, 900);
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
 
 	Awake();
