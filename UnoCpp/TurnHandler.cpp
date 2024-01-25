@@ -4,10 +4,10 @@
 #include "CardDrawHelper.h"
 #include <format>
 
-TurnHandler::TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager) 
-    : _deckManager{ deckManager }, _playersManager { playersManager }
+void TurnHandler::Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager)
 {
-    
+    _deckManager = deckManager;
+    _playersManager = playersManager;
 }
 
 int TurnHandler::GetGameDirection() const

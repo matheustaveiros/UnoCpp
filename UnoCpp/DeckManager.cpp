@@ -15,14 +15,10 @@
 #include "RandomHelper.h"
 #include "Player.h"
 
-DeckManager::DeckManager(std::shared_ptr<PlayersManager> playersManager) : _playersManager { playersManager }
-{
-	
-}
-
-void DeckManager::Initialize(std::shared_ptr<TurnHandler> turnHandler)
+void DeckManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<PlayersManager> playersManager)
 {
 	_turnHandler = turnHandler;
+	_playersManager = playersManager;
 }
 
 void DeckManager::CreateDeck()

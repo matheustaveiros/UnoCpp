@@ -22,8 +22,7 @@ private:
 	std::shared_ptr<DeckManager> _deckManager;
 	std::shared_ptr<PlayersManager> _playersManager;
 public:
-	TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
-
+	void Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 	int GetGameDirection() const;
 	std::string GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);

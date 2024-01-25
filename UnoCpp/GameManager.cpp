@@ -6,9 +6,10 @@
 #include "ConsoleHelper.h"
 #include "RandomHelper.h"
 #include "Player.h"
-
+#include "UnoLogo.h"
 int GameManager::EntryPoint()
 {
+	UnoLogo::PrintLogo();
 	//ConsoleHelper::SetWindowSize(1800, 900);
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
 
@@ -30,10 +31,11 @@ void GameManager::Awake()
 	RandomHelper::Seed();
 
 	_playersManager = std::make_shared<PlayersManager>();
-	_deckManager = std::make_shared<DeckManager>(_playersManager);
-	_turnHandler = std::make_shared<TurnHandler>(_deckManager, _playersManager);
+	_deckManager = std::make_shared<DeckManager>();
+	_turnHandler = std::make_shared<TurnHandler>();
 	_playersManager->Initialize(_turnHandler, _deckManager);
-	_deckManager->Initialize(_turnHandler);
+	_deckManager->Initialize(_turnHandler, _playersManager);
+	_turnHandler->Initialize(_deckManager, _playersManager);
 
 	_deckManager->CreateDeck();
 }
@@ -41,6 +43,7 @@ void GameManager::Awake()
 void GameManager::WaitPlayerInputToStart() const
 {
 	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n");
+	ConsoleHelper::Clear();
 }
 
 void GameManager::AskForPlayerAmount()
@@ -132,3 +135,4 @@ int GameManager::QuitGame() const
 }
 
 
+;
