@@ -129,6 +129,14 @@ void TurnHandler::DrawCardFromPreviousPlayer()
     CardDrawHelper::DrawCards(_playersManager->GetPlayer(playerIndex)->GetCards());
 }
 
+void TurnHandler::BuyCardsFromDiscardPile(int amount)
+{
+    for (int i = 0; i < amount; i++)
+    {
+        _stackedCardPile.push_back(_deckManager->BuyTopCardAndRemoveFromDiscardPile());
+    }
+}
+
 void TurnHandler::BuyCardsFromDeck(int amount)
 {
     for (int i = 0; i < amount; i++)

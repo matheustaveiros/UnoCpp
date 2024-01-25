@@ -149,7 +149,7 @@ void Player::ShowCompatibleOptions()
         std::shared_ptr<BaseCard> handCard = _cardsInHand[i];
         if (CardIsSymbolOnlyCompatible(handCard))
         {
-            displayText += std::format("{}, ", i);
+            displayText += std::format("({}) ", i);
             validCards.push_back(i);
         }
     }

@@ -9,7 +9,7 @@
 
 int GameManager::EntryPoint()
 {
-	ConsoleHelper::SetWindowSize(1800, 900);
+	//ConsoleHelper::SetWindowSize(1800, 900);
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
 
 	Awake();
@@ -81,7 +81,7 @@ void GameManager::StartGame()
 	_turnHandler->ThrowCardFromDeckToDiscardPile(true);
 
 	ConsoleHelper::PrintMessage("Game Starting...\n");
-	Sleep(2000);
+	Sleep(1000);
 	ConsoleHelper::Clear();
 
 	_turnHandler->SetGameState(true);

@@ -37,6 +37,7 @@ public:
 	void JumpPlayer();
 	void AskPlayerToSelectAColor();
 	void DrawCardFromPreviousPlayer();
+	void BuyCardsFromDiscardPile(int amount);
 	void BuyCardsFromDeck(int amount);
 	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();

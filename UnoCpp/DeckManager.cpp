@@ -6,6 +6,8 @@
 #include "PlusTwoCard.h"
 #include "PlusFourCard.h"
 #include "SwapHandsCard.h"
+#include "ChooseColorCard.h"
+#include "BuyFromDiscardPileCard.h"
 #include <algorithm>
 #include <random>
 #include "TurnHandler.h"
@@ -25,9 +27,9 @@ void DeckManager::Initialize(std::shared_ptr<TurnHandler> turnHandler)
 
 void DeckManager::CreateDeck()
 {
-	std::vector<Enums::CardColor> colorList{ Enums::CardColor::Blue, Enums::CardColor::Green, Enums::CardColor::Red, Enums::CardColor::Yellow };
+	std::vector<Enums::CardColor> colorList{ Enums::CardColor::Red, Enums::CardColor::Green, Enums::CardColor::Blue, Enums::CardColor::Yellow };
 
-	for (int i = 0; i < static_cast<int>(colorList.size()) - 1; i++)
+	for (int i = 0; i < static_cast<int>(colorList.size()); i++)
 	{
 		Enums::CardColor cardColor = colorList[i];
 		CreateNumberCards(cardColor);
@@ -35,9 +37,11 @@ void DeckManager::CreateDeck()
 		CreateReverseCards(cardColor);
 		CreatePlusTwoCards(cardColor);
 		CreateSwapHandsCards(cardColor);
+		CreateBuyFromDiscardPileCards(cardColor);
 	}
 
 	CreatePlusFourCards(Enums::CardColor::Black);
+	CreateChooseColorCards(Enums::CardColor::Black);
 
 	ConsoleHelper::PrintMessage("Cards Created\n", Enums::DisplayLevel::Developer);
 
@@ -92,11 +96,29 @@ void DeckManager::CreateSwapHandsCards(Enums::CardColor cardColor)
 	}
 }
 
+void DeckManager::CreateBuyFromDiscardPileCards(Enums::CardColor cardColor)
+{
+	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_BUY_FROM_DISCARD_PILE_CARDS_BY_COLOR; cardIndex++)
+	{
+		auto card = std::make_shared<BuyFromDiscardPileCard>(_turnHandler, cardColor, DeckData::BUY_FROM_DISCARD_PILE_CARD_SYMBOL, 2);
+		_deck.push_back(card);
+	}
+}
+
 void DeckManager::CreatePlusFourCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_FOUR_CARDS; cardIndex++)
 	{
 		auto card = std::make_shared<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL);
+		_deck.push_back(card);
+	}
+}
+
+void DeckManager::CreateChooseColorCards(Enums::CardColor cardColor)
+{
+	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_CHOOSE_COLOR_CARDS; cardIndex++)
+	{
+		auto card = std::make_shared<ChooseColorCard>(_turnHandler, cardColor, DeckData::CHOOSE_COLOR_CARD_SYMBOL);
 		_deck.push_back(card);
 	}
 }
@@ -157,6 +179,30 @@ std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDeck()
 void DeckManager::AddCardToDiscardPile(std::shared_ptr<BaseCard> card)
 {
 	_discardPile.push_back(card);
+}
+
+std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDiscardPile()
+{
+	if (_discardPile.size() <= 1)
+	{
+		ConsoleHelper::PrintMessage("Discard Pile is Empty, Adding One Card From Deck Into Stack\n");
+		return BuyTopCardAndRemoveFromDeck();
+	}
+
+	std::shared_ptr<BaseCard> topCard = GetTopCardFromDiscardPile(); //Get last thrown card to ignore, will be the card used on this turn.
+
+	int randomNumber = 0;
+	do
+	{
+		randomNumber = RandomHelper::Range(0, static_cast<int>(_discardPile.size()) - 1);
+	}
+	while (_discardPile[randomNumber] == topCard);
+
+	std::shared_ptr<BaseCard> selectedCard = _discardPile[randomNumber];
+	_discardPile.erase(_discardPile.begin() + randomNumber);
+
+	ConsoleHelper::PrintMessage("One Card Added From Discard Pile Into Stack\n");
+	return selectedCard;
 }
 
 std::shared_ptr<BaseCard> DeckManager::GetTopCardFromDiscardPile()

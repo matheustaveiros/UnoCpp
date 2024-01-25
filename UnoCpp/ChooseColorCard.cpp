@@ -1,0 +1,14 @@
+#include <memory>
+#include "GoToNextPlayerAction.h"
+#include "AskForAColorAction.h"
+#include "ChooseColorCard.h"
+
+ChooseColorCard::ChooseColorCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)
+	: BaseCard(turnHandler, color, symbol)
+{
+	auto askForAColorAction = std::make_shared<AskForAColorAction>(_turnHandler);
+	AddAction(askForAColorAction);
+
+	auto goToNextPlayerAction = std::make_shared<GoToNextPlayerAction>(_turnHandler);
+	AddAction(goToNextPlayerAction);
+}

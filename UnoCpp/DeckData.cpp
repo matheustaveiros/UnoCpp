@@ -4,3 +4,5 @@ std::string DeckData::PLUS_FOUR_SYMBOL = "+4";
 std::string DeckData::REVERSE_SYMBOL = "Rev";
 std::string DeckData::JUMP_CARD_SYMBOL = "Blk";
 std::string DeckData::SWAP_CARD_SYMBOL = "Swp";
+std::string DeckData::CHOOSE_COLOR_CARD_SYMBOL = "Wld";
+std::string DeckData::BUY_FROM_DISCARD_PILE_CARD_SYMBOL = "D+2";
