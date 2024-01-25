@@ -2,9 +2,12 @@
 #include "ConsoleHelper.h"
 #include "CardDrawHelper.h"
 #include "DeckData.h"
+#include <format>
 
 void Player::StartTurn()
 {
+    _yellUnoActionValue = -1;
+    _buyCardActionValue = -2;
     DrawTopCardFromDiscardPile();
     if (_turnHandler->HasCardsStacked())
     {
@@ -18,7 +21,7 @@ void Player::StartTurn()
     }
 }
 
-Player::Player(std::shared_ptr<TurnHandler> turnHandler, std::string name) : _turnHandler{ turnHandler }, _name{ name }
+Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
 {
 
 }
@@ -29,9 +32,9 @@ void Player::DrawTopCardFromDiscardPile()
     CardDrawHelper::DrawCard(_turnHandler->GetTopCardFromDiscardPile());
 }
 
-void Player::DrawCards()
+void Player::DrawCards() const
 {
-	ConsoleHelper::PrintMessage("Player Hand:\n");
+	ConsoleHelper::PrintMessage(std::format("Player {} Hand:\n", _name));
 	CardDrawHelper::DrawCards(_cardsInHand);
 }
 
@@ -42,8 +45,8 @@ void Player::ShowExtraActions()
 	_yellUnoActionValue = startOffset + 1;
 
 	ConsoleHelper::PrintMessage("Type Any Card Id to Use Or\n");
-	ConsoleHelper::PrintMessage("Type " + std::to_string(_buyCardActionValue) + " to Buy One Card\n");
-	ConsoleHelper::PrintMessage("Type " + std::to_string(_yellUnoActionValue) + " to Yell Uno\n");
+    ConsoleHelper::PrintMessage(std::format("Type {} to Buy One Card\n", _buyCardActionValue));
+    ConsoleHelper::PrintMessage(std::format("Type {} to Yell Uno!\n", _yellUnoActionValue));
 }
 
 void Player::WaitForActionInput()
@@ -52,7 +55,7 @@ void Player::WaitForActionInput()
 	UseOption(selectedAction);
 }
 
-bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
+bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare) //TODO: Refactor this
 {
 	if (&cardToCompare != nullptr) // in case of a special card
 	{
@@ -74,13 +77,30 @@ bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare)
 	return false;
 }
 
-bool Player::CanWin()
+bool Player::CanWin() const
 {
 	return static_cast<int>(_cardsInHand.size()) - 1 == 0;
 }
 
 bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
 {
+    if (card->GetColor() == Enums::CardColor::Black)
+        return true;
+    if (_turnHandler->GetMandatoryColor() != Enums::CardColor::Empty)
+    {
+        if (card->GetColor() == _turnHandler->GetMandatoryColor())
+        {
+            _turnHandler->ResetMandatoryColor();
+            return true;
+        }
+        else
+        {
+            ConsoleHelper::PrintMessage(std::format("A Mandatory Color is required For This Turn, Color: {}\n", 
+                Enums::GetColorDisplayName(_turnHandler->GetMandatoryColor())));
+            return false;
+        }
+    }
+
 	std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
 	if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
 		return true;
@@ -131,7 +151,7 @@ void Player::ShowCompatibleOptions()
         std::shared_ptr<BaseCard> handCard = _cardsInHand[i];
         if (CardIsSymbolOnlyCompatible(handCard))
         {
-            displayText += std::to_string(i) + ", ";
+            displayText += std::format("({}) ", i);
             validCards.push_back(i);
         }
     }
@@ -252,7 +272,7 @@ void Player::TurnEnded()
 	}
 }
 
-std::vector<std::shared_ptr<BaseCard>> Player::GetCards()
+std::vector<std::shared_ptr<BaseCard>> Player::GetCards() const
 {
 	return _cardsInHand;
 }
@@ -260,6 +280,11 @@ std::vector<std::shared_ptr<BaseCard>> Player::GetCards()
 void Player::CleanPlayerHand()
 {
 	_cardsInHand.clear();
+}
+
+void Player::ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards)
+{
+    _cardsInHand = cards;
 }
 
 std::string& Player::GetName()

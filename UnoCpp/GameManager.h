@@ -16,7 +16,7 @@ private:
 
 	void Awake();
 	int InitializeGame();
-	void WaitPlayerInputToStart();
+	void WaitPlayerInputToStart() const;
 	void AskForPlayerAmount();
 	void CreatePlayers(int amount);
 	void RandomizeFirstPlayer();
@@ -24,7 +24,7 @@ private:
 	int GameLoop();
 	int AskForRestartOrQuit();
 	void RestartGame();
-	int QuitGame();
+	int QuitGame() const;
 
 public:
 	int EntryPoint();

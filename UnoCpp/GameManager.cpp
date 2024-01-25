@@ -6,9 +6,11 @@
 #include "ConsoleHelper.h"
 #include "RandomHelper.h"
 #include "Player.h"
-
+#include "UnoLogo.h"
 int GameManager::EntryPoint()
 {
+	UnoLogo::PrintLogo();
+	//ConsoleHelper::SetWindowSize(1800, 900);
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
 
 	Awake();
@@ -29,17 +31,19 @@ void GameManager::Awake()
 	RandomHelper::Seed();
 
 	_playersManager = std::make_shared<PlayersManager>();
-	_deckManager = std::make_shared<DeckManager>(_playersManager);
-	_turnHandler = std::make_shared<TurnHandler>(_deckManager, _playersManager);
+	_deckManager = std::make_shared<DeckManager>();
+	_turnHandler = std::make_shared<TurnHandler>();
 	_playersManager->Initialize(_turnHandler, _deckManager);
-	_deckManager->Initialize(_turnHandler);
+	_deckManager->Initialize(_turnHandler, _playersManager);
+	_turnHandler->Initialize(_deckManager, _playersManager);
 
 	_deckManager->CreateDeck();
 }
 
-void GameManager::WaitPlayerInputToStart()
+void GameManager::WaitPlayerInputToStart() const
 {
 	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n");
+	ConsoleHelper::Clear();
 }
 
 void GameManager::AskForPlayerAmount()
@@ -47,8 +51,7 @@ void GameManager::AskForPlayerAmount()
 	int amount = 0;
 	while (amount < MIN_PLAYERS_AMOUNT || amount > MAX_PLAYERS_AMOUNT)
 	{
-		amount = ConsoleHelper::GetInput<int>("Type the number of players: (min " + 
-			std::to_string(MIN_PLAYERS_AMOUNT) + ", max " + std::to_string(MAX_PLAYERS_AMOUNT) + ")\n");
+		amount = ConsoleHelper::GetInput<int>(std::format("Type the number of players: (min {}, max {})\n", MIN_PLAYERS_AMOUNT, MAX_PLAYERS_AMOUNT));
 	}
 
 	CreatePlayers(amount);
@@ -59,7 +62,7 @@ void GameManager::CreatePlayers(int amount)
 	std::vector<std::string> playerNames;
 	for (int i = 0; i < amount; i++)
 	{
-		std::string playerName = ConsoleHelper::GetInput<std::string>("Insert Player " + std::to_string(i + 1) + " Name: \n");
+		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name\n", i + 1));
 		playerNames.push_back(playerName);
 	}
 
@@ -81,7 +84,7 @@ void GameManager::StartGame()
 	_turnHandler->ThrowCardFromDeckToDiscardPile(true);
 
 	ConsoleHelper::PrintMessage("Game Starting...\n");
-	Sleep(2000);
+	Sleep(1000);
 	ConsoleHelper::Clear();
 
 	_turnHandler->SetGameState(true);
@@ -126,9 +129,10 @@ void GameManager::RestartGame()
 	InitializeGame();
 }
 
-int GameManager::QuitGame()
+int GameManager::QuitGame() const
 {
 	return 0;
 }
 
 
+;

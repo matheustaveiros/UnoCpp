@@ -15,15 +15,15 @@ private:
 	int _gameDirection = 1;
 	int _currentPlayerIndex = 0;
 	bool _gameIsRunning = false;
-	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
+	Enums::CardColor _mandatoryColor = Enums::CardColor::Empty;
 	
+	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
 	std::shared_ptr<DeckManager> _deckManager;
 	std::shared_ptr<PlayersManager> _playersManager;
 public:
-	TurnHandler(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
-
-	int GetGameDirection();
+	void Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
+	int GetGameDirection() const;
 	std::string GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
 	void ResetState();
@@ -34,15 +34,22 @@ public:
 	void SkipToNextPlayer();
 	void ReverseGame();
 	void JumpPlayer();
+	void AskPlayerToSelectAColor();
+	void DrawCardFromPreviousPlayer();
+	void BuyCardsFromDiscardPile(int amount);
 	void BuyCardsFromDeck(int amount);
 	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();
 	void UseCard(std::shared_ptr<BaseCard> baseCard);
 	void SetStarterPlayerOrder(int index);
 	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
+	void AskForHandToSwap();
+	void SwapHand(int selectedPlayer);
 	bool HasValidCard();
-	bool IsGameRunning();
-	bool HasCardsStacked();
+	bool IsGameRunning() const;
+	bool HasCardsStacked() const;
+	Enums::CardColor GetMandatoryColor() const;
+	void ResetMandatoryColor();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
 };
 

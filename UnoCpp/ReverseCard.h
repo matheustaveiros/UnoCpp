@@ -3,6 +3,6 @@
 class ReverseCard : public BaseCard
 {
 public:
-	ReverseCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, std::string symbol);
+	ReverseCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol);
 };
 

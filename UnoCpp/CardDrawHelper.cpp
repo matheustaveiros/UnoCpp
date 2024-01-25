@@ -5,7 +5,12 @@
 #include "BaseCard.h"
 #include "Enums.h"
 #define NOMINMAX
-#define FOREGROUND_YELLOW     0x0006
+
+constexpr auto BACKGROUNDED_RED = 0x00047;
+constexpr auto BACKGROUNDED_BLUE = 0x00017;
+constexpr auto BACKGROUNDED_GREEN = 0x00027;
+constexpr auto BACKGROUNDED_YELLOW = 0x00067;
+constexpr auto BACKGROUNDED_BLACK = 0x0087;
 
 COORD CardDrawHelper::GetCurrentCursorPosition()
 {
@@ -54,16 +59,19 @@ void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, con
     switch (card->GetColor())
     {
     case Red:
-        SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        SetConsoleTextAttribute(console, BACKGROUNDED_RED | FOREGROUND_INTENSITY);
         break;
     case Blue:
-        SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        SetConsoleTextAttribute(console, BACKGROUNDED_BLUE | FOREGROUND_INTENSITY);
         break;
     case Green:
-        SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        SetConsoleTextAttribute(console, BACKGROUNDED_GREEN | FOREGROUND_INTENSITY);
         break;
     case Yellow:
-        SetConsoleTextAttribute(console, FOREGROUND_YELLOW | FOREGROUND_INTENSITY);
+        SetConsoleTextAttribute(console, BACKGROUNDED_YELLOW | FOREGROUND_INTENSITY);
+        break;
+    case Black:
+        SetConsoleTextAttribute(console, BACKGROUNDED_BLACK | FOREGROUND_INTENSITY);
         break;
     default:
         break;
@@ -128,7 +136,7 @@ void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, in
     //Show Id
     if (id != -1)
     {
-        SHORT xOffset = position.X + (cardWidth / 2.0) + 1.0;
+        SHORT xOffset = position.X + (static_cast<SHORT>(cardWidth) / 2) + 1;
         const SHORT yOffset = position.Y + 5;
         SetConsoleCursorPosition(console, { xOffset , yOffset });
         std::cout << std::to_string(id) << std::endl;
