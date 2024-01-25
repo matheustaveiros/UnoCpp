@@ -6,6 +6,8 @@
 
 void Player::StartTurn()
 {
+    _yellUnoActionValue = -1;
+    _buyCardActionValue = -2;
     DrawTopCardFromDiscardPile();
     if (_turnHandler->HasCardsStacked())
     {
