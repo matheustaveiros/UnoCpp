@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include "UnoLogo.h"
+#include "ConsoleHelper.h"
 
 constexpr auto COLOR_YELLOW = 0x0006;
 void UnoLogo::PrintLogo()
@@ -36,4 +37,7 @@ void UnoLogo::PrintLogo()
 	std::cout << unoText << std::endl << std::endl;
 
 	SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+	ConsoleHelper::WaitForAnyKey("Press Any Key to Skip\n");
+	ConsoleHelper::Clear();
 }

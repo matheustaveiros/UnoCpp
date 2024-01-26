@@ -23,7 +23,8 @@ void DeckManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shar
 
 void DeckManager::CreateDeck()
 {
-	std::vector<Enums::CardColor> colorList{ Enums::CardColor::Red, Enums::CardColor::Green, Enums::CardColor::Blue, Enums::CardColor::Yellow };
+	using enum Enums::CardColor;
+	std::vector<Enums::CardColor> colorList{ Red, Green, Blue, Yellow };
 
 	for (int i = 0; i < static_cast<int>(colorList.size()); i++)
 	{
@@ -36,8 +37,8 @@ void DeckManager::CreateDeck()
 		CreateBuyFromDiscardPileCards(cardColor);
 	}
 
-	CreatePlusFourCards(Enums::CardColor::Black);
-	CreateChooseColorCards(Enums::CardColor::Black);
+	CreatePlusFourCards(Black);
+	CreateChooseColorCards(Black);
 
 	ConsoleHelper::PrintMessage("Cards Created\n", Enums::DisplayLevel::Developer);
 

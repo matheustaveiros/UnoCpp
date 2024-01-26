@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "../Deck/DeckManager.h"
 #include "../Console/ConsoleHelper.h"
+#include "../Console/GameInstructionsHandler.h"
 #include "../Utils/RandomHelper.h"
 #include "../Player/Player.h"
 #include "../Console/UnoLogo.h"
@@ -10,9 +11,9 @@
 
 int GameManager::EntryPoint()
 {
-	UnoLogo::PrintLogo();
-	//ConsoleHelper::SetWindowSize(1800, 900);
 	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
+	UnoLogo::PrintLogo();
+	GameInstructionsHandler::DrawInstructions();
 
 	Awake();
 	return InitializeGame();
