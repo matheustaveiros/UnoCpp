@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Enums.h"
 #include <string>
-#include "BaseAction.h"
 #include <vector>
 #include <memory>
+#include "../Utils/Enums.h"
+#include "../Actions/BaseAction.h"
 
 class BaseAction;
 class TurnHandler;

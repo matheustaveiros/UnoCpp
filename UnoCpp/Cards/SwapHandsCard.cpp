@@ -1,6 +1,6 @@
+#include "../Actions/GoToNextPlayerAction.h"
+#include "../Actions/SwapHandsAction.h"
 #include "SwapHandsCard.h"
-#include "GoToNextPlayerAction.h"
-#include "SwapHandsAction.h"
 SwapHandsCard::SwapHandsCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)
 	: BaseCard(turnHandler, color, symbol)
 {

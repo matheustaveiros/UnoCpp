@@ -1,7 +1,7 @@
-#include "UnoLogo.h"
 #include <string>
 #include <iostream>
 #include <windows.h>
+#include "UnoLogo.h"
 
 constexpr auto COLOR_YELLOW = 0x0006;
 void UnoLogo::PrintLogo()

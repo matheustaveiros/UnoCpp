@@ -1,8 +1,8 @@
-#include "Player.h"
-#include "ConsoleHelper.h"
-#include "CardDrawHelper.h"
-#include "DeckData.h"
 #include <format>
+#include "../Console/ConsoleHelper.h"
+#include "../Console/CardDrawHelper.h"
+#include "../Deck/DeckData.h"
+#include "Player.h"
 
 void Player::StartTurn()
 {

@@ -1,6 +1,6 @@
-#include "ReverseCard.h"
 #include <memory>
-#include "ReverseGameAction.h"
+#include "../Actions/ReverseGameAction.h"
+#include "ReverseCard.h"
 ReverseCard::ReverseCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)
 	: BaseCard(turnHandler, color, symbol)
 {

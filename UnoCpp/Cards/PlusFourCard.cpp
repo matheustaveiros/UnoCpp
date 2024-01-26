@@ -1,8 +1,8 @@
 #include <memory>
-#include "BuyCardsAction.h"
-#include "CheckForValidPlayAction.h"
-#include "GoToNextPlayerAction.h"
-#include "AskForAColorAction.h"
+#include "../Actions/BuyCardsAction.h"
+#include "../Actions/CheckForValidPlayAction.h"
+#include "../Actions/GoToNextPlayerAction.h"
+#include "../Actions/AskForAColorAction.h"
 #include "PlusFourCard.h"
 
 PlusFourCard::PlusFourCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)

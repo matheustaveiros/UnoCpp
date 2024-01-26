@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include "GameManager.h"
+#include "Core/GameManager.h"
 int main()
 {
     auto gameManager = GameManager();

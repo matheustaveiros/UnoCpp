@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Enums.h"
+#include "../Utils/Enums.h"
 
 class ConsoleHelper
 {

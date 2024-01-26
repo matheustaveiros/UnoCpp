@@ -1,12 +1,13 @@
 #include <iostream>
 #include <windows.h>
-#include "GameManager.h"
+#include "../Deck/DeckManager.h"
+#include "../Console/ConsoleHelper.h"
+#include "../Utils/RandomHelper.h"
+#include "../Player/Player.h"
+#include "../Console/UnoLogo.h"
 #include "TurnHandler.h"
-#include "DeckManager.h"
-#include "ConsoleHelper.h"
-#include "RandomHelper.h"
-#include "Player.h"
-#include "UnoLogo.h"
+#include "GameManager.h"
+
 int GameManager::EntryPoint()
 {
 	UnoLogo::PrintLogo();
