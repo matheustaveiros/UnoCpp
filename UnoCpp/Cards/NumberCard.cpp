@@ -1,5 +1,5 @@
 #include <memory>
-#include "../Actions/GoToNextPlayerAction.h"
+#include "Actions/GoToNextPlayerAction.h"
 #include "NumberCard.h"
 
 NumberCard::NumberCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)

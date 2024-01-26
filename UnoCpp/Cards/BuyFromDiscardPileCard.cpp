@@ -1,7 +1,7 @@
 #include <memory>
-#include "../Actions/BuyFromDiscardPileAction.h"
-#include "../Actions/CheckForValidPlayAction.h"
-#include "../Actions/GoToNextPlayerAction.h"
+#include "Actions/BuyFromDiscardPileAction.h"
+#include "Actions/CheckForValidPlayAction.h"
+#include "Actions/GoToNextPlayerAction.h"
 #include "BuyFromDiscardPileCard.h"
 
 BuyFromDiscardPileCard::BuyFromDiscardPileCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol, int amountToBuy)

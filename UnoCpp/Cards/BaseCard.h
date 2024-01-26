@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "../Utils/Enums.h"
-#include "../Actions/BaseAction.h"
+#include "Utils/Enums.h"
+#include "Actions/BaseAction.h"
 
 class BaseAction;
 class TurnHandler;

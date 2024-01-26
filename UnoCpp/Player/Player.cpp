@@ -1,7 +1,7 @@
 #include <format>
-#include "../Console/ConsoleHelper.h"
-#include "../Console/CardDrawHelper.h"
-#include "../Deck/DeckData.h"
+#include "Console/ConsoleHelper.h"
+#include "Console/CardDrawHelper.h"
+#include "Deck/DeckData.h"
 #include "Player.h"
 
 void Player::StartTurn()
@@ -272,7 +272,7 @@ void Player::TurnEnded()
 	}
 }
 
-std::vector<std::shared_ptr<BaseCard>> Player::GetCards() const
+const std::vector<std::shared_ptr<BaseCard>>& Player::GetCards() const
 {
 	return _cardsInHand;
 }

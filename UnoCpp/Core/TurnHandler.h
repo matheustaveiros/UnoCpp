@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
-#include "../Cards/BaseCard.h"
-#include "../Actions/BaseAction.h"
-#include "../Deck/DeckManager.h"
+#include "Cards/BaseCard.h"
+#include "Actions/BaseAction.h"
+#include "Deck/DeckManager.h"
 
 class Player;
 class BaseAction;

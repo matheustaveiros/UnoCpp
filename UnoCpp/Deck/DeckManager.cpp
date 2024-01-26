@@ -1,17 +1,17 @@
 #include <algorithm>
 #include <random>
-#include "../Cards/NumberCard.h"
-#include "../Cards/JumpCard.h"
-#include "../Cards/ReverseCard.h"
-#include "../Cards/PlusTwoCard.h"
-#include "../Cards/PlusFourCard.h"
-#include "../Cards/SwapHandsCard.h"
-#include "../Cards/ChooseColorCard.h"
-#include "../Cards/BuyFromDiscardPileCard.h"
-#include "../Core/TurnHandler.h"
-#include "../Console/ConsoleHelper.h"
-#include "../Utils/RandomHelper.h"
-#include "../Player/Player.h"
+#include "Cards/NumberCard.h"
+#include "Cards/JumpCard.h"
+#include "Cards/ReverseCard.h"
+#include "Cards/PlusTwoCard.h"
+#include "Cards/PlusFourCard.h"
+#include "Cards/SwapHandsCard.h"
+#include "Cards/ChooseColorCard.h"
+#include "Cards/BuyFromDiscardPileCard.h"
+#include "Core/TurnHandler.h"
+#include "Console/ConsoleHelper.h"
+#include "Utils/RandomHelper.h"
+#include "Player/Player.h"
 #include "DeckData.h"
 #include "DeckManager.h"
 
@@ -227,5 +227,5 @@ std::shared_ptr<BaseCard> DeckManager::GetFirstNumberCardOnDeckAndRemoveIt() //T
 		}
 	}
 
-	return nullptr;
+	return {}; //same as null_ptr
 }

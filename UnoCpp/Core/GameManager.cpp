@@ -1,11 +1,11 @@
 #include <iostream>
 #include <windows.h>
-#include "../Deck/DeckManager.h"
-#include "../Console/ConsoleHelper.h"
-#include "../Console/GameInstructionsHandler.h"
-#include "../Utils/RandomHelper.h"
-#include "../Player/Player.h"
-#include "../Console/UnoLogo.h"
+#include "Deck/DeckManager.h"
+#include "Console/ConsoleHelper.h"
+#include "Console/GameInstructionsHandler.h"
+#include "Utils/RandomHelper.h"
+#include "Player/Player.h"
+#include "Console/UnoLogo.h"
 #include "TurnHandler.h"
 #include "GameManager.h"
 

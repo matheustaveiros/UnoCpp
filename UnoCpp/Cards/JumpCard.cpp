@@ -1,5 +1,5 @@
 #include <memory>
-#include "../Actions/JumpPlayerAction.h"
+#include "Actions/JumpPlayerAction.h"
 #include "JumpCard.h"
 
 JumpCard::JumpCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)

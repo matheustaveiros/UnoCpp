@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "../Core/TurnHandler.h"
+#include "Core/TurnHandler.h"
 
 class TurnHandler;
 class BaseAction

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../Cards/BaseCard.h"
-#include "../Utils/Enums.h"
+#include "Cards/BaseCard.h"
+#include "Utils/Enums.h"
 #include "CardDrawHelper.h"
 
 #define NOMINMAX

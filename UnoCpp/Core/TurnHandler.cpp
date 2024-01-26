@@ -1,7 +1,7 @@
 #include <format>
-#include "../Player/Player.h"
-#include "../Console/ConsoleHelper.h"
-#include "../Console/CardDrawHelper.h"
+#include "Player/Player.h"
+#include "Console/ConsoleHelper.h"
+#include "Console/CardDrawHelper.h"
 #include "TurnHandler.h"
 
 void TurnHandler::Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager)

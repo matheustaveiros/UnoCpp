@@ -1,5 +1,5 @@
-#include "../Deck/DeckData.h"
-#include "../Console/ConsoleHelper.h"
+#include "Deck/DeckData.h"
+#include "Console/ConsoleHelper.h"
 #include "Player.h"
 #include "PlayersManager.h"
 

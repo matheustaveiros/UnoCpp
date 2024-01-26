@@ -2,8 +2,8 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include "../Cards/BaseCard.h"
-#include "../Core/TurnHandler.h"
+#include "Cards/BaseCard.h"
+#include "Core/TurnHandler.h"
 
 class BaseCard;
 class TurnHandler;
@@ -40,7 +40,7 @@ public:
 	void HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void TurnEnded();
-	std::vector<std::shared_ptr<BaseCard>> GetCards() const;
+	const std::vector<std::shared_ptr<BaseCard>>& GetCards() const;
 	void CleanPlayerHand();
 	void ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards);
 	std::string& GetName();
