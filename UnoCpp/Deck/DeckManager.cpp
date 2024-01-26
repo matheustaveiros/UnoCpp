@@ -48,7 +48,7 @@ void DeckManager::CreateNumberCards(Enums::CardColor cardColor)
 {
 	for (int cardByColorIndex = 0; cardByColorIndex < DeckData::AMOUNT_OF_NORMAL_CARDS_BY_COLOR; cardByColorIndex++)
 	{
-		for (int numberIndex = 0; numberIndex < DeckData::NUMBER_RANGE_IN_CARDS; numberIndex++)
+		for (int numberIndex = 0; numberIndex <= DeckData::NUMBER_RANGE_IN_CARDS; numberIndex++)
 		{
 			auto card = std::make_shared<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex));
 			_deck.push_back(card);
