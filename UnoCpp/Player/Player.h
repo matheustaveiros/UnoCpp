@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseCard.h"
-#include "TurnHandler.h"
 #include <vector>
 #include <memory>
 #include <string>
+#include "../Cards/BaseCard.h"
+#include "../Core/TurnHandler.h"
 
 class BaseCard;
 class TurnHandler;

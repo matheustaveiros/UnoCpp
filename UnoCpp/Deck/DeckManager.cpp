@@ -1,19 +1,19 @@
-#include "DeckManager.h"
-#include "DeckData.h"
-#include "NumberCard.h"
-#include "JumpCard.h"
-#include "ReverseCard.h"
-#include "PlusTwoCard.h"
-#include "PlusFourCard.h"
-#include "SwapHandsCard.h"
-#include "ChooseColorCard.h"
-#include "BuyFromDiscardPileCard.h"
 #include <algorithm>
 #include <random>
-#include "TurnHandler.h"
-#include "ConsoleHelper.h"
-#include "RandomHelper.h"
-#include "Player.h"
+#include "../Cards/NumberCard.h"
+#include "../Cards/JumpCard.h"
+#include "../Cards/ReverseCard.h"
+#include "../Cards/PlusTwoCard.h"
+#include "../Cards/PlusFourCard.h"
+#include "../Cards/SwapHandsCard.h"
+#include "../Cards/ChooseColorCard.h"
+#include "../Cards/BuyFromDiscardPileCard.h"
+#include "../Core/TurnHandler.h"
+#include "../Console/ConsoleHelper.h"
+#include "../Utils/RandomHelper.h"
+#include "../Player/Player.h"
+#include "DeckData.h"
+#include "DeckManager.h"
 
 void DeckManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<PlayersManager> playersManager)
 {

@@ -1,7 +1,7 @@
-#include "PlayersManager.h"
+#include "../Deck/DeckData.h"
+#include "../Console/ConsoleHelper.h"
 #include "Player.h"
-#include "DeckData.h"
-#include "ConsoleHelper.h"
+#include "PlayersManager.h"
 
 void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<DeckManager> deckManager)
 {

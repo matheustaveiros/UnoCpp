@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseCard.h"
 #include <vector>
+#include "../Cards/BaseCard.h"
+#include "../Utils/Enums.h"
+#include "../Player/PlayersManager.h"
 #include "DeckData.h"
-#include "Enums.h"
-#include "PlayersManager.h"
 
 class BaseCard;
 class PlayersManager;

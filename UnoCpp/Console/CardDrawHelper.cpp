@@ -1,9 +1,10 @@
-#include "CardDrawHelper.h"
 #include <iostream>
 #include <vector>
 #include <string>
-#include "BaseCard.h"
-#include "Enums.h"
+#include "../Cards/BaseCard.h"
+#include "../Utils/Enums.h"
+#include "CardDrawHelper.h"
+
 #define NOMINMAX
 
 constexpr auto BACKGROUNDED_RED = 0x00047;

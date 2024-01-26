@@ -1,6 +1,6 @@
-#include "ConsoleHelper.h"
 #include <conio.h>
 #include <windows.h>
+#include "ConsoleHelper.h"
 
 Enums::DisplayLevel ConsoleHelper::_displayLevel;
 
