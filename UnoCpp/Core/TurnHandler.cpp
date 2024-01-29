@@ -247,8 +247,11 @@ void TurnHandler::SwapHand(int selectedPlayer)
 
 void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
 {
-    if(player->GetCards().size() <= 1)
+    if (player->GetCards().size() <= 1)
+    {
         player->SetUnoState(true);
+        ConsoleHelper::PrintMessage(std::format("Uno State Was Set Automatically For Player: {}\n", player->GetName()));
+    }
 }
 
 bool TurnHandler::HasValidCard()
