@@ -25,7 +25,7 @@ public:
 	void DrawCards() const;
 	void ShowExtraActions();
 	void WaitForActionInput();
-	bool HasValidActions(std::shared_ptr<BaseCard> cardToCompare);
+	bool HasValidCardWithSymbolInHand();
 	bool CanWin() const;
 	bool CardIsCompatible(std::shared_ptr<BaseCard> card);
 	bool CardIsSymbolOnlyCompatible(std::shared_ptr<BaseCard> card);

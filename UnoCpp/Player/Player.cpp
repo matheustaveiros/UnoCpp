@@ -55,24 +55,13 @@ void Player::WaitForActionInput()
 	UseOption(selectedAction);
 }
 
-bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare) //TODO: Refactor this
+bool Player::HasValidCardWithSymbolInHand()
 {
-	if (&cardToCompare != nullptr) // in case of a special card
-	{
-		for (const std::shared_ptr<BaseCard>& card : _cardsInHand)
-		{
-			if (CardIsSymbolOnlyCompatible(card))
-				return true;
-		}
-	}
-	else
+    for (const std::shared_ptr<BaseCard>& card : _cardsInHand)
     {
-        for (const std::shared_ptr<BaseCard>& card : _cardsInHand)
-		{
-			if (CardIsCompatible(card))
-				return true;
-		}
-	}
+        if (CardIsSymbolOnlyCompatible(card))
+            return true;
+    }
 
 	return false;
 }

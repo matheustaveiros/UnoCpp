@@ -257,7 +257,7 @@ void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
 bool TurnHandler::HasValidCard()
 {
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-    return player->HasValidActions(_deckManager->GetTopCardFromDiscardPile());
+    return player->HasValidCardWithSymbolInHand();
 }
 
 bool TurnHandler::IsGameRunning() const
