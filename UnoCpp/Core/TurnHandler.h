@@ -21,10 +21,13 @@ private:
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
 	std::shared_ptr<DeckManager> _deckManager;
 	std::shared_ptr<PlayersManager> _playersManager;
+
+	const std::string _clockwise = "» Clockwise";
+	const std::string _counterClockwise = "« counter-clockwise";
 public:
 	void Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 	int GetGameDirection() const;
-	std::string GetGameDirectionDisplay() const;
+	const std::string& GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
 	void ResetState();
 	void TurnLoop();
@@ -45,6 +48,7 @@ public:
 	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
 	void AskForHandToSwap();
 	void SwapHand(int selectedPlayer);
+	void SetUnoStateIfValid(std::shared_ptr<Player> player) const;
 	bool HasValidCard();
 	bool IsGameRunning() const;
 	bool HasCardsStacked() const;

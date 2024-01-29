@@ -15,9 +15,9 @@ private:
 
 public:
 	void Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<DeckManager> deckManager);
-	std::vector<std::shared_ptr<Player>> GetPlayers() const;
+	const std::vector<std::shared_ptr<Player>>& GetPlayers() const;
 	std::shared_ptr<Player> GetPlayer(int index);
-	void CreatePlayers(int amount, std::vector<std::string> playerNames);
+	void CreatePlayers(int amount, const std::vector<std::string>& playerNames);
 	void DestroyAllPlayers();
 	void GiveFirstCardsToPlayers();
 };

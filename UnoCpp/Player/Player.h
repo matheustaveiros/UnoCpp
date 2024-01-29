@@ -40,9 +40,10 @@ public:
 	void HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int option);
 	void TurnEnded();
+	void SetUnoState(bool unoState);
 	const std::vector<std::shared_ptr<BaseCard>>& GetCards() const;
 	void CleanPlayerHand();
 	void ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards);
-	std::string& GetName();
+	const std::string& GetName() const;
 };
 

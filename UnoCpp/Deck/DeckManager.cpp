@@ -26,9 +26,9 @@ void DeckManager::CreateDeck()
 	using enum Enums::CardColor;
 	std::vector<Enums::CardColor> colorList{ Red, Green, Blue, Yellow };
 
-	for (int i = 0; i < static_cast<int>(colorList.size()); i++)
+	for(Enums::CardColor color : colorList)
 	{
-		Enums::CardColor cardColor = colorList[i];
+		Enums::CardColor cardColor = color;
 		CreateNumberCards(cardColor);
 		CreateJumpCards(cardColor);
 		CreateReverseCards(cardColor);
@@ -135,13 +135,12 @@ void DeckManager::ResetAllCards()
 
 void DeckManager::GetBackPlayerCards()
 {
-	std::vector<std::shared_ptr<Player>> players = _playersManager->GetPlayers();
-	for (int i = 0; i < players.size(); i++)
+	for(const std::shared_ptr<Player>& player : _playersManager->GetPlayers())
 	{
-		std::vector<std::shared_ptr<BaseCard>> playerCards = players[i]->GetCards();
+		std::vector<std::shared_ptr<BaseCard>> playerCards = player->GetCards();
 		std::ranges::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
 
-		players[i]->CleanPlayerHand();
+		player->CleanPlayerHand();
 	}
 }
 
@@ -214,9 +213,11 @@ void DeckManager::KeepLastCardAndResetDiscardPile()
 
 	std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
 	_discardPile.push_back(discardTopCard);
+	
+	ShuffleDeck();
 }
 
-std::shared_ptr<BaseCard> DeckManager::GetFirstNumberCardOnDeckAndRemoveIt() //TODO: consider using weak pointer
+std::shared_ptr<BaseCard> DeckManager::GetFirstNumberCardOnDeckAndRemoveIt()
 {
 	for (int i = 0; i < _deck.size(); i++)
 	{

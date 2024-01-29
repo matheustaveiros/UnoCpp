@@ -31,7 +31,7 @@ public:
 
 	void AddAction(std::shared_ptr<BaseAction> baseAction);
 	void Execute();
-	std::vector<std::shared_ptr<BaseAction>> GetActions() const;
+	const std::vector<std::shared_ptr<BaseAction>>& GetActions() const;
 
 	virtual ~BaseCard() = default;
 };

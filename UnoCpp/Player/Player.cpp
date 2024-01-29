@@ -59,17 +59,17 @@ bool Player::HasValidActions(std::shared_ptr<BaseCard> cardToCompare) //TODO: Re
 {
 	if (&cardToCompare != nullptr) // in case of a special card
 	{
-		for (int i = 0; i < _cardsInHand.size(); i++)
+		for (const std::shared_ptr<BaseCard>& card : _cardsInHand)
 		{
-			if (CardIsSymbolOnlyCompatible(_cardsInHand[i]))
+			if (CardIsSymbolOnlyCompatible(card))
 				return true;
 		}
 	}
 	else
     {
-		for (int i = 0; i < _cardsInHand.size(); i++)
+        for (const std::shared_ptr<BaseCard>& card : _cardsInHand)
 		{
-			if (CardIsCompatible(_cardsInHand[i]))
+			if (CardIsCompatible(card))
 				return true;
 		}
 	}
@@ -113,10 +113,7 @@ bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
 bool Player::CardIsSymbolOnlyCompatible(std::shared_ptr<BaseCard> card)
 {
     std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
-    if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
-        return true;
-
-    return false;
+    return card->GetSymbol() == cardFromDiscardPile->GetSymbol();
 }
 
 void Player::DispatchWinCondition()
@@ -167,9 +164,9 @@ void Player::ShowCompatibleOptions()
         displayText += "\n";
 
         int selectedAction = ConsoleHelper::GetInput<int>(displayText);
-        for (int i = 0; i < validCards.size(); i++)
+        for(const int& cardNumber : validCards)
         {
-            if (selectedAction == validCards[i])
+            if (selectedAction == cardNumber)
             {
                 UseOption(selectedAction);
                 break;
@@ -272,6 +269,11 @@ void Player::TurnEnded()
 	}
 }
 
+void Player::SetUnoState(bool unoState)
+{
+    _inUnoState = unoState;
+}
+
 const std::vector<std::shared_ptr<BaseCard>>& Player::GetCards() const
 {
 	return _cardsInHand;
@@ -287,7 +289,7 @@ void Player::ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& ca
     _cardsInHand = cards;
 }
 
-std::string& Player::GetName()
+const std::string& Player::GetName() const
 {
 	return _name;
 }

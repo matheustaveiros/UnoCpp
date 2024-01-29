@@ -30,7 +30,7 @@ bool CardDrawHelper::WillExceedConsoleWidth(const COORD& currentPosition, int sp
     return (currentPosition.X + spaceOffset) >= screenBufferInfo.dwSize.X;
 }
 
-void CardDrawHelper::DrawCards(std::vector<std::shared_ptr<BaseCard>> cards)
+void CardDrawHelper::DrawCards(const std::vector<std::shared_ptr<BaseCard>>& cards)
 {
     COORD currentPosition = GetCurrentCursorPosition();
     for (int i = 0; i < cards.size(); i++)

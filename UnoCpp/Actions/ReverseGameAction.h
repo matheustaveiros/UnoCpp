@@ -3,7 +3,7 @@
 class ReverseGameAction : public BaseAction
 {
 public:
-	ReverseGameAction(std::shared_ptr<TurnHandler> turnHandler);
+	explicit ReverseGameAction(std::shared_ptr<TurnHandler> turnHandler);
 
 	void Execute() override;
 };

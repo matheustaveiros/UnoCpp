@@ -36,19 +36,16 @@ void ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel displayLevel)
 
 void ConsoleHelper::SetWindowSize(int width, int height)
 {
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
     // Set console window size
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
     // Set the console window size and buffer size
-    COORD size;
-    size.X = static_cast<SHORT>(screenWidth / 5);  // You can adjust this as needed
-    size.Y = static_cast<SHORT>(screenHeight / 5);  // You can adjust this as needed
+    COORD size{};
+    size.X = static_cast<SHORT>(width / 5);  // You can adjust this as needed
+    size.Y = static_cast<SHORT>(height / 5);  // You can adjust this as needed
     SetConsoleScreenBufferSize(console, size);
 
-    SMALL_RECT windowSize;
+    SMALL_RECT windowSize{};
     windowSize.Left = 0;
     windowSize.Top = 0;
     windowSize.Right = size.X - 1;

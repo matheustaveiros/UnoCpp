@@ -15,12 +15,9 @@ int TurnHandler::GetGameDirection() const
     return _gameDirection;
 }
 
-std::string TurnHandler::GetGameDirectionDisplay() const
+const std::string& TurnHandler::GetGameDirectionDisplay() const
 {
-    const std::string clockwise = "» Clockwise";
-    const std::string counterClockwise = "« counter-clockwise";
-
-    return _gameDirection == 1 ? clockwise : counterClockwise;
+    return _gameDirection == 1 ? _clockwise : _counterClockwise;
 }
 
 void TurnHandler::SetGameState(bool isRunning)
@@ -164,9 +161,9 @@ void TurnHandler::BuyCardsAndAddInStackPile(int amount)
 void TurnHandler::ApplyStackCardsToPlayer()
 {
     std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-    for (int i = 0; i < _stackedCardPile.size(); i++)
+    for (const std::shared_ptr<BaseCard>& card : _stackedCardPile)
     {
-        player->AddCardToHand(_stackedCardPile[i]);
+        player->AddCardToHand(card);
     }
 
     ConsoleHelper::PrintMessage(std::format("Stack Pile(cards: {})\nThe Cards Will Be Applied to Player: {} Hand\n", _stackedCardPile.size(), player->GetName()));
@@ -175,10 +172,9 @@ void TurnHandler::ApplyStackCardsToPlayer()
 
 void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
 {
-    std::vector<std::shared_ptr<BaseAction>> cardActions = baseCard->GetActions();
-    for (int i = 0; i < cardActions.size(); i++)
+    for (const std::shared_ptr<BaseAction>& card : baseCard->GetActions())
     {
-        AddActionInQueue(cardActions[i]);
+        AddActionInQueue(card);
     }
 
     _deckManager->AddCardToDiscardPile(baseCard);
@@ -243,7 +239,16 @@ void TurnHandler::SwapHand(int selectedPlayer)
     playerA->ReplaceCardsInHand(playerBCards);
     playerB->ReplaceCardsInHand(playerACards);
 
+    SetUnoStateIfValid(playerA);
+    SetUnoStateIfValid(playerB);
+
     ConsoleHelper::PrintMessage(std::format("Players Hands Swapped Player: {} With Player: {}\n", playerA->GetName(), playerB->GetName()));
+}
+
+void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
+{
+    if(player->GetCards().size() <= 1)
+        player->SetUnoState(true);
 }
 
 bool TurnHandler::HasValidCard()

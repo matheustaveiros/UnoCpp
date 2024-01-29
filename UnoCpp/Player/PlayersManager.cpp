@@ -9,7 +9,7 @@ void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::s
     _deckManager = deckManager;
 }
 
-std::vector<std::shared_ptr<Player>> PlayersManager::GetPlayers() const
+const std::vector<std::shared_ptr<Player>>& PlayersManager::GetPlayers() const
 {
     return _players;
 }
@@ -22,7 +22,7 @@ std::shared_ptr<Player> PlayersManager::GetPlayer(int index)
     return _players[index];
 }
 
-void PlayersManager::CreatePlayers(int amount, std::vector<std::string> playerNames)
+void PlayersManager::CreatePlayers(int amount, const std::vector<std::string>& playerNames)
 {
     for (int i = 0; i < amount; i++)
     {
@@ -38,12 +38,12 @@ void PlayersManager::DestroyAllPlayers()
 
 void PlayersManager::GiveFirstCardsToPlayers()
 {
-    for (int playerIndex = 0; playerIndex < _players.size(); playerIndex++)
+    for (const std::shared_ptr<Player>& player : _players)
     {
         for (int cardsIndex = 0; cardsIndex < DeckData::AMOUNT_OF_INITIAL_CARDS; cardsIndex++)
         {
             std::shared_ptr<BaseCard> card = _deckManager->BuyTopCardAndRemoveFromDeck();
-            _players[playerIndex]->AddCardToHand(card);
+            player->AddCardToHand(card);
         }
     }
 
