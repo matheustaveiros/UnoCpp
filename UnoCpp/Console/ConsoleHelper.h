@@ -29,11 +29,13 @@ T ConsoleHelper::GetInput(std::string_view message)
     T input{};
     std::cout << message;
     std::cin >> std::ws >> input;
+
     if (std::cin.fail())
     {
         std::cin.clear();
         std::cin.ignore();
         return GetInput<T>(message);
     }
+
     return input;
 }
