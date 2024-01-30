@@ -5,6 +5,8 @@
 class TurnHandler;
 class BaseAction
 {
+protected:
+	std::shared_ptr<TurnHandler> _turnHandler;
 
 public:
 	explicit BaseAction(std::shared_ptr<TurnHandler> turnHandler);
@@ -12,7 +14,5 @@ public:
 	virtual void Execute() = 0;
 
 	virtual ~BaseAction() = default;
-
-	std::shared_ptr<TurnHandler> _turnHandler;
 };
 
