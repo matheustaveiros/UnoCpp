@@ -113,7 +113,7 @@ void Player::DispatchWinCondition()
 
 void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
 {
-	_cardsInHand.push_back(card);
+	_cardsInHand.emplace_back(card);
 }
 
 void Player::HandleMandatoryPlay()
@@ -138,7 +138,7 @@ void Player::ShowCompatibleOptions()
         if (CardIsSymbolOnlyCompatible(handCard))
         {
             displayText += std::format("({}) ", i);
-            validCards.push_back(i);
+            validCards.emplace_back(i);
         }
     }
 

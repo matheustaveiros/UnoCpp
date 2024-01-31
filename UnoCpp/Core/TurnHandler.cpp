@@ -39,7 +39,7 @@ void TurnHandler::TurnLoop()
 
 void TurnHandler::AddActionInQueue(std::shared_ptr<BaseAction> action)
 {
-    _actionQueue.push_back(action);
+    _actionQueue.emplace_back(action);
 }
 
 void TurnHandler::ExecuteActionInQueue()
@@ -130,7 +130,7 @@ void TurnHandler::BuyCardsFromDiscardPile(int amount)
 {
     for (int i = 0; i < amount; i++)
     {
-        _stackedCardPile.push_back(_deckManager->BuyTopCardAndRemoveFromDiscardPile());
+        _stackedCardPile.emplace_back(_deckManager->BuyTopCardAndRemoveFromDiscardPile());
     }
 }
 
@@ -152,7 +152,7 @@ void TurnHandler::BuyCardsAndAddInStackPile(int amount)
 {
     for (int i = 0; i < amount; i++)
     {
-        _stackedCardPile.push_back(_deckManager->BuyTopCardAndRemoveFromDeck());
+        _stackedCardPile.emplace_back(_deckManager->BuyTopCardAndRemoveFromDeck());
     }
 
     ConsoleHelper::PrintMessage(std::format("{} Cards Added to Stack Pile\n", amount));
@@ -214,7 +214,7 @@ void TurnHandler::AskForHandToSwap()
         if (i == _currentPlayerIndex)
             continue;
 
-        validIds.push_back(i);
+        validIds.emplace_back(i);
         idsText += std::format("({}) ", i);
     }
 

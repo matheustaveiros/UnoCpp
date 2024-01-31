@@ -51,8 +51,7 @@ void DeckManager::CreateNumberCards(Enums::CardColor cardColor)
 	{
 		for (int numberIndex = 0; numberIndex <= DeckData::NUMBER_RANGE_IN_CARDS; numberIndex++)
 		{
-			auto card = std::make_shared<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex));
-			_deck.push_back(card);
+			_deck.emplace_back(std::make_shared<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex)));
 		}
 	}
 }
@@ -61,8 +60,7 @@ void DeckManager::CreateJumpCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_JUMP_CARDS_BY_COLOR; cardIndex++)
 	{
-		auto card = std::make_shared<JumpCard>(_turnHandler, cardColor, DeckData::JUMP_CARD_SYMBOL);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<JumpCard>(_turnHandler, cardColor, DeckData::JUMP_CARD_SYMBOL));
 	}
 }
 
@@ -70,8 +68,7 @@ void DeckManager::CreateReverseCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_REVERSE_CARDS_BY_COLOR; cardIndex++)
 	{
-		auto card = std::make_shared<ReverseCard>(_turnHandler, cardColor, DeckData::REVERSE_SYMBOL);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<ReverseCard>(_turnHandler, cardColor, DeckData::REVERSE_SYMBOL));
 	}
 }
 
@@ -79,8 +76,7 @@ void DeckManager::CreatePlusTwoCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_TWO_CARDS_BY_COLOR; cardIndex++)
 	{
-		auto card = std::make_shared<PlusTwoCard>(_turnHandler, cardColor, DeckData::PLUS_TWO_SYMBOL);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<PlusTwoCard>(_turnHandler, cardColor, DeckData::PLUS_TWO_SYMBOL));
 	}
 }
 
@@ -88,8 +84,7 @@ void DeckManager::CreateSwapHandsCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR; cardIndex++)
 	{
-		auto card = std::make_shared<SwapHandsCard>(_turnHandler, cardColor, DeckData::SWAP_CARD_SYMBOL);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<SwapHandsCard>(_turnHandler, cardColor, DeckData::SWAP_CARD_SYMBOL));
 	}
 }
 
@@ -97,8 +92,7 @@ void DeckManager::CreateBuyFromDiscardPileCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_BUY_FROM_DISCARD_PILE_CARDS_BY_COLOR; cardIndex++)
 	{
-		auto card = std::make_shared<BuyFromDiscardPileCard>(_turnHandler, cardColor, DeckData::BUY_FROM_DISCARD_PILE_CARD_SYMBOL, 2);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<BuyFromDiscardPileCard>(_turnHandler, cardColor, DeckData::BUY_FROM_DISCARD_PILE_CARD_SYMBOL, 2));
 	}
 }
 
@@ -106,8 +100,7 @@ void DeckManager::CreatePlusFourCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_FOUR_CARDS; cardIndex++)
 	{
-		auto card = std::make_shared<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL));
 	}
 }
 
@@ -115,8 +108,7 @@ void DeckManager::CreateChooseColorCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_CHOOSE_COLOR_CARDS; cardIndex++)
 	{
-		auto card = std::make_shared<ChooseColorCard>(_turnHandler, cardColor, DeckData::CHOOSE_COLOR_CARD_SYMBOL);
-		_deck.push_back(card);
+		_deck.emplace_back(std::make_shared<ChooseColorCard>(_turnHandler, cardColor, DeckData::CHOOSE_COLOR_CARD_SYMBOL));
 	}
 }
 
@@ -174,7 +166,7 @@ std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDeck()
 
 void DeckManager::AddCardToDiscardPile(std::shared_ptr<BaseCard> card)
 {
-	_discardPile.push_back(card);
+	_discardPile.emplace_back(card);
 }
 
 std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDiscardPile()
@@ -212,7 +204,7 @@ void DeckManager::KeepLastCardAndResetDiscardPile()
 	_discardPile.pop_back();
 
 	std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
-	_discardPile.push_back(discardTopCard);
+	_discardPile.emplace_back(discardTopCard);
 	
 	ShuffleDeck();
 }

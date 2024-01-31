@@ -65,7 +65,7 @@ void GameManager::CreatePlayers(int amount)
 	for (int i = 0; i < amount; i++)
 	{
 		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name\n", i + 1));
-		playerNames.push_back(playerName);
+		playerNames.emplace_back(playerName);
 	}
 
 	_playersManager->CreatePlayers(amount, playerNames);

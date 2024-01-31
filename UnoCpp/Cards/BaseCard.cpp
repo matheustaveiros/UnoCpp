@@ -19,7 +19,7 @@ std::string BaseCard::GetSymbol() const
 
 void BaseCard::AddAction(std::shared_ptr<BaseAction> baseAction)
 {
-	_baseActions.push_back(baseAction);
+	_baseActions.emplace_back(baseAction);
 }
 
 void BaseCard::Execute()
