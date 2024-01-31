@@ -106,10 +106,15 @@ void TurnHandler::AskPlayerToSelectAColor()
     }
     else
     {
-        _mandatoryColor = static_cast<Enums::CardColor>(selectedColor);
-        ConsoleHelper::Clear();
-        ConsoleHelper::PrintMessage(std::format("Current Selected Mandatory Color: {}\n", Enums::GetColorDisplayName(_mandatoryColor)));
+        SetSelectedColor(selectedColor);
     }
+}
+
+void TurnHandler::SetSelectedColor(int selectedColor)
+{
+    _mandatoryColor = static_cast<Enums::CardColor>(selectedColor);
+    ConsoleHelper::Clear();
+    ConsoleHelper::PrintMessage(std::format("Current Selected Mandatory Color: {}\n", Enums::GetColorDisplayName(_mandatoryColor)));
 }
 
 void TurnHandler::DrawCardFromPreviousPlayer()

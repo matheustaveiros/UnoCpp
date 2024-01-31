@@ -4,6 +4,11 @@
 #include "Deck/DeckData.h"
 #include "Player.h"
 
+Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
+{
+
+}
+
 void Player::StartTurn()
 {
     _yellUnoActionValue = -1;
@@ -19,11 +24,6 @@ void Player::StartTurn()
         ShowExtraActions();
         WaitForActionInput();
     }
-}
-
-Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
-{
-
 }
 
 void Player::DrawTopCardFromDiscardPile()
@@ -266,6 +266,11 @@ void Player::SetUnoState(bool unoState)
 const std::vector<std::shared_ptr<BaseCard>>& Player::GetCards() const
 {
 	return _cardsInHand;
+}
+
+const std::shared_ptr<BaseCard>& Player::GetCard(int index) const
+{
+    return _cardsInHand[index];
 }
 
 void Player::CleanPlayerHand()

@@ -9,10 +9,12 @@ class BaseCard;
 class TurnHandler;
 class Player
 {
+protected:
+	std::shared_ptr<TurnHandler> _turnHandler;
+
 private:
 	std::vector<std::shared_ptr<BaseCard>> _cardsInHand;
 	bool _inUnoState = false;
-	std::shared_ptr<TurnHandler> _turnHandler;
 	std::string _name;
 	int _yellUnoActionValue = 0;
 	int _buyCardActionValue = 0;
@@ -42,6 +44,7 @@ public:
 	void TurnEnded();
 	void SetUnoState(bool unoState);
 	const std::vector<std::shared_ptr<BaseCard>>& GetCards() const;
+	const std::shared_ptr<BaseCard>& GetCard(int index) const;
 	void CleanPlayerHand();
 	void ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards);
 	const std::string& GetName() const;
