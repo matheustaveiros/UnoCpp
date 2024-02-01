@@ -1,7 +1,3 @@
-#include <format>
-#include "Console/ConsoleHelper.h"
-#include "Console/CardDrawHelper.h"
-#include "Deck/DeckData.h"
 #include "Player.h"
 
 Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
@@ -9,50 +5,22 @@ Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name
 
 }
 
-void Player::StartTurn()
-{
-    _yellUnoActionValue = -1;
-    _buyCardActionValue = -2;
-    DrawTopCardFromDiscardPile();
-    if (_turnHandler->HasCardsStacked())
-    {
-        HandleMandatoryPlay();
-    }
-    else
-    {
-        DrawCards();
-        ShowExtraActions();
-        WaitForActionInput();
-    }
-}
-
 void Player::DrawTopCardFromDiscardPile()
 {
+    if (_turnHandler->GetMandatoryColor() != Enums::CardColor::Empty && !_turnHandler->HasCardsStacked())
+    {
+        ConsoleHelper::PrintMessage(std::format("A Mandatory Color is required For This Turn, Color: {}\n",
+            Enums::GetColorDisplayName(_turnHandler->GetMandatoryColor())));
+    }
+
     ConsoleHelper::PrintMessage("Current Top Card is:\n");
     CardDrawHelper::DrawCard(_turnHandler->GetTopCardFromDiscardPile());
 }
 
 void Player::DrawCards() const
 {
-	ConsoleHelper::PrintMessage(std::format("Player {} Hand:\n", _name));
-	CardDrawHelper::DrawCards(_cardsInHand);
-}
-
-void Player::ShowExtraActions()
-{
-	int startOffset = static_cast<int>(_cardsInHand.size());
-	_buyCardActionValue = startOffset;
-	_yellUnoActionValue = startOffset + 1;
-
-	ConsoleHelper::PrintMessage("Type Any Card Id to Use Or\n");
-    ConsoleHelper::PrintMessage(std::format("Type {} to Buy One Card\n", _buyCardActionValue));
-    ConsoleHelper::PrintMessage(std::format("Type {} to Yell Uno!\n", _yellUnoActionValue));
-}
-
-void Player::WaitForActionInput()
-{
-	int selectedAction = ConsoleHelper::GetInput<int>("Insert the number of the action to Play: \n");
-	UseOption(selectedAction);
+    ConsoleHelper::PrintMessage(std::format("Player {} Hand:\n", GetName()));
+    CardDrawHelper::DrawCards(GetCards());
 }
 
 bool Player::HasValidCardWithSymbolInHand()
@@ -84,8 +52,6 @@ bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
         }
         else
         {
-            ConsoleHelper::PrintMessage(std::format("A Mandatory Color is required For This Turn, Color: {}\n", 
-                Enums::GetColorDisplayName(_turnHandler->GetMandatoryColor())));
             return false;
         }
     }
@@ -116,72 +82,6 @@ void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
 	_cardsInHand.emplace_back(card);
 }
 
-void Player::HandleMandatoryPlay()
-{
-    ConsoleHelper::Clear();
-    DrawTopCardFromDiscardPile();
-    DrawCards();
-
-    std::shared_ptr<BaseCard> topCard = _turnHandler->GetTopCardFromDiscardPile();
-    ConsoleHelper::PrintMessage("Mandatory Use of Special Card Type: " + topCard->GetSymbol() + "\n");
-
-    ShowCompatibleOptions();
-}
-
-void Player::ShowCompatibleOptions()
-{
-    std::vector<int> validCards;
-    std::string displayText = "Select the Following Options to Play: ";
-    for (int i = 0; i < _cardsInHand.size(); i++)
-    {
-        std::shared_ptr<BaseCard> handCard = _cardsInHand[i];
-        if (CardIsSymbolOnlyCompatible(handCard))
-        {
-            displayText += std::format("({}) ", i);
-            validCards.emplace_back(i);
-        }
-    }
-
-    if (validCards.empty())
-    {
-        ConsoleHelper::PrintMessage("No Valid Plays\n");
-        _turnHandler->ApplyStackCardsToPlayer();
-        _turnHandler->SkipToNextPlayer();
-    }
-    else
-    {
-        displayText += "\n";
-
-        int selectedAction = ConsoleHelper::GetInput<int>(displayText);
-        for(const int& cardNumber : validCards)
-        {
-            if (selectedAction == cardNumber)
-            {
-                UseOption(selectedAction);
-                break;
-            }
-        }
-    }
-}
-
-void Player::UseOption(int option)
-{
-    ConsoleHelper::Clear();
-
-    if (option == _yellUnoActionValue)
-    {
-        HandleYellUnoOption();
-    }
-    else if (option == _buyCardActionValue)
-    {
-        HandleBuyCardOption();
-    }
-    else
-    {
-        HandleUseCardOption(option);
-    }
-}
-
 void Player::HandleYellUnoOption()
 {
     if (_cardsInHand.size() <= 2)
@@ -206,7 +106,7 @@ void Player::HandleUseCardOption(int option)
 {
     std::shared_ptr<BaseCard> currentUseCard;
 
-    if(option < _cardsInHand.size())
+    if (option < _cardsInHand.size())
         currentUseCard = _cardsInHand[option];
 
     if (currentUseCard != nullptr && CardIsCompatible(currentUseCard))
@@ -222,7 +122,16 @@ void Player::HandleUseCardOption(int option)
     }
     else
     {
-        ConsoleHelper::PrintMessage("Invalid Action, Please Select a Card With Compatible Symbol or Color\n");
+        if (_turnHandler->GetMandatoryColor() != Enums::CardColor::Empty)
+        {
+            ConsoleHelper::PrintMessage(std::format("A Mandatory Color is required For This Turn, Color: {}\n",
+                Enums::GetColorDisplayName(_turnHandler->GetMandatoryColor())));
+        }
+        else
+        {
+            ConsoleHelper::PrintMessage("Invalid Action, Please Select a Card With Compatible Symbol or Color\n");
+        }
+
         StartTurn();
     }
 }

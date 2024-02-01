@@ -1,20 +1,67 @@
 #include "AIPlayer.h"
 #include <unordered_map>
 
-void AIPlayer::CalculateThrowCardInput()
+AIPlayer::AIPlayer(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : Player(turnHandler, name)
+{
+
+}
+
+void AIPlayer::StartTurn()
 {
 	SetUnoStateIfRequired();
 
-	int selectedOption = GetBestCardOption();
+	DrawCards();
+
+	if (_turnHandler->HasCardsStacked())
+	{
+		CalculateThrowCardInput(true);
+	}
+	else
+	{
+		CalculateThrowCardInput(false);
+	}
+}
+
+void AIPlayer::AskToSelectAColor()
+{
+	DrawTopCardFromDiscardPile();
+	CalculateSelectColorInput();
+	ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n");
+	ConsoleHelper::Clear();
+}
+
+void AIPlayer::CalculateThrowCardInput(bool checkSymbolOnly)
+{
+	int selectedOption = GetBestCardOption(checkSymbolOnly);
 
 	if (selectedOption != -1)
 	{
-		UseOption(selectedOption);
+		HandleUseCardOption(selectedOption);
+		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n");
+		ConsoleHelper::Clear();
+	}
+	else if(checkSymbolOnly)
+	{
+		ConsoleHelper::PrintMessage("No Valid Plays\n");
+		_turnHandler->ApplyStackCardsToPlayer();
+		_turnHandler->SkipToNextPlayer();
 	}
 	else
 	{
 		HandleBuyCardOption();
-		CalculateThrowCardInput();
+		DrawCards();
+		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n");
+		ConsoleHelper::Clear();
+		CalculateThrowCardInput(checkSymbolOnly);
+	}
+}
+
+void AIPlayer::SetUnoStateIfRequired()
+{
+	if (GetCards().size() <= 2)
+	{
+		SetUnoState(true);
+		ConsoleHelper::PrintMessage(std::format("Player: {} Yelled Uno!\n", GetName()));
 	}
 }
 
@@ -23,15 +70,7 @@ void AIPlayer::CalculateSelectColorInput()
 	_turnHandler->SetSelectedColor(static_cast<int>(GetColorByAmountInHand()));
 }
 
-void AIPlayer::SetUnoStateIfRequired()
-{
-	if (GetCards().size() == 2)
-	{
-		SetUnoState(true);
-	}
-}
-
-int AIPlayer::GetBestCardOption()
+int AIPlayer::GetBestCardOption(bool checkSymbolOnly)
 {
 	int bestOption = -1;
 	int currentBestWeight = -1;
@@ -39,7 +78,10 @@ int AIPlayer::GetBestCardOption()
 	for (int i = 0; i < GetCards().size(); i++)
 	{
 		const std::shared_ptr<BaseCard>& card = GetCard(i);
-		if (CardIsCompatible(card))
+
+		bool isCompatible = checkSymbolOnly ? CardIsSymbolOnlyCompatible(card) : CardIsCompatible(card);
+
+		if (isCompatible)
 		{
 			int sameSymbolAmount = GetAmountBySymbol(card->GetSymbol());
 			int sameColorAmount = GetAmountByColor(card->GetColor());

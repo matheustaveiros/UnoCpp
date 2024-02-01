@@ -23,6 +23,7 @@ int GameManager::InitializeGame()
 {
 	WaitPlayerInputToStart();
 	AskForPlayerAmount();
+	AskForBotAmount();
 	RandomizeFirstPlayer();
 	StartGame();
 	return GameLoop();
@@ -59,6 +60,18 @@ void GameManager::AskForPlayerAmount()
 	CreatePlayers(amount);
 }
 
+void GameManager::AskForBotAmount()
+{
+	int maxAmount = MAX_PLAYERS_AMOUNT - static_cast<int>(_playersManager->GetPlayers().size());
+	int amount = -1;
+	while (amount == -1 || amount > maxAmount)
+	{
+		amount = ConsoleHelper::GetInput<int>(std::format("Type the number of [BOT] Players: (min {}, max {})\n", 0, maxAmount));
+	}
+
+	CreateBots(amount);
+}
+
 void GameManager::CreatePlayers(int amount)
 {
 	std::vector<std::string> playerNames;
@@ -69,6 +82,18 @@ void GameManager::CreatePlayers(int amount)
 	}
 
 	_playersManager->CreatePlayers(amount, playerNames);
+}
+
+void GameManager::CreateBots(int amount)
+{
+	std::vector<std::string> botNames;
+	for (int i = 0; i < amount; i++)
+	{
+		std::string botName = ConsoleHelper::GetInput<std::string>(std::format("Insert Bot {} Name\n", i + 1));
+		botNames.emplace_back("[AI] " + botName);
+	}
+
+	_playersManager->CreateBots(amount, botNames);
 }
 
 void GameManager::RandomizeFirstPlayer()

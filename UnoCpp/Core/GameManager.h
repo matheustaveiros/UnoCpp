@@ -18,7 +18,9 @@ private:
 	int InitializeGame();
 	void WaitPlayerInputToStart() const;
 	void AskForPlayerAmount();
+	void AskForBotAmount();
 	void CreatePlayers(int amount);
+	void CreateBots(int amount);
 	void RandomizeFirstPlayer();
 	void StartGame();
 	int GameLoop();

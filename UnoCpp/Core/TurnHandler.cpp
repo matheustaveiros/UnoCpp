@@ -91,30 +91,14 @@ void TurnHandler::JumpPlayer()
 
 void TurnHandler::AskPlayerToSelectAColor()
 {
-    using enum Enums::CardColor;
-
-    ConsoleHelper::PrintMessage("Your Cards:\n");
-    _playersManager->GetPlayer(_currentPlayerIndex)->DrawCards();
-
-    int selectedColor = ConsoleHelper::GetInput<int>(std::format("Please Select a Color By Number For The Next Play: Blue ({}), Green ({}), Red ({}), Yellow ({})\n", 
-        static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
-    if (selectedColor <= 0 || selectedColor > 4)
-    {
-        ConsoleHelper::PrintMessage(std::format("Invalid Input, Please Select a Valid Number ({}, {}, {}, {})\n",
-            static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
-        AskPlayerToSelectAColor();
-    }
-    else
-    {
-        SetSelectedColor(selectedColor);
-    }
+    _playersManager->GetPlayer(_currentPlayerIndex)->AskToSelectAColor();
 }
 
 void TurnHandler::SetSelectedColor(int selectedColor)
 {
     _mandatoryColor = static_cast<Enums::CardColor>(selectedColor);
-    ConsoleHelper::Clear();
-    ConsoleHelper::PrintMessage(std::format("Current Selected Mandatory Color: {}\n", Enums::GetColorDisplayName(_mandatoryColor)));
+    ConsoleHelper::PrintMessage(std::format("Player {} Selected a Mandatory Color: {}\n", 
+        _playersManager->GetPlayer(_currentPlayerIndex)->GetName(), Enums::GetColorDisplayName(_mandatoryColor)));
 }
 
 void TurnHandler::DrawCardFromPreviousPlayer()
@@ -184,7 +168,7 @@ void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
 
     _deckManager->AddCardToDiscardPile(baseCard);
 
-    ConsoleHelper::PrintMessage("Card Used: \n");
+    ConsoleHelper::PrintMessage(std::format("Card Used by {}: \n", _playersManager->GetPlayer(_currentPlayerIndex)->GetName()));
     CardDrawHelper::DrawCard(baseCard);
 
     ExecuteActionInQueue();
