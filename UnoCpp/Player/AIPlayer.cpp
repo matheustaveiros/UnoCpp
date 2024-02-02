@@ -42,8 +42,6 @@ void AIPlayer::CalculateThrowCardInput(bool checkSymbolOnly)
 	if (selectedOption != -1)
 	{
 		HandleUseCardOption(selectedOption);
-		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n", Enums::CardColor::Yellow);
-		ConsoleHelper::Clear();
 	}
 	else if(checkSymbolOnly)
 	{

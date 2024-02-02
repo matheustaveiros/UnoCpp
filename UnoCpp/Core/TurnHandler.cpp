@@ -73,7 +73,7 @@ void TurnHandler::SkipToNextPlayer()
         _currentPlayerIndex = static_cast<int>(_playersManager->GetPlayers().size()) - 1;
     }
 
-    ConsoleHelper::PrintMessage("Player Changed\n");
+    ConsoleHelper::PrintMessage("Player Changed\n", Enums::CardColor::Empty, Enums::DisplayLevel::Developer);
 }
 
 void TurnHandler::ReverseGame()
@@ -157,6 +157,8 @@ void TurnHandler::ApplyStackCardsToPlayer()
 
     ConsoleHelper::PrintMessage(std::format("Stack Pile(cards: {})\nThe Cards Will Be Applied to Player: {} Hand\n", _stackedCardPile.size(), player->GetName()), Enums::CardColor::Red);
     _stackedCardPile.clear();
+    ConsoleHelper::WaitForAnyKey("\nPress Any Key To Continue\n", Enums::CardColor::Yellow);
+    ConsoleHelper::Clear();
 }
 
 void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)

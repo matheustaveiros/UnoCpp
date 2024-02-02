@@ -28,4 +28,5 @@ void GameInstructionsHandler::DrawInstructions()
 
 	ConsoleHelper::PrintMessage(message);
 	ConsoleHelper::WaitForAnyKey("\nPress Any Key to Skip\n", Enums::CardColor::Yellow);
+	ConsoleHelper::Clear();
 }

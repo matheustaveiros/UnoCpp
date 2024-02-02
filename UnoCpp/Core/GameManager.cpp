@@ -11,7 +11,7 @@
 
 int GameManager::EntryPoint()
 {
-	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
+	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Player);
 	UnoLogo::PrintLogo();
 	GameInstructionsHandler::DrawInstructions();
 
@@ -77,7 +77,7 @@ void GameManager::CreatePlayers(int amount)
 	std::vector<std::string> playerNames;
 	for (int i = 0; i < amount; i++)
 	{
-		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name\n", i + 1));
+		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name:\n", i + 1));
 		playerNames.emplace_back(playerName);
 	}
 

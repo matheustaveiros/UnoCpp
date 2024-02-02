@@ -53,7 +53,25 @@ void ConsoleHelper::WaitForAnyKey(const std::string& message, Enums::CardColor t
     SetTextColorByCardColor(textColor);
     PrintMessage(message, textColor, Enums::DisplayLevel::Player);
     ResetTextColor();
-    _getch();
+
+    bool keyReleased = false;
+    while (!keyReleased)
+    {
+        if (_kbhit())
+        {
+            _getch();
+
+            while (_kbhit())
+            {
+                _getch();
+                Sleep(10);
+            }
+
+            keyReleased = true;
+        }
+
+        Sleep(10);
+    }
 }
 
 void ConsoleHelper::SetTextColorByCardColor(Enums::CardColor color)
