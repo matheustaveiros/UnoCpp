@@ -45,7 +45,7 @@ void GameManager::Awake()
 
 void GameManager::WaitPlayerInputToStart() const
 {
-	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n");
+	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n", Enums::CardColor::Yellow);
 	ConsoleHelper::Clear();
 }
 
@@ -140,7 +140,7 @@ int GameManager::AskForRestartOrQuit()
 	}
 	else
 	{
-		ConsoleHelper::PrintMessage("Invalid Option, Please Type a Valid Option");
+		ConsoleHelper::PrintMessage("Invalid Option, Please Type a Valid Option\n", Enums::CardColor::Red);
 		return AskForRestartOrQuit();
 	}
 

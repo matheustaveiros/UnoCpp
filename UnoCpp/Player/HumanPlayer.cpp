@@ -35,7 +35,7 @@ void HumanPlayer::ShowExtraActions()
 
 void HumanPlayer::WaitForActionInput()
 {
-    int selectedAction = ConsoleHelper::GetInput<int>("Insert the number of the action to Play: \n");
+    int selectedAction = ConsoleHelper::GetInput<int>("Insert the number of the action to Play: \n", Enums::CardColor::Yellow);
     UseOption(selectedAction);
 }
 
@@ -46,7 +46,7 @@ void HumanPlayer::HandleMandatoryPlay()
     DrawCards();
 
     std::shared_ptr<BaseCard> topCard = _turnHandler->GetTopCardFromDiscardPile();
-    ConsoleHelper::PrintMessage("Mandatory Use of Special Card Type: " + topCard->GetSymbol() + "\n");
+    ConsoleHelper::PrintMessage("Mandatory Use of Special Card Type: " + topCard->GetSymbol() + "\n", Enums::CardColor::Yellow);
 
     ShowCompatibleOptions();
 }
@@ -67,7 +67,7 @@ void HumanPlayer::ShowCompatibleOptions()
 
     if (validCards.empty())
     {
-        ConsoleHelper::PrintMessage("No Valid Plays\n");
+        ConsoleHelper::PrintMessage("No Compatible Card to Throw\n", Enums::CardColor::Red);
         _turnHandler->ApplyStackCardsToPlayer();
         _turnHandler->SkipToNextPlayer();
     }
@@ -117,7 +117,7 @@ void HumanPlayer::AskToSelectAColor()
     if (selectedColor <= 0 || selectedColor > 4)
     {
         ConsoleHelper::PrintMessage(std::format("Invalid Input, Please Select a Valid Number ({}, {}, {}, {})\n",
-            static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
+            static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)), Enums::CardColor::Red);
         AskToSelectAColor();
     }
     else

@@ -26,7 +26,7 @@ void AIPlayer::AskToSelectAColor()
 {
 	DrawTopCardFromDiscardPile();
 	CalculateSelectColorInput();
-	ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n");
+	ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n", Enums::CardColor::Yellow);
 	ConsoleHelper::Clear();
 }
 
@@ -37,12 +37,12 @@ void AIPlayer::CalculateThrowCardInput(bool checkSymbolOnly)
 	if (selectedOption != -1)
 	{
 		HandleUseCardOption(selectedOption);
-		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n");
+		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n", Enums::CardColor::Yellow);
 		ConsoleHelper::Clear();
 	}
 	else if(checkSymbolOnly)
 	{
-		ConsoleHelper::PrintMessage("No Valid Plays\n");
+		ConsoleHelper::PrintMessage("No Compatible Cards to Throw\n", Enums::CardColor::Red);
 		_turnHandler->ApplyStackCardsToPlayer();
 		_turnHandler->SkipToNextPlayer();
 	}
@@ -50,7 +50,7 @@ void AIPlayer::CalculateThrowCardInput(bool checkSymbolOnly)
 	{
 		HandleBuyCardOption();
 		DrawCards();
-		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n");
+		ConsoleHelper::WaitForAnyKey("Press Any Key to Continue\n", Enums::CardColor::Yellow);
 		ConsoleHelper::Clear();
 		CalculateThrowCardInput(checkSymbolOnly);
 	}
@@ -61,7 +61,7 @@ void AIPlayer::SetUnoStateIfRequired()
 	if (GetCards().size() <= 2)
 	{
 		SetUnoState(true);
-		ConsoleHelper::PrintMessage(std::format("Player: {} Yelled Uno!\n", GetName()));
+		ConsoleHelper::PrintMessage(std::format("Player: {} Yelled Uno!\n", GetName()), Enums::CardColor::Yellow);
 	}
 }
 

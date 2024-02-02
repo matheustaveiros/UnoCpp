@@ -58,5 +58,5 @@ void PlayersManager::GiveFirstCardsToPlayers()
         }
     }
 
-    ConsoleHelper::PrintMessage("All players Received Initial Cards\n", Enums::DisplayLevel::Developer);
+    ConsoleHelper::PrintMessage("All players Received Initial Cards\n", Enums::CardColor::Empty, Enums::DisplayLevel::Developer);
 }

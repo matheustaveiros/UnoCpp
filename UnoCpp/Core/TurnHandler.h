@@ -22,8 +22,8 @@ private:
 	std::shared_ptr<DeckManager> _deckManager;
 	std::shared_ptr<PlayersManager> _playersManager;
 
-	const std::string _clockwise = "» Clockwise";
-	const std::string _counterClockwise = "« counter-clockwise";
+	const std::string _clockwise = "-> Clockwise";
+	const std::string _counterClockwise = "<- Counter-Clockwise";
 public:
 	void Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 	int GetGameDirection() const;
