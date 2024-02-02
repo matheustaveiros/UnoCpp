@@ -56,5 +56,9 @@ public:
 	Enums::CardColor GetMandatoryColor() const;
 	void ResetMandatoryColor();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
+	int GetPlayerAmount();
+	int GetCurrentPlayerIndex();
+	const std::string& GetPlayerNameByIndex(int index) const;
+	const int GetPlayerCardAmountById(int index) const;
 };
 

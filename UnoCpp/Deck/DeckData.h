@@ -3,13 +3,13 @@
 class DeckData
 {
 public:
-	static const int NUMBER_RANGE_IN_CARDS = 9;
+	static const int NUMBER_RANGE_IN_CARDS = 1;
 	static const int AMOUNT_OF_NORMAL_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_REVERSE_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_PLUS_TWO_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_BUY_FROM_DISCARD_PILE_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_JUMP_CARDS_BY_COLOR = 2;
-	static const int AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR = 1;
+	static const int AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR = 10;
 	static const int AMOUNT_OF_PLUS_FOUR_CARDS = 4;
 	static const int AMOUNT_OF_CHOOSE_COLOR_CARDS = 4;
 	static const int AMOUNT_OF_INITIAL_CARDS = 7;

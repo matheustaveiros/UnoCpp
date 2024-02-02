@@ -196,30 +196,7 @@ void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
 
 void TurnHandler::AskForHandToSwap()
 {
-    std::vector<int> validIds;
-    std::string idsText;
-    for (int i = 0; i < _playersManager->GetPlayers().size(); i++)
-    {
-        if (i == _currentPlayerIndex)
-            continue;
-
-        validIds.emplace_back(i);
-        idsText += std::format("->({}) Player: {} | Cards in Hand: {}\n", std::to_string(i), _playersManager->GetPlayer(i)->GetName(), _playersManager->GetPlayer(i)->GetCards().size());
-    }
-
-    int selectedPlayer = ConsoleHelper::GetInput<int>(std::format("Type the Player ID To Swap Hands: \n{}", idsText));
-    if (selectedPlayer != _currentPlayerIndex && selectedPlayer >= 0 && selectedPlayer < _playersManager->GetPlayers().size())
-    {
-        ConsoleHelper::Clear();
-        SwapHand(selectedPlayer);
-    }
-    else
-    {
-        ConsoleHelper::PrintMessage("Invalid Input, Try Inserting a Valid Value\n", Enums::CardColor::Red);
-        Sleep(1000);
-        ConsoleHelper::Clear();
-        AskForHandToSwap();
-    }
+    _playersManager->GetPlayer(_currentPlayerIndex)->AskForHandToSwap();
 }
 
 void TurnHandler::SwapHand(int selectedPlayer)
@@ -276,4 +253,24 @@ void TurnHandler::ResetMandatoryColor()
 std::shared_ptr<BaseCard> TurnHandler::GetTopCardFromDiscardPile()
 {
     return _deckManager->GetTopCardFromDiscardPile();
+}
+
+int TurnHandler::GetPlayerAmount()
+{
+    return static_cast<int>(_playersManager->GetPlayers().size());
+}
+
+int TurnHandler::GetCurrentPlayerIndex()
+{
+    return _currentPlayerIndex;
+}
+
+const std::string& TurnHandler::GetPlayerNameByIndex(int index) const
+{
+    return _playersManager->GetPlayer(index)->GetName();
+}
+
+const int TurnHandler::GetPlayerCardAmountById(int index) const
+{
+    return static_cast<int>(_playersManager->GetPlayer(index)->GetCards().size());
 }

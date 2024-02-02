@@ -39,6 +39,7 @@ public:
 	virtual ~Player() = default;
 	virtual void StartTurn() = 0;
 	virtual void AskToSelectAColor() = 0;
+	virtual void AskForHandToSwap() = 0;
 
 	void DrawCards() const;
 	bool HasValidCardWithSymbolInHand();

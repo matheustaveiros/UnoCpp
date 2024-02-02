@@ -30,6 +30,11 @@ void AIPlayer::AskToSelectAColor()
 	ConsoleHelper::Clear();
 }
 
+void AIPlayer::AskForHandToSwap()
+{
+	_turnHandler->SwapHand(GetPlayerIndexWithLessCards());
+}
+
 void AIPlayer::CalculateThrowCardInput(bool checkSymbolOnly)
 {
 	int selectedOption = GetBestCardOption(checkSymbolOnly);
@@ -152,4 +157,21 @@ Enums::CardColor AIPlayer::GetColorByAmountInHand() const
 	}
 	
 	return selectedColor;
+}
+
+int AIPlayer::GetPlayerIndexWithLessCards()
+{
+	int selectedPlayer = -1;
+	int cardsAmount = INT_MAX;
+
+	for (int i = 0; i < _turnHandler->GetPlayerAmount(); i++)
+	{
+		if (_turnHandler->GetPlayerCardAmountById(i) < cardsAmount)
+		{
+			selectedPlayer = i;
+			cardsAmount = _turnHandler->GetPlayerCardAmountById(i);
+		}
+	}
+
+	return selectedPlayer;
 }

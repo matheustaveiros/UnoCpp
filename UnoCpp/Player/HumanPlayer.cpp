@@ -126,3 +126,31 @@ void HumanPlayer::AskToSelectAColor()
         _turnHandler->SetSelectedColor(selectedColor);
     }
 }
+
+void HumanPlayer::AskForHandToSwap()
+{
+    std::vector<int> validIds;
+    std::string idsText;
+    for (int i = 0; i < _turnHandler->GetPlayerAmount(); i++)
+    {
+        if (i == _turnHandler->GetCurrentPlayerIndex())
+            continue;
+
+        validIds.emplace_back(i);
+        idsText += std::format("->({}) Player: {} | Cards in Hand: {}\n", std::to_string(i), _turnHandler->GetPlayerNameByIndex(i), _turnHandler->GetPlayerCardAmountById(i));
+    }
+
+    int selectedPlayer = ConsoleHelper::GetInput<int>(std::format("Type the Player ID To Swap Hands: \n{}", idsText));
+    if (selectedPlayer != _turnHandler->GetCurrentPlayerIndex() && selectedPlayer >= 0 && selectedPlayer < _turnHandler->GetPlayerAmount())
+    {
+        ConsoleHelper::Clear();
+        _turnHandler->SwapHand(selectedPlayer);
+    }
+    else
+    {
+        ConsoleHelper::PrintMessage("Invalid Input, Try Inserting a Valid Value\n", Enums::CardColor::Red);
+        Sleep(1000);
+        ConsoleHelper::Clear();
+        AskForHandToSwap();
+    }
+}

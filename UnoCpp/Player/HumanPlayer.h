@@ -17,5 +17,6 @@ public:
 	HumanPlayer(std::shared_ptr<TurnHandler> turnHandler, const std::string& name);
 	void StartTurn() override;
 	void AskToSelectAColor() override;
+	void AskForHandToSwap() override;
 };
 
