@@ -22,8 +22,8 @@ private:
 	std::shared_ptr<DeckManager> _deckManager;
 	std::shared_ptr<PlayersManager> _playersManager;
 
-	const std::string _clockwise = "» Clockwise";
-	const std::string _counterClockwise = "« counter-clockwise";
+	const std::string _clockwise = "-> Clockwise";
+	const std::string _counterClockwise = "<- Counter-Clockwise";
 public:
 	void Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
 	int GetGameDirection() const;
@@ -38,6 +38,7 @@ public:
 	void ReverseGame();
 	void JumpPlayer();
 	void AskPlayerToSelectAColor();
+	void SetSelectedColor(int selectedColor);
 	void DrawCardFromPreviousPlayer();
 	void BuyCardsFromDiscardPile(int amount);
 	void BuyCardsFromDeck(int amount);
@@ -55,5 +56,9 @@ public:
 	Enums::CardColor GetMandatoryColor() const;
 	void ResetMandatoryColor();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
+	int GetPlayerAmount();
+	int GetCurrentPlayerIndex();
+	const std::string& GetPlayerNameByIndex(int index) const;
+	const int GetPlayerCardAmountById(int index) const;
 };
 

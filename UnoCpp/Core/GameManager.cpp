@@ -11,7 +11,7 @@
 
 int GameManager::EntryPoint()
 {
-	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Developer);
+	ConsoleHelper::SetDisplayLevel(Enums::DisplayLevel::Player);
 	UnoLogo::PrintLogo();
 	GameInstructionsHandler::DrawInstructions();
 
@@ -23,6 +23,7 @@ int GameManager::InitializeGame()
 {
 	WaitPlayerInputToStart();
 	AskForPlayerAmount();
+	AskForBotAmount();
 	RandomizeFirstPlayer();
 	StartGame();
 	return GameLoop();
@@ -44,7 +45,7 @@ void GameManager::Awake()
 
 void GameManager::WaitPlayerInputToStart() const
 {
-	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n");
+	ConsoleHelper::WaitForAnyKey("Press Any Key to Start The Game\n", Enums::CardColor::Yellow);
 	ConsoleHelper::Clear();
 }
 
@@ -59,16 +60,40 @@ void GameManager::AskForPlayerAmount()
 	CreatePlayers(amount);
 }
 
+void GameManager::AskForBotAmount()
+{
+	int maxAmount = MAX_PLAYERS_AMOUNT - static_cast<int>(_playersManager->GetPlayers().size());
+	int amount = -1;
+	while (amount == -1 || amount > maxAmount)
+	{
+		amount = ConsoleHelper::GetInput<int>(std::format("Type the number of [BOT] Players: (min {}, max {})\n", 0, maxAmount));
+	}
+
+	CreateBots(amount);
+}
+
 void GameManager::CreatePlayers(int amount)
 {
 	std::vector<std::string> playerNames;
 	for (int i = 0; i < amount; i++)
 	{
-		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name\n", i + 1));
+		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name:\n", i + 1));
 		playerNames.emplace_back(playerName);
 	}
 
 	_playersManager->CreatePlayers(amount, playerNames);
+}
+
+void GameManager::CreateBots(int amount)
+{
+	std::vector<std::string> botNames;
+	for (int i = 0; i < amount; i++)
+	{
+		std::string botName = ConsoleHelper::GetInput<std::string>(std::format("Insert Bot {} Name\n", i + 1));
+		botNames.emplace_back("[AI] " + botName);
+	}
+
+	_playersManager->CreateBots(amount, botNames);
 }
 
 void GameManager::RandomizeFirstPlayer()
@@ -115,7 +140,7 @@ int GameManager::AskForRestartOrQuit()
 	}
 	else
 	{
-		ConsoleHelper::PrintMessage("Invalid Option, Please Type a Valid Option");
+		ConsoleHelper::PrintMessage("Invalid Option, Please Type a Valid Option\n", Enums::CardColor::Red);
 		return AskForRestartOrQuit();
 	}
 

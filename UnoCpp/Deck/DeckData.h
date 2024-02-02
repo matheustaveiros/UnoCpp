@@ -9,7 +9,7 @@ public:
 	static const int AMOUNT_OF_PLUS_TWO_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_BUY_FROM_DISCARD_PILE_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_JUMP_CARDS_BY_COLOR = 2;
-	static const int AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR = 1;
+	static const int AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR = 2;
 	static const int AMOUNT_OF_PLUS_FOUR_CARDS = 4;
 	static const int AMOUNT_OF_CHOOSE_COLOR_CARDS = 4;
 	static const int AMOUNT_OF_INITIAL_CARDS = 7;

@@ -73,13 +73,13 @@ void TurnHandler::SkipToNextPlayer()
         _currentPlayerIndex = static_cast<int>(_playersManager->GetPlayers().size()) - 1;
     }
 
-    ConsoleHelper::PrintMessage("Player Changed\n");
+    ConsoleHelper::PrintMessage("Player Changed\n", Enums::CardColor::Empty, Enums::DisplayLevel::Developer);
 }
 
 void TurnHandler::ReverseGame()
 {
     _gameDirection *= -1;
-    ConsoleHelper::PrintMessage("Game Order Changed, Now is: " + GetGameDirectionDisplay() + "\n");
+    ConsoleHelper::PrintMessage("Game Order Changed, Now is: " + GetGameDirectionDisplay() + "\n", Enums::CardColor::Yellow);
     SkipToNextPlayer();
 }
 
@@ -91,25 +91,14 @@ void TurnHandler::JumpPlayer()
 
 void TurnHandler::AskPlayerToSelectAColor()
 {
-    using enum Enums::CardColor;
+    _playersManager->GetPlayer(_currentPlayerIndex)->AskToSelectAColor();
+}
 
-    ConsoleHelper::PrintMessage("Your Cards:\n");
-    _playersManager->GetPlayer(_currentPlayerIndex)->DrawCards();
-
-    int selectedColor = ConsoleHelper::GetInput<int>(std::format("Please Select a Color By Number For The Next Play: Blue ({}), Green ({}), Red ({}), Yellow ({})\n", 
-        static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
-    if (selectedColor <= 0 || selectedColor > 4)
-    {
-        ConsoleHelper::PrintMessage(std::format("Invalid Input, Please Select a Valid Number ({}, {}, {}, {})\n",
-            static_cast<int>(Blue), static_cast<int>(Green), static_cast<int>(Red), static_cast<int>(Yellow)));
-        AskPlayerToSelectAColor();
-    }
-    else
-    {
-        _mandatoryColor = static_cast<Enums::CardColor>(selectedColor);
-        ConsoleHelper::Clear();
-        ConsoleHelper::PrintMessage(std::format("Current Selected Mandatory Color: {}\n", Enums::GetColorDisplayName(_mandatoryColor)));
-    }
+void TurnHandler::SetSelectedColor(int selectedColor)
+{
+    _mandatoryColor = static_cast<Enums::CardColor>(selectedColor);
+    ConsoleHelper::PrintMessage(std::format("Player {} Selected a Mandatory Color: {}\n", 
+        _playersManager->GetPlayer(_currentPlayerIndex)->GetName(), Enums::GetColorDisplayName(_mandatoryColor)), _mandatoryColor);
 }
 
 void TurnHandler::DrawCardFromPreviousPlayer()
@@ -166,8 +155,10 @@ void TurnHandler::ApplyStackCardsToPlayer()
         player->AddCardToHand(card);
     }
 
-    ConsoleHelper::PrintMessage(std::format("Stack Pile(cards: {})\nThe Cards Will Be Applied to Player: {} Hand\n", _stackedCardPile.size(), player->GetName()));
+    ConsoleHelper::PrintMessage(std::format("Stack Pile(cards: {})\nThe Cards Will Be Applied to Player: {} Hand\n", _stackedCardPile.size(), player->GetName()), Enums::CardColor::Red);
     _stackedCardPile.clear();
+    ConsoleHelper::WaitForAnyKey("\nPress Any Key To Continue\n", Enums::CardColor::Yellow);
+    ConsoleHelper::Clear();
 }
 
 void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
@@ -179,7 +170,7 @@ void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
 
     _deckManager->AddCardToDiscardPile(baseCard);
 
-    ConsoleHelper::PrintMessage("Card Used: \n");
+    ConsoleHelper::PrintMessage(std::format("Card Used by {}: \n", _playersManager->GetPlayer(_currentPlayerIndex)->GetName()));
     CardDrawHelper::DrawCard(baseCard);
 
     ExecuteActionInQueue();
@@ -207,26 +198,7 @@ void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
 
 void TurnHandler::AskForHandToSwap()
 {
-    std::vector<int> validIds;
-    std::string idsText;
-    for (int i = 0; i < _playersManager->GetPlayers().size(); i++)
-    {
-        if (i == _currentPlayerIndex)
-            continue;
-
-        validIds.emplace_back(i);
-        idsText += std::format("({}) ", i);
-    }
-
-    int selectedPlayer = ConsoleHelper::GetInput<int>(std::format("Select The Player To Swap Hands With: {}\n", idsText));
-    if (selectedPlayer != _currentPlayerIndex && selectedPlayer >= 0 && selectedPlayer < _playersManager->GetPlayers().size())
-    {
-        SwapHand(selectedPlayer);
-    }
-    else
-    {
-        AskForHandToSwap();
-    }
+    _playersManager->GetPlayer(_currentPlayerIndex)->AskForHandToSwap();
 }
 
 void TurnHandler::SwapHand(int selectedPlayer)
@@ -242,7 +214,7 @@ void TurnHandler::SwapHand(int selectedPlayer)
     SetUnoStateIfValid(playerA);
     SetUnoStateIfValid(playerB);
 
-    ConsoleHelper::PrintMessage(std::format("Players Hands Swapped Player: {} With Player: {}\n", playerA->GetName(), playerB->GetName()));
+    ConsoleHelper::PrintMessage(std::format("Players Hands Swapped Player: {} With Player: {}\n", playerA->GetName(), playerB->GetName()), Enums::CardColor::Yellow);
 }
 
 void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
@@ -250,7 +222,7 @@ void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
     if (player->GetCards().size() <= 1)
     {
         player->SetUnoState(true);
-        ConsoleHelper::PrintMessage(std::format("Uno State Was Set Automatically For Player: {}\n", player->GetName()));
+        ConsoleHelper::PrintMessage(std::format("Player: {} Has Yelled Uno!\n", player->GetName()), Enums::CardColor::Yellow);
     }
 }
 
@@ -283,4 +255,24 @@ void TurnHandler::ResetMandatoryColor()
 std::shared_ptr<BaseCard> TurnHandler::GetTopCardFromDiscardPile()
 {
     return _deckManager->GetTopCardFromDiscardPile();
+}
+
+int TurnHandler::GetPlayerAmount()
+{
+    return static_cast<int>(_playersManager->GetPlayers().size());
+}
+
+int TurnHandler::GetCurrentPlayerIndex()
+{
+    return _currentPlayerIndex;
+}
+
+const std::string& TurnHandler::GetPlayerNameByIndex(int index) const
+{
+    return _playersManager->GetPlayer(index)->GetName();
+}
+
+const int TurnHandler::GetPlayerCardAmountById(int index) const
+{
+    return static_cast<int>(_playersManager->GetPlayer(index)->GetCards().size());
 }

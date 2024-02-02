@@ -40,7 +40,7 @@ void DeckManager::CreateDeck()
 	CreatePlusFourCards(Black);
 	CreateChooseColorCards(Black);
 
-	ConsoleHelper::PrintMessage("Cards Created\n", Enums::DisplayLevel::Developer);
+	ConsoleHelper::PrintMessage("Cards Created\n", Enums::CardColor::Empty, Enums::DisplayLevel::Developer);
 
 	ShuffleDeck();
 }
@@ -116,7 +116,7 @@ void DeckManager::ShuffleDeck()
 {
 	std::ranges::shuffle(_deck, RandomHelper::Generator);
 
-	ConsoleHelper::PrintMessage("Cards Shuffled\n", Enums::DisplayLevel::Developer);
+	ConsoleHelper::PrintMessage("Cards Shuffled\n", Enums::CardColor::Empty, Enums::DisplayLevel::Developer);
 }
 
 void DeckManager::ResetAllCards()

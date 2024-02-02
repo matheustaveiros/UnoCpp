@@ -27,5 +27,6 @@ void GameInstructionsHandler::DrawInstructions()
 	message += "The first player to use all his cards will win the game\n";
 
 	ConsoleHelper::PrintMessage(message);
-	ConsoleHelper::WaitForAnyKey("\nPress Any Key to Skip\n");
+	ConsoleHelper::WaitForAnyKey("\nPress Any Key to Skip\n", Enums::CardColor::Yellow);
+	ConsoleHelper::Clear();
 }

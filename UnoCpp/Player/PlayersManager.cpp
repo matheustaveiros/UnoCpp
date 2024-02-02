@@ -1,6 +1,8 @@
 #include "Deck/DeckData.h"
 #include "Console/ConsoleHelper.h"
 #include "Player.h"
+#include "HumanPlayer.h"
+#include "AIPlayer.h"
 #include "PlayersManager.h"
 
 void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<DeckManager> deckManager)
@@ -26,7 +28,16 @@ void PlayersManager::CreatePlayers(int amount, const std::vector<std::string>& p
 {
     for (int i = 0; i < amount; i++)
     {
-        auto newPlayer = std::make_shared<Player>(_turnHandler, playerNames[i]);
+        auto newPlayer = std::make_shared<HumanPlayer>(_turnHandler, playerNames[i]);
+        _players.emplace_back(newPlayer);
+    }
+}
+
+void PlayersManager::CreateBots(int amount, const std::vector<std::string>& playerNames)
+{
+    for (int i = 0; i < amount; i++)
+    {
+        auto newPlayer = std::make_shared<AIPlayer>(_turnHandler, playerNames[i]);
         _players.emplace_back(newPlayer);
     }
 }
@@ -47,5 +58,5 @@ void PlayersManager::GiveFirstCardsToPlayers()
         }
     }
 
-    ConsoleHelper::PrintMessage("All players Received Initial Cards\n", Enums::DisplayLevel::Developer);
+    ConsoleHelper::PrintMessage("All players Received Initial Cards\n", Enums::CardColor::Empty, Enums::DisplayLevel::Developer);
 }
