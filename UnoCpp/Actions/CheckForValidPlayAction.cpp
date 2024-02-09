@@ -1,6 +1,6 @@
 #include "CheckForValidPlayAction.h"
 
-CheckForValidPlayAction::CheckForValidPlayAction(std::shared_ptr<TurnHandler> turnHandler)
+CheckForValidPlayAction::CheckForValidPlayAction(TurnHandler* turnHandler)
 	: BaseAction(turnHandler)
 {
 

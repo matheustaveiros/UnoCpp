@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
+Player::Player(TurnHandler* turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
 {
 
 }

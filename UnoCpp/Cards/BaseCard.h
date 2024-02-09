@@ -11,7 +11,7 @@ class TurnHandler;
 class BaseCard : private std::enable_shared_from_this<BaseCard>
 {
 protected:
-	std::shared_ptr<TurnHandler> _turnHandler;
+	TurnHandler* _turnHandler;
 
 private:
 	Enums::CardColor _color;
@@ -24,7 +24,7 @@ private:
 	}
 
 public:
-	BaseCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol);
+	BaseCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
 
 	Enums::CardColor GetColor() const;
 	std::string GetSymbol() const;

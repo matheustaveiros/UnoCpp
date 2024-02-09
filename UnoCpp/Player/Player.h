@@ -13,7 +13,7 @@ class TurnHandler;
 class Player
 {
 protected:
-	std::shared_ptr<TurnHandler> _turnHandler;
+	TurnHandler* _turnHandler;
 
 	void DrawTopCardFromDiscardPile();
 	bool CardIsCompatible(std::shared_ptr<BaseCard> card);
@@ -34,7 +34,7 @@ private:
 	void TurnEnded();
 
 public:
-	explicit Player(std::shared_ptr<TurnHandler> turnHandler, const std::string& name);
+	explicit Player(TurnHandler* turnHandler, const std::string& name);
 
 	virtual ~Player() = default;
 	virtual void StartTurn() = 0;

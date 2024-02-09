@@ -1,12 +1,10 @@
 #include <iostream>
 #include <windows.h>
-#include "Deck/DeckManager.h"
 #include "Console/ConsoleHelper.h"
 #include "Console/GameInstructionsHandler.h"
 #include "Utils/RandomHelper.h"
 #include "Player/Player.h"
 #include "Console/UnoLogo.h"
-#include "TurnHandler.h"
 #include "GameManager.h"
 
 int GameManager::EntryPoint()
@@ -33,12 +31,12 @@ void GameManager::Awake()
 {
 	RandomHelper::Seed();
 
-	_playersManager = std::make_shared<PlayersManager>();
-	_deckManager = std::make_shared<DeckManager>();
-	_turnHandler = std::make_shared<TurnHandler>();
-	_playersManager->Initialize(_turnHandler, _deckManager);
-	_deckManager->Initialize(_turnHandler, _playersManager);
-	_turnHandler->Initialize(_deckManager, _playersManager);
+	_playersManager = std::make_unique<PlayersManager>();
+	_deckManager = std::make_unique<DeckManager>();
+	_turnHandler = std::make_unique<TurnHandler>();
+	_playersManager->Initialize(_turnHandler.get(), _deckManager.get());
+	_deckManager->Initialize(_turnHandler.get(), _playersManager.get());
+	_turnHandler->Initialize(_deckManager.get(), _playersManager.get());
 
 	_deckManager->CreateDeck();
 }

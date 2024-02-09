@@ -1,6 +1,6 @@
 #include "JumpPlayerAction.h"
 
-JumpPlayerAction::JumpPlayerAction(std::shared_ptr<TurnHandler> turnHandler)
+JumpPlayerAction::JumpPlayerAction(TurnHandler* turnHandler)
 	: BaseAction(turnHandler)
 {
 

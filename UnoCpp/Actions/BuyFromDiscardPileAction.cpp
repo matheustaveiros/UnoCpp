@@ -1,5 +1,5 @@
 #include "BuyFromDiscardPileAction.h"
-BuyFromDiscardPileAction::BuyFromDiscardPileAction(std::shared_ptr<TurnHandler> turnHandler, int amount) : BaseAction{ turnHandler }, _amount{ amount }
+BuyFromDiscardPileAction::BuyFromDiscardPileAction(TurnHandler* turnHandler, int amount) : BaseAction{ turnHandler }, _amount{ amount }
 {
 
 }

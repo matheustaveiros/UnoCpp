@@ -4,7 +4,7 @@
 #include "Actions/GoToNextPlayerAction.h"
 #include "BuyFromDiscardPileCard.h"
 
-BuyFromDiscardPileCard::BuyFromDiscardPileCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol, int amountToBuy)
+BuyFromDiscardPileCard::BuyFromDiscardPileCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol, int amountToBuy)
 	: BaseCard(turnHandler, color, symbol), _cardsToBuy{ amountToBuy }
 {
 	auto buyCardsAction = std::make_shared<BuyFromDiscardPileAction>(_turnHandler, _cardsToBuy);

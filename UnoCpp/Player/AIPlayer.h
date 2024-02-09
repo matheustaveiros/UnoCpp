@@ -11,10 +11,10 @@ private:
 	int GetAmountBySymbol(std::string_view symbol) const;
 	int GetAmountByColor(const Enums::CardColor& color) const;
 	Enums::CardColor GetColorByAmountInHand() const;
-	int GetPlayerIndexWithLessCards();
+	int GetPlayerIndexWithLessCards() const;
 
 public:
-	AIPlayer(std::shared_ptr<TurnHandler> turnHandler, const std::string& name);
+	AIPlayer(TurnHandler* turnHandler, const std::string& name);
 	void StartTurn() override;
 	void AskToSelectAColor() override;
 	void AskForHandToSwap() override;

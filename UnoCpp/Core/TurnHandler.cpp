@@ -4,7 +4,7 @@
 #include "Console/CardDrawHelper.h"
 #include "TurnHandler.h"
 
-void TurnHandler::Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager)
+void TurnHandler::Initialize(DeckManager* deckManager, PlayersManager* playersManager)
 {
     _deckManager = deckManager;
     _playersManager = playersManager;
@@ -257,12 +257,12 @@ std::shared_ptr<BaseCard> TurnHandler::GetTopCardFromDiscardPile()
     return _deckManager->GetTopCardFromDiscardPile();
 }
 
-int TurnHandler::GetPlayerAmount()
+int TurnHandler::GetPlayerAmount() const
 {
     return static_cast<int>(_playersManager->GetPlayers().size());
 }
 
-int TurnHandler::GetCurrentPlayerIndex()
+int TurnHandler::GetCurrentPlayerIndex() const
 {
     return _currentPlayerIndex;
 }
@@ -272,7 +272,7 @@ const std::string& TurnHandler::GetPlayerNameByIndex(int index) const
     return _playersManager->GetPlayer(index)->GetName();
 }
 
-const int TurnHandler::GetPlayerCardAmountById(int index) const
+int TurnHandler::GetPlayerCardAmountById(int index) const
 {
     return static_cast<int>(_playersManager->GetPlayer(index)->GetCards().size());
 }

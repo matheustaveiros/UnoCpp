@@ -1,5 +1,5 @@
 #include "SwapHandsAction.h"
-SwapHandsAction::SwapHandsAction(std::shared_ptr<TurnHandler> turnHandler) : BaseAction{ turnHandler }
+SwapHandsAction::SwapHandsAction(TurnHandler* turnHandler) : BaseAction{ turnHandler }
 {
 
 }

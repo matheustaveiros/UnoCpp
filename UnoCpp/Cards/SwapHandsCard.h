@@ -3,6 +3,6 @@
 class SwapHandsCard : public BaseCard
 {
 public:
-	SwapHandsCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol);
+	SwapHandsCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
 };
 

@@ -15,7 +15,7 @@
 #include "DeckData.h"
 #include "DeckManager.h"
 
-void DeckManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<PlayersManager> playersManager)
+void DeckManager::Initialize(TurnHandler* turnHandler, PlayersManager* playersManager)
 {
 	_turnHandler = turnHandler;
 	_playersManager = playersManager;

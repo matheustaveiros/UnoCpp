@@ -3,6 +3,6 @@
 class ChooseColorCard : public BaseCard
 {
 public:
-	ChooseColorCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol);
+	ChooseColorCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
 };
 

@@ -5,7 +5,7 @@
 #include "AIPlayer.h"
 #include "PlayersManager.h"
 
-void PlayersManager::Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<DeckManager> deckManager)
+void PlayersManager::Initialize(TurnHandler* turnHandler, DeckManager* deckManager)
 {
     _turnHandler = turnHandler;
     _deckManager = deckManager;

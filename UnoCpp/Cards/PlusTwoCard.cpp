@@ -4,7 +4,7 @@
 #include "Actions/GoToNextPlayerAction.h"
 #include "PlusTwoCard.h"
 
-PlusTwoCard::PlusTwoCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)
+PlusTwoCard::PlusTwoCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol)
 	: BaseCard(turnHandler, color, symbol)
 {
 	auto buyCardsAction = std::make_shared<BuyCardsAction>(_turnHandler, CARDS_TO_BUY);

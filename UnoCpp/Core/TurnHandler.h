@@ -19,13 +19,13 @@ private:
 	
 	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
 	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
-	std::shared_ptr<DeckManager> _deckManager;
-	std::shared_ptr<PlayersManager> _playersManager;
+	DeckManager* _deckManager;
+	PlayersManager* _playersManager;
 
 	const std::string _clockwise = "-> Clockwise";
 	const std::string _counterClockwise = "<- Counter-Clockwise";
 public:
-	void Initialize(std::shared_ptr<DeckManager> deckManager, std::shared_ptr<PlayersManager> playersManager);
+	void Initialize(DeckManager* deckManager, PlayersManager* playersManager);
 	int GetGameDirection() const;
 	const std::string& GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
@@ -56,9 +56,9 @@ public:
 	Enums::CardColor GetMandatoryColor() const;
 	void ResetMandatoryColor();
 	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
-	int GetPlayerAmount();
-	int GetCurrentPlayerIndex();
+	int GetPlayerAmount() const;
+	int GetCurrentPlayerIndex() const;
 	const std::string& GetPlayerNameByIndex(int index) const;
-	const int GetPlayerCardAmountById(int index) const;
+	int GetPlayerCardAmountById(int index) const;
 };
 

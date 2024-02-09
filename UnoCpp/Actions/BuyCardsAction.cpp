@@ -1,5 +1,5 @@
 #include "BuyCardsAction.h"
-BuyCardsAction::BuyCardsAction(std::shared_ptr<TurnHandler> turnHandler, int amount) : BaseAction{ turnHandler }, _amount { amount }
+BuyCardsAction::BuyCardsAction(TurnHandler* turnHandler, int amount) : BaseAction{ turnHandler }, _amount { amount }
 {
 	
 }

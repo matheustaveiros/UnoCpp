@@ -1,6 +1,6 @@
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : Player(turnHandler, name)
+HumanPlayer::HumanPlayer(TurnHandler* turnHandler, const std::string& name) : Player(turnHandler, name)
 {
 
 }

@@ -11,13 +11,13 @@ class TurnHandler;
 class DeckManager
 {
 private:
-	std::shared_ptr<PlayersManager> _playersManager;
+	TurnHandler* _turnHandler;
+	PlayersManager* _playersManager;
 	std::vector<std::shared_ptr<BaseCard>> _deck;
 	std::vector<std::shared_ptr<BaseCard>> _discardPile;
-	std::shared_ptr<TurnHandler> _turnHandler;
 
 public:
-	void Initialize(std::shared_ptr<TurnHandler> turnHandler, std::shared_ptr<PlayersManager> playersManager);
+	void Initialize(TurnHandler* turnHandler, PlayersManager* playersManager);
 	void CreateDeck();
 	void CreateNumberCards(Enums::CardColor cardColor);
 	void CreateJumpCards(Enums::CardColor cardColor);

@@ -1,6 +1,6 @@
 #include "ReverseGameAction.h"
 
-ReverseGameAction::ReverseGameAction(std::shared_ptr<TurnHandler> turnHandler)
+ReverseGameAction::ReverseGameAction(TurnHandler* turnHandler)
 	: BaseAction(turnHandler)
 {
 

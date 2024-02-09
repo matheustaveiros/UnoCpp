@@ -5,7 +5,7 @@
 #include "Actions/AskForAColorAction.h"
 #include "PlusFourCard.h"
 
-PlusFourCard::PlusFourCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)
+PlusFourCard::PlusFourCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol)
 	: BaseCard(turnHandler, color, symbol)
 {
 	auto buyCardsAction = std::make_shared<BuyCardsAction>(_turnHandler, CARDS_TO_BUY);

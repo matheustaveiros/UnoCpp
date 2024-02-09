@@ -1,7 +1,7 @@
 #include "AIPlayer.h"
 #include <unordered_map>
 
-AIPlayer::AIPlayer(std::shared_ptr<TurnHandler> turnHandler, const std::string& name) : Player(turnHandler, name)
+AIPlayer::AIPlayer(TurnHandler* turnHandler, const std::string& name) : Player(turnHandler, name)
 {
 
 }
@@ -159,7 +159,7 @@ Enums::CardColor AIPlayer::GetColorByAmountInHand() const
 	return selectedColor;
 }
 
-int AIPlayer::GetPlayerIndexWithLessCards()
+int AIPlayer::GetPlayerIndexWithLessCards() const
 {
 	int selectedPlayer = -1;
 	int cardsAmount = INT_MAX;

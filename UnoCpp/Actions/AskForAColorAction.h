@@ -3,6 +3,6 @@
 class AskForAColorAction : public BaseAction
 {
 public:
-	explicit AskForAColorAction(std::shared_ptr<TurnHandler> turnHandler);
+	explicit AskForAColorAction(TurnHandler* turnHandler);
 	void Execute() override;
 };

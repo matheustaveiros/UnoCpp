@@ -6,7 +6,7 @@ private:
 	int _amount;
 
 public:
-	BuyFromDiscardPileAction(std::shared_ptr<TurnHandler> turnHandler, int amount);
+	BuyFromDiscardPileAction(TurnHandler* turnHandler, int amount);
 
 	void Execute() override;
 };

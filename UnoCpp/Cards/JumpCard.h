@@ -3,6 +3,6 @@
 class JumpCard : public BaseCard
 {
 public:
-	JumpCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol);
+	JumpCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
 };
 

@@ -3,7 +3,7 @@
 #include "Actions/AskForAColorAction.h"
 #include "ChooseColorCard.h"
 
-ChooseColorCard::ChooseColorCard(std::shared_ptr<TurnHandler> turnHandler, Enums::CardColor color, const std::string& symbol)
+ChooseColorCard::ChooseColorCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol)
 	: BaseCard(turnHandler, color, symbol)
 {
 	auto askForAColorAction = std::make_shared<AskForAColorAction>(_turnHandler);

@@ -1,6 +1,6 @@
 #include "GoToNextPlayerAction.h"
 
-GoToNextPlayerAction::GoToNextPlayerAction(std::shared_ptr<TurnHandler> turnHandler)
+GoToNextPlayerAction::GoToNextPlayerAction(TurnHandler* turnHandler)
 	: BaseAction(turnHandler)
 {
 

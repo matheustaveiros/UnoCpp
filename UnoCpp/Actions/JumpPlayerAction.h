@@ -3,7 +3,7 @@
 class JumpPlayerAction : public BaseAction
 {
 public:
-	explicit JumpPlayerAction(std::shared_ptr<TurnHandler> turnHandler);
+	explicit JumpPlayerAction(TurnHandler* turnHandler);
 	void Execute() override;
 };
 
