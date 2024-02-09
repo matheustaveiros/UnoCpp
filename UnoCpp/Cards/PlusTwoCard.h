@@ -6,6 +6,6 @@ private:
 	const int CARDS_TO_BUY = 2;
 
 public:
-	PlusTwoCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
+	PlusTwoCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string_view symbol);
 };
 

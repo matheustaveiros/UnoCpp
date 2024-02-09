@@ -15,7 +15,7 @@ int TurnHandler::GetGameDirection() const
     return _gameDirection;
 }
 
-const std::string& TurnHandler::GetGameDirectionDisplay() const
+std::string_view TurnHandler::GetGameDirectionDisplay() const
 {
     return _gameDirection == 1 ? _clockwise : _counterClockwise;
 }
@@ -37,7 +37,7 @@ void TurnHandler::TurnLoop()
     StartCurrentPlayerTurn();
 }
 
-void TurnHandler::AddActionInQueue(std::shared_ptr<BaseAction> action)
+void TurnHandler::AddActionInQueue(BaseAction* action)
 {
     _actionQueue.emplace_back(action);
 }
@@ -46,7 +46,7 @@ void TurnHandler::ExecuteActionInQueue()
 {
     while (!_actionQueue.empty())
     {
-        std::shared_ptr<BaseAction> action = _actionQueue.front();
+        BaseAction* action = _actionQueue.front();
         action->Execute();
         _actionQueue.erase(_actionQueue.begin());
     }
@@ -54,7 +54,7 @@ void TurnHandler::ExecuteActionInQueue()
 
 void TurnHandler::StartCurrentPlayerTurn()
 {
-    std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
+    Player* player = _playersManager->GetPlayer(_currentPlayerIndex);
 
     ConsoleHelper::PrintMessage("Turn Started, Current Player is: " + player->GetName() + "\n");
 
@@ -127,9 +127,8 @@ void TurnHandler::BuyCardsFromDeck(int amount)
 {
     for (int i = 0; i < amount; i++)
     {
-        std::shared_ptr<BaseCard> grabbedCard = _deckManager->BuyTopCardAndRemoveFromDeck();
-
-        std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
+        BaseCard* grabbedCard = _deckManager->BuyTopCardAndRemoveFromDeck();
+        Player* player = _playersManager->GetPlayer(_currentPlayerIndex);
         player->AddCardToHand(grabbedCard);
     }
 
@@ -149,8 +148,8 @@ void TurnHandler::BuyCardsAndAddInStackPile(int amount)
 
 void TurnHandler::ApplyStackCardsToPlayer()
 {
-    std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
-    for (const std::shared_ptr<BaseCard>& card : _stackedCardPile)
+    Player* player = _playersManager->GetPlayer(_currentPlayerIndex);
+    for (BaseCard* card : _stackedCardPile)
     {
         player->AddCardToHand(card);
     }
@@ -161,9 +160,9 @@ void TurnHandler::ApplyStackCardsToPlayer()
     ConsoleHelper::Clear();
 }
 
-void TurnHandler::UseCard(std::shared_ptr<BaseCard> baseCard)
+void TurnHandler::UseCard(BaseCard* baseCard)
 {
-    for (const std::shared_ptr<BaseAction>& card : baseCard->GetActions())
+    for (BaseAction* card : baseCard->GetActions())
     {
         AddActionInQueue(card);
     }
@@ -183,7 +182,7 @@ void TurnHandler::SetStarterPlayerOrder(int index)
 
 void TurnHandler::ThrowCardFromDeckToDiscardPile(bool ignoreSpecial)
 {
-    std::shared_ptr<BaseCard> selectedCard;
+    BaseCard* selectedCard;
     if (ignoreSpecial)
     {
         selectedCard = _deckManager->GetFirstNumberCardOnDeckAndRemoveIt();
@@ -203,10 +202,10 @@ void TurnHandler::AskForHandToSwap()
 
 void TurnHandler::SwapHand(int selectedPlayer)
 {
-    std::shared_ptr<Player> playerA = _playersManager->GetPlayer(_currentPlayerIndex);
-    std::shared_ptr<Player> playerB = _playersManager->GetPlayer(selectedPlayer);
-    std::vector<std::shared_ptr<BaseCard>> playerACards = playerA->GetCards();
-    std::vector<std::shared_ptr<BaseCard>> playerBCards = playerB->GetCards();
+    Player* playerA = _playersManager->GetPlayer(_currentPlayerIndex);
+    Player* playerB = _playersManager->GetPlayer(selectedPlayer);
+    std::span<BaseCard*> playerACards = playerA->GetCards();
+    std::span<BaseCard*> playerBCards = playerB->GetCards();
 
     playerA->ReplaceCardsInHand(playerBCards);
     playerB->ReplaceCardsInHand(playerACards);
@@ -217,7 +216,7 @@ void TurnHandler::SwapHand(int selectedPlayer)
     ConsoleHelper::PrintMessage(std::format("Players Hands Swapped Player: {} With Player: {}\n", playerA->GetName(), playerB->GetName()), Enums::CardColor::Yellow);
 }
 
-void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
+void TurnHandler::SetUnoStateIfValid(Player* player) const
 {
     if (player->GetCards().size() <= 1)
     {
@@ -228,7 +227,7 @@ void TurnHandler::SetUnoStateIfValid(std::shared_ptr<Player> player) const
 
 bool TurnHandler::HasValidCard()
 {
-    std::shared_ptr<Player> player = _playersManager->GetPlayer(_currentPlayerIndex);
+    Player* player = _playersManager->GetPlayer(_currentPlayerIndex);
     return player->HasValidCardWithSymbolInHand();
 }
 
@@ -252,7 +251,7 @@ void TurnHandler::ResetMandatoryColor()
     _mandatoryColor = Enums::CardColor::Empty;
 }
 
-std::shared_ptr<BaseCard> TurnHandler::GetTopCardFromDiscardPile()
+BaseCard* TurnHandler::GetTopCardFromDiscardPile()
 {
     return _deckManager->GetTopCardFromDiscardPile();
 }
@@ -267,7 +266,7 @@ int TurnHandler::GetCurrentPlayerIndex() const
     return _currentPlayerIndex;
 }
 
-const std::string& TurnHandler::GetPlayerNameByIndex(int index) const
+std::string_view TurnHandler::GetPlayerNameByIndex(int index) const
 {
     return _playersManager->GetPlayer(index)->GetName();
 }

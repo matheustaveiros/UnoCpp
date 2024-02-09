@@ -1,7 +1,7 @@
 #include "AIPlayer.h"
 #include <unordered_map>
 
-AIPlayer::AIPlayer(TurnHandler* turnHandler, const std::string& name) : Player(turnHandler, name)
+AIPlayer::AIPlayer(TurnHandler* turnHandler, const std::string_view name) : Player(turnHandler, name)
 {
 
 }
@@ -82,7 +82,7 @@ int AIPlayer::GetBestCardOption(bool checkSymbolOnly)
 
 	for (int i = 0; i < GetCards().size(); i++)
 	{
-		const std::shared_ptr<BaseCard>& card = GetCard(i);
+		BaseCard* card = GetCard(i);
 
 		bool isCompatible = checkSymbolOnly ? CardIsSymbolOnlyCompatible(card) : CardIsCompatible(card);
 
@@ -103,10 +103,10 @@ int AIPlayer::GetBestCardOption(bool checkSymbolOnly)
 	return bestOption;
 }
 
-int AIPlayer::GetAmountBySymbol(std::string_view symbol) const
+int AIPlayer::GetAmountBySymbol(std::string_view symbol)
 {
 	int amount = 0;
-	for (const std::shared_ptr<BaseCard>& card : GetCards())
+	for (const BaseCard* card : GetCards())
 	{
 		if (card->GetSymbol() == symbol)
 			amount++;
@@ -115,10 +115,10 @@ int AIPlayer::GetAmountBySymbol(std::string_view symbol) const
 	return amount;
 }
 
-int AIPlayer::GetAmountByColor(const Enums::CardColor& color) const
+int AIPlayer::GetAmountByColor(const Enums::CardColor& color)
 {
 	int amount = 0;
-	for (const std::shared_ptr<BaseCard>& card : GetCards())
+	for (const BaseCard* card : GetCards())
 	{
 		if (card->GetColor() == color)
 			amount++;
@@ -127,10 +127,10 @@ int AIPlayer::GetAmountByColor(const Enums::CardColor& color) const
 	return amount;
 }
 
-Enums::CardColor AIPlayer::GetColorByAmountInHand() const
+Enums::CardColor AIPlayer::GetColorByAmountInHand()
 {
 	std::unordered_map<Enums::CardColor, int> amountByColor;
-	for (const std::shared_ptr<BaseCard>& card : GetCards())
+	for (const BaseCard* card : GetCards())
 	{
 		if (card->GetColor() == Enums::CardColor::Black)
 			continue;

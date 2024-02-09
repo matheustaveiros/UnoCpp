@@ -4,15 +4,15 @@
 #include "Actions/GoToNextPlayerAction.h"
 #include "BuyFromDiscardPileCard.h"
 
-BuyFromDiscardPileCard::BuyFromDiscardPileCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol, int amountToBuy)
+BuyFromDiscardPileCard::BuyFromDiscardPileCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string_view symbol, int amountToBuy)
 	: BaseCard(turnHandler, color, symbol), _cardsToBuy{ amountToBuy }
 {
-	auto buyCardsAction = std::make_shared<BuyFromDiscardPileAction>(_turnHandler, _cardsToBuy);
-	AddAction(buyCardsAction);
+	auto buyCardsAction = std::make_unique<BuyFromDiscardPileAction>(_turnHandler, _cardsToBuy);
+	AddAction(buyCardsAction.get());
 
-	auto goToNextPlayerAction = std::make_shared<GoToNextPlayerAction>(_turnHandler);
-	AddAction(goToNextPlayerAction);
+	auto goToNextPlayerAction = std::make_unique<GoToNextPlayerAction>(_turnHandler);
+	AddAction(goToNextPlayerAction.get());
 
-	auto checkForValidPlayAction = std::make_shared<CheckForValidPlayAction>(_turnHandler);
-	AddAction(checkForValidPlayAction);
+	auto checkForValidPlayAction = std::make_unique<CheckForValidPlayAction>(_turnHandler);
+	AddAction(checkForValidPlayAction.get());
 }

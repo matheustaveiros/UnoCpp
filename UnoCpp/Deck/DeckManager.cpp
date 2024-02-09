@@ -51,7 +51,7 @@ void DeckManager::CreateNumberCards(Enums::CardColor cardColor)
 	{
 		for (int numberIndex = 0; numberIndex <= DeckData::NUMBER_RANGE_IN_CARDS; numberIndex++)
 		{
-			_deck.emplace_back(std::make_shared<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex)));
+			_deck.emplace_back(std::make_unique<NumberCard>(_turnHandler, cardColor, std::to_string(numberIndex)));
 		}
 	}
 }
@@ -60,7 +60,7 @@ void DeckManager::CreateJumpCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_JUMP_CARDS_BY_COLOR; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<JumpCard>(_turnHandler, cardColor, DeckData::JUMP_CARD_SYMBOL));
+		_deck.emplace_back(std::make_unique<JumpCard>(_turnHandler, cardColor, DeckData::JUMP_CARD_SYMBOL));
 	}
 }
 
@@ -68,7 +68,7 @@ void DeckManager::CreateReverseCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_REVERSE_CARDS_BY_COLOR; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<ReverseCard>(_turnHandler, cardColor, DeckData::REVERSE_SYMBOL));
+		_deck.emplace_back(std::make_unique<ReverseCard>(_turnHandler, cardColor, DeckData::REVERSE_SYMBOL));
 	}
 }
 
@@ -76,7 +76,7 @@ void DeckManager::CreatePlusTwoCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_TWO_CARDS_BY_COLOR; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<PlusTwoCard>(_turnHandler, cardColor, DeckData::PLUS_TWO_SYMBOL));
+		_deck.emplace_back(std::make_unique<PlusTwoCard>(_turnHandler, cardColor, DeckData::PLUS_TWO_SYMBOL));
 	}
 }
 
@@ -84,7 +84,7 @@ void DeckManager::CreateSwapHandsCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_SWAP_HANDS_CARDS_BY_COLOR; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<SwapHandsCard>(_turnHandler, cardColor, DeckData::SWAP_CARD_SYMBOL));
+		_deck.emplace_back(std::make_unique<SwapHandsCard>(_turnHandler, cardColor, DeckData::SWAP_CARD_SYMBOL));
 	}
 }
 
@@ -92,7 +92,7 @@ void DeckManager::CreateBuyFromDiscardPileCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_BUY_FROM_DISCARD_PILE_CARDS_BY_COLOR; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<BuyFromDiscardPileCard>(_turnHandler, cardColor, DeckData::BUY_FROM_DISCARD_PILE_CARD_SYMBOL, 2));
+		_deck.emplace_back(std::make_unique<BuyFromDiscardPileCard>(_turnHandler, cardColor, DeckData::BUY_FROM_DISCARD_PILE_CARD_SYMBOL, 2));
 	}
 }
 
@@ -100,7 +100,7 @@ void DeckManager::CreatePlusFourCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_PLUS_FOUR_CARDS; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL));
+		_deck.emplace_back(std::make_unique<PlusFourCard>(_turnHandler, cardColor, DeckData::PLUS_FOUR_SYMBOL));
 	}
 }
 
@@ -108,7 +108,7 @@ void DeckManager::CreateChooseColorCards(Enums::CardColor cardColor)
 {
 	for (int cardIndex = 0; cardIndex < DeckData::AMOUNT_OF_CHOOSE_COLOR_CARDS; cardIndex++)
 	{
-		_deck.emplace_back(std::make_shared<ChooseColorCard>(_turnHandler, cardColor, DeckData::CHOOSE_COLOR_CARD_SYMBOL));
+		_deck.emplace_back(std::make_unique<ChooseColorCard>(_turnHandler, cardColor, DeckData::CHOOSE_COLOR_CARD_SYMBOL));
 	}
 }
 
@@ -127,9 +127,9 @@ void DeckManager::ResetAllCards()
 
 void DeckManager::GetBackPlayerCards()
 {
-	for(const std::shared_ptr<Player>& player : _playersManager->GetPlayers())
+	for(Player* player : _playersManager->GetPlayers())
 	{
-		std::vector<std::shared_ptr<BaseCard>> playerCards = player->GetCards();
+		std::span<BaseCard*> playerCards = player->GetCards();
 		std::ranges::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
 
 		player->CleanPlayerHand();
@@ -142,34 +142,34 @@ void DeckManager::ResetDiscardPile()
 	_discardPile.clear();
 }
 
-std::shared_ptr<BaseCard> DeckManager::GetTopCardFromDeck()
+BaseCard* DeckManager::GetTopCardFromDeck()
 {
 	if (_deck.empty())
 	{
 		KeepLastCardAndResetDiscardPile();
 	}
 
-	return _deck.back();
+	return _deck.back().get();
 }
 
-std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDeck()
+BaseCard* DeckManager::BuyTopCardAndRemoveFromDeck()
 {
 	if (_deck.empty())
 	{
 		KeepLastCardAndResetDiscardPile();
 	}
 
-	std::shared_ptr<BaseCard> card = _deck.back();
+	BaseCard* card = _deck.back().get();
 	_deck.pop_back();
 	return card;
 }
 
-void DeckManager::AddCardToDiscardPile(std::shared_ptr<BaseCard> card)
+void DeckManager::AddCardToDiscardPile(BaseCard* card)
 {
 	_discardPile.emplace_back(card);
 }
 
-std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDiscardPile()
+BaseCard* DeckManager::BuyTopCardAndRemoveFromDiscardPile()
 {
 	if (_discardPile.size() <= 1)
 	{
@@ -177,7 +177,7 @@ std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDiscardPile()
 		return BuyTopCardAndRemoveFromDeck();
 	}
 
-	std::shared_ptr<BaseCard> topCard = GetTopCardFromDiscardPile(); //Get last thrown card to ignore, will be the card used on this turn.
+	const BaseCard* topCard = GetTopCardFromDiscardPile(); //Get last thrown card to ignore, will be the card used on this turn.
 
 	int randomNumber = 0;
 	do
@@ -186,21 +186,21 @@ std::shared_ptr<BaseCard> DeckManager::BuyTopCardAndRemoveFromDiscardPile()
 	}
 	while (_discardPile[randomNumber] == topCard);
 
-	std::shared_ptr<BaseCard> selectedCard = _discardPile[randomNumber];
+	BaseCard* selectedCard = _discardPile[randomNumber];
 	_discardPile.erase(_discardPile.begin() + randomNumber);
 
 	ConsoleHelper::PrintMessage("One Card Added From Discard Pile Into Stack\n");
 	return selectedCard;
 }
 
-std::shared_ptr<BaseCard> DeckManager::GetTopCardFromDiscardPile()
+BaseCard* DeckManager::GetTopCardFromDiscardPile()
 {
 	return _discardPile.back();
 }
 
 void DeckManager::KeepLastCardAndResetDiscardPile()
 {
-	std::shared_ptr<BaseCard> discardTopCard = _discardPile.back();
+	BaseCard* discardTopCard = _discardPile.back();
 	_discardPile.pop_back();
 
 	std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
@@ -209,11 +209,11 @@ void DeckManager::KeepLastCardAndResetDiscardPile()
 	ShuffleDeck();
 }
 
-std::shared_ptr<BaseCard> DeckManager::GetFirstNumberCardOnDeckAndRemoveIt()
+BaseCard* DeckManager::GetFirstNumberCardOnDeckAndRemoveIt()
 {
 	for (int i = 0; i < _deck.size(); i++)
 	{
-		if (std::shared_ptr<NumberCard> numberCard = std::dynamic_pointer_cast<NumberCard>(_deck[i]))
+		if (NumberCard* numberCard = dynamic_cast<NumberCard*>(_deck[i].get()))
 		{
 			_deck.erase(_deck.begin() + i);
 			return numberCard;

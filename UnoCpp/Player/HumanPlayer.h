@@ -14,7 +14,7 @@ private:
 	void UseOption(int option);
 
 public:
-	HumanPlayer(TurnHandler* turnHandler, const std::string& name);
+	HumanPlayer(TurnHandler* turnHandler, const std::string_view name);
 	void StartTurn() override;
 	void AskToSelectAColor() override;
 	void AskForHandToSwap() override;

@@ -13,7 +13,7 @@ private:
 
 public:
     
-    static void PrintMessage(std::string_view, Enums::CardColor textColor = Enums::CardColor::Empty, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
+    static void PrintMessage(const std::string&, Enums::CardColor textColor = Enums::CardColor::Empty, Enums::DisplayLevel displayLevel = Enums::DisplayLevel::Player);
     static void Clear();
     static void SetDisplayLevel(Enums::DisplayLevel displayLevel);
     static void SetWindowSize(int width, int height);
@@ -21,7 +21,7 @@ public:
     template<typename T>
     static T GetInput(std::string_view message, Enums::CardColor textColor = Enums::CardColor::Empty);
 
-    static void WaitForAnyKey(const std::string& message, Enums::CardColor textColor = Enums::CardColor::Empty);
+    static void WaitForAnyKey(const std::string_view message, Enums::CardColor textColor = Enums::CardColor::Empty);
 };
 
 template <typename T>

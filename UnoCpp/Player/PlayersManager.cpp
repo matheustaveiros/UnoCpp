@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "HumanPlayer.h"
 #include "AIPlayer.h"
+#include "Utils/PointerHelper.h"
 #include "PlayersManager.h"
 
 void PlayersManager::Initialize(TurnHandler* turnHandler, DeckManager* deckManager)
@@ -11,33 +12,33 @@ void PlayersManager::Initialize(TurnHandler* turnHandler, DeckManager* deckManag
     _deckManager = deckManager;
 }
 
-const std::vector<std::shared_ptr<Player>>& PlayersManager::GetPlayers() const
+std::span<Player*> PlayersManager::GetPlayers() const
 {
-    return _players;
+    return PointerHelper::GetPointersSpan(_players);
 }
 
-std::shared_ptr<Player> PlayersManager::GetPlayer(int index)
+Player* PlayersManager::GetPlayer(int index)
 {
     if (_players.empty() || index >= _players.size())
         return nullptr;
 
-    return _players[index];
+    return _players[index].get();
 }
 
-void PlayersManager::CreatePlayers(int amount, const std::vector<std::string>& playerNames)
+void PlayersManager::CreatePlayers(int amount, const std::span<std::string_view> playerNames)
 {
     for (int i = 0; i < amount; i++)
     {
-        auto newPlayer = std::make_shared<HumanPlayer>(_turnHandler, playerNames[i]);
+        auto newPlayer = std::make_unique<HumanPlayer>(_turnHandler, playerNames[i]);
         _players.emplace_back(newPlayer);
     }
 }
 
-void PlayersManager::CreateBots(int amount, const std::vector<std::string>& playerNames)
+void PlayersManager::CreateBots(int amount, const std::span<std::string_view> playerNames)
 {
     for (int i = 0; i < amount; i++)
     {
-        auto newPlayer = std::make_shared<AIPlayer>(_turnHandler, playerNames[i]);
+        auto newPlayer = std::make_unique<AIPlayer>(_turnHandler, playerNames[i]);
         _players.emplace_back(newPlayer);
     }
 }
@@ -49,11 +50,11 @@ void PlayersManager::DestroyAllPlayers()
 
 void PlayersManager::GiveFirstCardsToPlayers()
 {
-    for (const std::shared_ptr<Player>& player : _players)
+    for (const std::unique_ptr<Player>& player : _players)
     {
         for (int cardsIndex = 0; cardsIndex < DeckData::AMOUNT_OF_INITIAL_CARDS; cardsIndex++)
         {
-            std::shared_ptr<BaseCard> card = _deckManager->BuyTopCardAndRemoveFromDeck();
+            BaseCard* card = _deckManager->BuyTopCardAndRemoveFromDeck();
             player->AddCardToHand(card);
         }
     }

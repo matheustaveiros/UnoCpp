@@ -13,8 +13,8 @@ class DeckManager
 private:
 	TurnHandler* _turnHandler;
 	PlayersManager* _playersManager;
-	std::vector<std::shared_ptr<BaseCard>> _deck;
-	std::vector<std::shared_ptr<BaseCard>> _discardPile;
+	std::vector<std::unique_ptr<BaseCard>> _deck;
+	std::vector<BaseCard*> _discardPile;
 
 public:
 	void Initialize(TurnHandler* turnHandler, PlayersManager* playersManager);
@@ -31,12 +31,12 @@ public:
 	void ResetAllCards();
 	void GetBackPlayerCards();
 	void ResetDiscardPile();
-	std::shared_ptr<BaseCard> GetTopCardFromDeck();
-	std::shared_ptr<BaseCard> BuyTopCardAndRemoveFromDeck();
-	void AddCardToDiscardPile(std::shared_ptr<BaseCard> card);
-	std::shared_ptr<BaseCard> BuyTopCardAndRemoveFromDiscardPile();
-	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
+	BaseCard* GetTopCardFromDeck();
+	BaseCard* BuyTopCardAndRemoveFromDeck();
+	void AddCardToDiscardPile(BaseCard* card);
+	BaseCard* BuyTopCardAndRemoveFromDiscardPile();
+	BaseCard* GetTopCardFromDiscardPile();
 	void KeepLastCardAndResetDiscardPile();
-	std::shared_ptr<BaseCard> GetFirstNumberCardOnDeckAndRemoveIt();
+	BaseCard* GetFirstNumberCardOnDeckAndRemoveIt();
 };
 

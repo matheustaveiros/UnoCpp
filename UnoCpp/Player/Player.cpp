@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(TurnHandler* turnHandler, const std::string& name) : _turnHandler{ turnHandler }, _name{ name }
+Player::Player(TurnHandler* turnHandler, const std::string_view name) : _turnHandler{ turnHandler }, _name{ name }
 {
 
 }
@@ -17,7 +17,7 @@ void Player::DrawTopCardFromDiscardPile()
     CardDrawHelper::DrawCard(_turnHandler->GetTopCardFromDiscardPile());
 }
 
-void Player::DrawCards() const
+void Player::DrawCards()
 {
     ConsoleHelper::PrintMessage(std::format("Player {} Hand:\n", GetName()));
     CardDrawHelper::DrawCards(GetCards());
@@ -25,7 +25,7 @@ void Player::DrawCards() const
 
 bool Player::HasValidCardWithSymbolInHand()
 {
-    for (const std::shared_ptr<BaseCard>& card : _cardsInHand)
+    for (BaseCard* card : _cardsInHand)
     {
         if (CardIsSymbolOnlyCompatible(card))
             return true;
@@ -39,7 +39,7 @@ bool Player::CanWin() const
 	return static_cast<int>(_cardsInHand.size()) - 1 == 0;
 }
 
-bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
+bool Player::CardIsCompatible(BaseCard* card)
 {
     if (card->GetColor() == Enums::CardColor::Black)
         return true;
@@ -56,7 +56,7 @@ bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
         }
     }
 
-	std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
+	BaseCard* cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
 	if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
 		return true;
 	if (card->GetColor() == cardFromDiscardPile->GetColor())
@@ -65,9 +65,9 @@ bool Player::CardIsCompatible(std::shared_ptr<BaseCard> card)
 	return false;
 }
 
-bool Player::CardIsSymbolOnlyCompatible(std::shared_ptr<BaseCard> card)
+bool Player::CardIsSymbolOnlyCompatible(BaseCard* card)
 {
-    std::shared_ptr<BaseCard> cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
+    BaseCard* cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
     return card->GetSymbol() == cardFromDiscardPile->GetSymbol();
 }
 
@@ -77,7 +77,7 @@ void Player::DispatchWinCondition()
 	_turnHandler->SetGameState(false);
 }
 
-void Player::AddCardToHand(std::shared_ptr<BaseCard> card)
+void Player::AddCardToHand(BaseCard* card)
 {
 	_cardsInHand.emplace_back(card);
 }
@@ -104,7 +104,7 @@ void Player::HandleBuyCardOption()
 
 void Player::HandleUseCardOption(int option)
 {
-    std::shared_ptr<BaseCard> currentUseCard;
+    BaseCard* currentUseCard;
 
     if (option < _cardsInHand.size())
         currentUseCard = _cardsInHand[option];
@@ -136,7 +136,7 @@ void Player::HandleUseCardOption(int option)
     }
 }
 
-void Player::HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, int option)
+void Player::HandleWinCondition(BaseCard* currentUseCard, int option)
 {
     if (_inUnoState)
     {
@@ -152,7 +152,7 @@ void Player::HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, 
     }
 }
 
-void Player::HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int option)
+void Player::HandleCardUsage(BaseCard* currentUseCard, int option)
 {
     _cardsInHand.erase(_cardsInHand.begin() + option);
     _turnHandler->UseCard(currentUseCard);
@@ -172,12 +172,12 @@ void Player::SetUnoState(bool unoState)
     _inUnoState = unoState;
 }
 
-const std::vector<std::shared_ptr<BaseCard>>& Player::GetCards() const
+std::span<BaseCard*> Player::GetCards()
 {
-	return _cardsInHand;
+	return std::span(_cardsInHand);
 }
 
-const std::shared_ptr<BaseCard>& Player::GetCard(int index) const
+BaseCard* Player::GetCard(int index) const
 {
     return _cardsInHand[index];
 }
@@ -187,12 +187,12 @@ void Player::CleanPlayerHand()
 	_cardsInHand.clear();
 }
 
-void Player::ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards)
+void Player::ReplaceCardsInHand(const std::span<BaseCard*> cards)
 {
     _cardsInHand = cards;
 }
 
-const std::string& Player::GetName() const
+std::string_view Player::GetName() const
 {
 	return _name;
 }

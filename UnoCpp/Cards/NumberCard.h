@@ -3,6 +3,6 @@
 class NumberCard : public BaseCard
 {
 public:
-	NumberCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
+	NumberCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string_view symbol);
 };
 

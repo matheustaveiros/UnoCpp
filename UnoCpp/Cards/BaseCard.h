@@ -8,7 +8,7 @@
 
 class BaseAction;
 class TurnHandler;
-class BaseCard : private std::enable_shared_from_this<BaseCard>
+class BaseCard
 {
 protected:
 	TurnHandler* _turnHandler;
@@ -16,22 +16,17 @@ protected:
 private:
 	Enums::CardColor _color;
 	std::string _symbol;
-	std::vector<std::shared_ptr<BaseAction>> _baseActions;
-	
-	std::shared_ptr<BaseCard> GetPointer()
-	{
-		return shared_from_this();
-	}
+	std::vector<BaseAction*> _baseActions;
 
 public:
-	BaseCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol);
+	BaseCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string_view symbol);
 
 	Enums::CardColor GetColor() const;
-	std::string GetSymbol() const;
+	std::string_view GetSymbol() const;
 
-	void AddAction(std::shared_ptr<BaseAction> baseAction);
+	void AddAction(BaseAction* baseAction);
 	void Execute();
-	const std::vector<std::shared_ptr<BaseAction>>& GetActions() const;
+	std::span<BaseAction*> GetActions();
 
 	virtual ~BaseCard() = default;
 };

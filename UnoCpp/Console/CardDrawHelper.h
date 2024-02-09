@@ -11,9 +11,9 @@ private:
 	static bool WillExceedConsoleWidth(const COORD& currentPosition, int spaceOffset);
 
 public:
-	static void DrawCards(const std::vector<std::shared_ptr<BaseCard>>& cards);
-	static void DrawCard(std::shared_ptr<BaseCard> card, int id = -1);
-	static void SetTextColorByCardColor(std::shared_ptr<BaseCard> card, const HANDLE console);
-	static void DrawCard(std::shared_ptr<BaseCard> card, COORD position, int id = -1);
+	static void DrawCards(std::span<BaseCard*> cards);
+	static void DrawCard(BaseCard* card, int id = -1);
+	static void SetTextColorByCardColor(BaseCard* card, const HANDLE console);
+	static void DrawCard(BaseCard* card, COORD position, int id = -1);
 };
 

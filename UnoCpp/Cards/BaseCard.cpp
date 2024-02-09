@@ -1,7 +1,7 @@
 #include "BaseCard.h"
 #include "Core/TurnHandler.h"
 
-BaseCard::BaseCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string& symbol)
+BaseCard::BaseCard(TurnHandler* turnHandler, Enums::CardColor color, const std::string_view symbol)
 	: _turnHandler{ turnHandler }, _color{ color }, _symbol{ symbol }
 {
 	
@@ -12,22 +12,22 @@ Enums::CardColor BaseCard::GetColor() const
 	return _color;
 }
 
-std::string BaseCard::GetSymbol() const
+std::string_view BaseCard::GetSymbol() const
 {
 	return _symbol;
 }
 
-void BaseCard::AddAction(std::shared_ptr<BaseAction> baseAction)
+void BaseCard::AddAction(BaseAction* baseAction)
 {
 	_baseActions.emplace_back(baseAction);
 }
 
 void BaseCard::Execute()
 {
-	_turnHandler->UseCard(GetPointer());
+	_turnHandler->UseCard(this);
 }
 
-const std::vector<std::shared_ptr<BaseAction>>& BaseCard::GetActions() const
+std::span<BaseAction*> BaseCard::GetActions()
 {
-	return _baseActions;
+	return std::span(_baseActions);
 }

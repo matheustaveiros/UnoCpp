@@ -16,39 +16,39 @@ protected:
 	TurnHandler* _turnHandler;
 
 	void DrawTopCardFromDiscardPile();
-	bool CardIsCompatible(std::shared_ptr<BaseCard> card);
-	bool CardIsSymbolOnlyCompatible(std::shared_ptr<BaseCard> card);
+	bool CardIsCompatible(BaseCard* card);
+	bool CardIsSymbolOnlyCompatible(BaseCard* card);
 	void HandleYellUnoOption();
 	void HandleBuyCardOption();
 	void HandleUseCardOption(int option);
 
 private:
-	std::vector<std::shared_ptr<BaseCard>> _cardsInHand;
+	std::vector<BaseCard*> _cardsInHand;
 	bool _inUnoState = false;
 	std::string _name;
 
 	bool CanWin() const;
 	void DispatchWinCondition();
-	void HandleWinCondition(const std::shared_ptr<BaseCard> currentUseCard, int option);
-	void HandleCardUsage(const std::shared_ptr<BaseCard> currentUseCard, int option);
+	void HandleWinCondition(BaseCard* currentUseCard, int option);
+	void HandleCardUsage(BaseCard* currentUseCard, int option);
 	void TurnEnded();
 
 public:
-	explicit Player(TurnHandler* turnHandler, const std::string& name);
+	explicit Player(TurnHandler* turnHandler, const std::string_view name);
 
 	virtual ~Player() = default;
 	virtual void StartTurn() = 0;
 	virtual void AskToSelectAColor() = 0;
 	virtual void AskForHandToSwap() = 0;
 
-	void DrawCards() const;
+	void DrawCards();
 	bool HasValidCardWithSymbolInHand();
-	void AddCardToHand(std::shared_ptr<BaseCard> card);
+	void AddCardToHand(BaseCard* card);
 	void SetUnoState(bool unoState);
-	const std::vector<std::shared_ptr<BaseCard>>& GetCards() const;
-	const std::shared_ptr<BaseCard>& GetCard(int index) const;
+	std::span<BaseCard*> GetCards();
+	BaseCard* GetCard(int index) const;
 	void CleanPlayerHand();
-	void ReplaceCardsInHand(const std::vector<std::shared_ptr<BaseCard>>& cards);
-	const std::string& GetName() const;
+	void ReplaceCardsInHand(const std::span<BaseCard*> cards);
+	std::string_view GetName() const;
 };
 

@@ -1,6 +1,6 @@
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(TurnHandler* turnHandler, const std::string& name) : Player(turnHandler, name)
+HumanPlayer::HumanPlayer(TurnHandler* turnHandler, const std::string_view name) : Player(turnHandler, name)
 {
 
 }
@@ -45,7 +45,7 @@ void HumanPlayer::HandleMandatoryPlay()
     DrawTopCardFromDiscardPile();
     DrawCards();
 
-    std::shared_ptr<BaseCard> topCard = _turnHandler->GetTopCardFromDiscardPile();
+    const BaseCard* topCard = _turnHandler->GetTopCardFromDiscardPile();
     ConsoleHelper::PrintMessage("Mandatory Use of Special Card Type: " + topCard->GetSymbol() + "\n", Enums::CardColor::Yellow);
 
     ShowCompatibleOptions();
@@ -57,7 +57,7 @@ void HumanPlayer::ShowCompatibleOptions()
     std::string displayText = "Select the Following Options to Play: ";
     for (int i = 0; i < GetCards().size(); i++)
     {
-        std::shared_ptr<BaseCard> handCard = GetCard(i);
+        BaseCard* handCard = GetCard(i);
         if (CardIsSymbolOnlyCompatible(handCard))
         {
             displayText += std::format("({}) ", i);

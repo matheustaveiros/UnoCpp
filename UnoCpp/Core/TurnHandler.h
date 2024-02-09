@@ -17,21 +17,21 @@ private:
 	bool _gameIsRunning = false;
 	Enums::CardColor _mandatoryColor = Enums::CardColor::Empty;
 	
-	std::vector<std::shared_ptr<BaseAction>> _actionQueue;
-	std::vector<std::shared_ptr<BaseCard>> _stackedCardPile;
+	std::vector<BaseAction*> _actionQueue;
+	std::vector<BaseCard*> _stackedCardPile;
 	DeckManager* _deckManager;
 	PlayersManager* _playersManager;
 
-	const std::string _clockwise = "-> Clockwise";
-	const std::string _counterClockwise = "<- Counter-Clockwise";
+	const std::string_view _clockwise = "-> Clockwise";
+	const std::string_view _counterClockwise = "<- Counter-Clockwise";
 public:
 	void Initialize(DeckManager* deckManager, PlayersManager* playersManager);
 	int GetGameDirection() const;
-	const std::string& GetGameDirectionDisplay() const;
+	std::string_view GetGameDirectionDisplay() const;
 	void SetGameState(bool isRunning);
 	void ResetState();
 	void TurnLoop();
-	void AddActionInQueue(std::shared_ptr<BaseAction> action);
+	void AddActionInQueue(BaseAction* action);
 	void ExecuteActionInQueue();
 	void StartCurrentPlayerTurn();
 	void SkipToNextPlayer();
@@ -44,21 +44,21 @@ public:
 	void BuyCardsFromDeck(int amount);
 	void BuyCardsAndAddInStackPile(int amount);
 	void ApplyStackCardsToPlayer();
-	void UseCard(std::shared_ptr<BaseCard> baseCard);
+	void UseCard(BaseCard* baseCard);
 	void SetStarterPlayerOrder(int index);
 	void ThrowCardFromDeckToDiscardPile(bool ignoreSpecial);
 	void AskForHandToSwap();
 	void SwapHand(int selectedPlayer);
-	void SetUnoStateIfValid(std::shared_ptr<Player> player) const;
+	void SetUnoStateIfValid(Player* player) const;
 	bool HasValidCard();
 	bool IsGameRunning() const;
 	bool HasCardsStacked() const;
 	Enums::CardColor GetMandatoryColor() const;
 	void ResetMandatoryColor();
-	std::shared_ptr<BaseCard> GetTopCardFromDiscardPile();
+	BaseCard* GetTopCardFromDiscardPile();
 	int GetPlayerAmount() const;
 	int GetCurrentPlayerIndex() const;
-	const std::string& GetPlayerNameByIndex(int index) const;
+	std::string_view GetPlayerNameByIndex(int index) const;
 	int GetPlayerCardAmountById(int index) const;
 };
 

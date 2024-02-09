@@ -72,10 +72,10 @@ void GameManager::AskForBotAmount()
 
 void GameManager::CreatePlayers(int amount)
 {
-	std::vector<std::string> playerNames;
+	std::vector<std::string_view> playerNames;
 	for (int i = 0; i < amount; i++)
 	{
-		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name:\n", i + 1));
+		std::string_view playerName = ConsoleHelper::GetInput<std::string_view>(std::format("Insert Player {} Name:\n", i + 1));
 		playerNames.emplace_back(playerName);
 	}
 
@@ -84,7 +84,7 @@ void GameManager::CreatePlayers(int amount)
 
 void GameManager::CreateBots(int amount)
 {
-	std::vector<std::string> botNames;
+	std::vector<std::string_view> botNames;
 	for (int i = 0; i < amount; i++)
 	{
 		std::string botName = ConsoleHelper::GetInput<std::string>(std::format("Insert Bot {} Name\n", i + 1));
@@ -158,6 +158,3 @@ int GameManager::QuitGame() const
 {
 	return 0;
 }
-
-
-;

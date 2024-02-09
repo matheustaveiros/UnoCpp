@@ -30,7 +30,7 @@ bool CardDrawHelper::WillExceedConsoleWidth(const COORD& currentPosition, int sp
     return (currentPosition.X + spaceOffset) >= screenBufferInfo.dwSize.X;
 }
 
-void CardDrawHelper::DrawCards(const std::vector<std::shared_ptr<BaseCard>>& cards)
+void CardDrawHelper::DrawCards(std::span<BaseCard*> cards)
 {
     COORD currentPosition = GetCurrentCursorPosition();
     for (int i = 0; i < cards.size(); i++)
@@ -48,13 +48,13 @@ void CardDrawHelper::DrawCards(const std::vector<std::shared_ptr<BaseCard>>& car
     }
 }
 
-void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, int id)
+void CardDrawHelper::DrawCard(BaseCard* card, int id)
 {
     COORD currentPosition = GetCurrentCursorPosition();
     DrawCard(card, currentPosition, id);
 }
 
-void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, const HANDLE console)
+void CardDrawHelper::SetTextColorByCardColor(BaseCard* card, const HANDLE console)
 {
     using enum Enums::CardColor;
     switch (card->GetColor())
@@ -79,7 +79,7 @@ void CardDrawHelper::SetTextColorByCardColor(std::shared_ptr<BaseCard> card, con
     }
 }
 
-void CardDrawHelper::DrawCard(std::shared_ptr<BaseCard> card, COORD position, int id)
+void CardDrawHelper::DrawCard(BaseCard* card, COORD position, int id)
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(console, position);
