@@ -55,7 +55,7 @@ public:
 	bool HasCardsStacked() const;
 	Enums::CardColor GetMandatoryColor() const;
 	void ResetMandatoryColor();
-	BaseCard* GetTopCardFromDiscardPile();
+	BaseCard* GetTopCardFromDiscardPile() const;
 	int GetPlayerAmount() const;
 	int GetCurrentPlayerIndex() const;
 	std::string_view GetPlayerNameByIndex(int index) const;

@@ -251,7 +251,7 @@ void TurnHandler::ResetMandatoryColor()
     _mandatoryColor = Enums::CardColor::Empty;
 }
 
-BaseCard* TurnHandler::GetTopCardFromDiscardPile()
+BaseCard* TurnHandler::GetTopCardFromDiscardPile() const
 {
     return _deckManager->GetTopCardFromDiscardPile();
 }

@@ -5,6 +5,7 @@
 #include <memory>
 #include "Utils/Enums.h"
 #include "Actions/BaseAction.h"
+#include <span>
 
 class BaseAction;
 class TurnHandler;

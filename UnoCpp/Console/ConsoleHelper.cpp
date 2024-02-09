@@ -9,7 +9,7 @@ constexpr auto BACKGROUNDED_YELLOW = 0x0006;
 
 Enums::DisplayLevel ConsoleHelper::_displayLevel;
 
-void ConsoleHelper::PrintMessage(const std::string& message, Enums::CardColor textColor, Enums::DisplayLevel displayLevel)
+void ConsoleHelper::PrintMessage(std::string_view message, Enums::CardColor textColor, Enums::DisplayLevel displayLevel)
 {
     if (displayLevel == Enums::DisplayLevel::Developer && _displayLevel == Enums::DisplayLevel::Player)
         return;
@@ -48,7 +48,7 @@ void ConsoleHelper::SetWindowSize(int width, int height)
     SetConsoleWindowInfo(console, TRUE, &windowSize);
 }
 
-void ConsoleHelper::WaitForAnyKey(const std::string_view message, Enums::CardColor textColor)
+void ConsoleHelper::WaitForAnyKey(const std::string& message, Enums::CardColor textColor)
 {
     SetTextColorByCardColor(textColor);
     PrintMessage(message, textColor, Enums::DisplayLevel::Player);

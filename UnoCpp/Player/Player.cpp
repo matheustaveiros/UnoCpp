@@ -39,7 +39,7 @@ bool Player::CanWin() const
 	return static_cast<int>(_cardsInHand.size()) - 1 == 0;
 }
 
-bool Player::CardIsCompatible(BaseCard* card)
+bool Player::CardIsCompatible(const BaseCard* card) const
 {
     if (card->GetColor() == Enums::CardColor::Black)
         return true;
@@ -56,7 +56,7 @@ bool Player::CardIsCompatible(BaseCard* card)
         }
     }
 
-	BaseCard* cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
+	const BaseCard* cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
 	if (card->GetSymbol() == cardFromDiscardPile->GetSymbol())
 		return true;
 	if (card->GetColor() == cardFromDiscardPile->GetColor())
@@ -65,9 +65,9 @@ bool Player::CardIsCompatible(BaseCard* card)
 	return false;
 }
 
-bool Player::CardIsSymbolOnlyCompatible(BaseCard* card)
+bool Player::CardIsSymbolOnlyCompatible(const BaseCard* card)
 {
-    BaseCard* cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
+    const BaseCard* cardFromDiscardPile = _turnHandler->GetTopCardFromDiscardPile();
     return card->GetSymbol() == cardFromDiscardPile->GetSymbol();
 }
 
@@ -136,7 +136,7 @@ void Player::HandleUseCardOption(int option)
     }
 }
 
-void Player::HandleWinCondition(BaseCard* currentUseCard, int option)
+void Player::HandleWinCondition(const BaseCard* currentUseCard, int option)
 {
     if (_inUnoState)
     {
@@ -152,7 +152,7 @@ void Player::HandleWinCondition(BaseCard* currentUseCard, int option)
     }
 }
 
-void Player::HandleCardUsage(BaseCard* currentUseCard, int option)
+void Player::HandleCardUsage(const BaseCard* currentUseCard, int option)
 {
     _cardsInHand.erase(_cardsInHand.begin() + option);
     _turnHandler->UseCard(currentUseCard);

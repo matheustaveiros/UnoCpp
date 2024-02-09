@@ -16,8 +16,8 @@ protected:
 	TurnHandler* _turnHandler;
 
 	void DrawTopCardFromDiscardPile();
-	bool CardIsCompatible(BaseCard* card);
-	bool CardIsSymbolOnlyCompatible(BaseCard* card);
+	bool CardIsCompatible(const BaseCard* card) const;
+	bool CardIsSymbolOnlyCompatible(const BaseCard* card);
 	void HandleYellUnoOption();
 	void HandleBuyCardOption();
 	void HandleUseCardOption(int option);
@@ -29,8 +29,8 @@ private:
 
 	bool CanWin() const;
 	void DispatchWinCondition();
-	void HandleWinCondition(BaseCard* currentUseCard, int option);
-	void HandleCardUsage(BaseCard* currentUseCard, int option);
+	void HandleWinCondition(const BaseCard* currentUseCard, int option);
+	void HandleCardUsage(const BaseCard* currentUseCard, int option);
 	void TurnEnded();
 
 public:
