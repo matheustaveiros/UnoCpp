@@ -3,8 +3,8 @@
 #include "Cards/BaseCard.h"
 #include "Actions/BaseAction.h"
 #include "Deck/DeckManager.h"
+#include "Player/Player.h"
 
-class Player;
 class BaseAction;
 class DeckManager;
 class PlayersManager;

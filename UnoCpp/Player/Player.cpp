@@ -104,7 +104,7 @@ void Player::HandleBuyCardOption()
 
 void Player::HandleUseCardOption(int option)
 {
-    BaseCard* currentUseCard;
+    BaseCard* currentUseCard{};
 
     if (option < _cardsInHand.size())
         currentUseCard = _cardsInHand[option];
@@ -136,7 +136,7 @@ void Player::HandleUseCardOption(int option)
     }
 }
 
-void Player::HandleWinCondition(const BaseCard* currentUseCard, int option)
+void Player::HandleWinCondition(BaseCard* currentUseCard, int option)
 {
     if (_inUnoState)
     {
@@ -152,7 +152,7 @@ void Player::HandleWinCondition(const BaseCard* currentUseCard, int option)
     }
 }
 
-void Player::HandleCardUsage(const BaseCard* currentUseCard, int option)
+void Player::HandleCardUsage(BaseCard* currentUseCard, int option)
 {
     _cardsInHand.erase(_cardsInHand.begin() + option);
     _turnHandler->UseCard(currentUseCard);
@@ -189,7 +189,13 @@ void Player::CleanPlayerHand()
 
 void Player::ReplaceCardsInHand(const std::span<BaseCard*> cards)
 {
-    _cardsInHand = cards;
+    _cardsInHand.clear();
+    _cardsInHand.reserve(cards.size());
+
+    for (BaseCard* card : cards)
+    {
+        _cardsInHand.emplace_back(card);
+    }
 }
 
 std::string_view Player::GetName() const

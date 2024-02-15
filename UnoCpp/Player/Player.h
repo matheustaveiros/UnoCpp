@@ -29,8 +29,8 @@ private:
 
 	bool CanWin() const;
 	void DispatchWinCondition();
-	void HandleWinCondition(const BaseCard* currentUseCard, int option);
-	void HandleCardUsage(const BaseCard* currentUseCard, int option);
+	void HandleWinCondition(BaseCard* currentUseCard, int option);
+	void HandleCardUsage(BaseCard* currentUseCard, int option);
 	void TurnEnded();
 
 public:

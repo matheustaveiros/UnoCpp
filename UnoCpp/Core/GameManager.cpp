@@ -75,7 +75,7 @@ void GameManager::CreatePlayers(int amount)
 	std::vector<std::string_view> playerNames;
 	for (int i = 0; i < amount; i++)
 	{
-		std::string_view playerName = ConsoleHelper::GetInput<std::string_view>(std::format("Insert Player {} Name:\n", i + 1));
+		std::string playerName = ConsoleHelper::GetInput<std::string>(std::format("Insert Player {} Name:\n", i + 1));
 		playerNames.emplace_back(playerName);
 	}
 
@@ -100,7 +100,7 @@ void GameManager::RandomizeFirstPlayer()
 	int selectedPlayer = RandomHelper::Range(0, playersSize);
 	_turnHandler->SetStarterPlayerOrder(selectedPlayer);
 
-	ConsoleHelper::PrintMessage("Player Randomly Selected: " + _playersManager->GetPlayer(selectedPlayer)->GetName() + "\n");
+	ConsoleHelper::PrintMessage(std::format("Player Randomly Selected: {}\n", _playersManager->GetPlayer(selectedPlayer)->GetName()));
 }
 
 void GameManager::StartGame()

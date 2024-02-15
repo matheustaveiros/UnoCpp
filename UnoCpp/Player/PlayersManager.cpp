@@ -14,7 +14,8 @@ void PlayersManager::Initialize(TurnHandler* turnHandler, DeckManager* deckManag
 
 std::span<Player*> PlayersManager::GetPlayers() const
 {
-    return PointerHelper::GetPointersSpan(_players);
+    //return PointerHelper::GetPointersSpan(_players);
+    return {};
 }
 
 Player* PlayersManager::GetPlayer(int index)
@@ -29,8 +30,8 @@ void PlayersManager::CreatePlayers(int amount, const std::span<std::string_view>
 {
     for (int i = 0; i < amount; i++)
     {
-        auto newPlayer = std::make_unique<HumanPlayer>(_turnHandler, playerNames[i]);
-        _players.emplace_back(newPlayer);
+        //auto newPlayer = std::make_unique<HumanPlayer>(_turnHandler, playerNames[i]);
+        //_players.emplace_back(newPlayer);
     }
 }
 
@@ -38,8 +39,8 @@ void PlayersManager::CreateBots(int amount, const std::span<std::string_view> pl
 {
     for (int i = 0; i < amount; i++)
     {
-        auto newPlayer = std::make_unique<AIPlayer>(_turnHandler, playerNames[i]);
-        _players.emplace_back(newPlayer);
+        //auto newPlayer = std::make_unique<AIPlayer>(_turnHandler, playerNames[i]);
+        //_players.emplace_back(newPlayer);
     }
 }
 

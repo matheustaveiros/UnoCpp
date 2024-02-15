@@ -46,7 +46,7 @@ void HumanPlayer::HandleMandatoryPlay()
     DrawCards();
 
     const BaseCard* topCard = _turnHandler->GetTopCardFromDiscardPile();
-    ConsoleHelper::PrintMessage("Mandatory Use of Special Card Type: " + topCard->GetSymbol() + "\n", Enums::CardColor::Yellow);
+    ConsoleHelper::PrintMessage(std::format("Mandatory Use of Special Card Type: {}\n", topCard->GetSymbol()), Enums::CardColor::Yellow);
 
     ShowCompatibleOptions();
 }

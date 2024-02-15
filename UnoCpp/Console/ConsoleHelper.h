@@ -19,13 +19,13 @@ public:
     static void SetWindowSize(int width, int height);
 
     template<typename T>
-    static T GetInput(std::string_view message, Enums::CardColor textColor = Enums::CardColor::Empty);
+    static T GetInput(const std::string& message, Enums::CardColor textColor = Enums::CardColor::Empty);
 
     static void WaitForAnyKey(const std::string& message, Enums::CardColor textColor = Enums::CardColor::Empty);
 };
 
 template <typename T>
-T ConsoleHelper::GetInput(std::string_view message, Enums::CardColor textColor)
+T ConsoleHelper::GetInput(const std::string& message, Enums::CardColor textColor)
 {
     T input{};
 
@@ -39,7 +39,7 @@ T ConsoleHelper::GetInput(std::string_view message, Enums::CardColor textColor)
     {
         std::cin.clear();
         std::cin.ignore();
-        return GetInput<T>(message);
+        return GetInput<T>(message, textColor);
     }
 
     return input;

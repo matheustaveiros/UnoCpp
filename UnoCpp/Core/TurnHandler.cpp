@@ -56,7 +56,7 @@ void TurnHandler::StartCurrentPlayerTurn()
 {
     Player* player = _playersManager->GetPlayer(_currentPlayerIndex);
 
-    ConsoleHelper::PrintMessage("Turn Started, Current Player is: " + player->GetName() + "\n");
+    ConsoleHelper::PrintMessage(std::format("Turn Started, Current Player is: {}\n", player->GetName()));
 
     player->StartTurn();
 }
@@ -79,7 +79,7 @@ void TurnHandler::SkipToNextPlayer()
 void TurnHandler::ReverseGame()
 {
     _gameDirection *= -1;
-    ConsoleHelper::PrintMessage("Game Order Changed, Now is: " + GetGameDirectionDisplay() + "\n", Enums::CardColor::Yellow);
+    ConsoleHelper::PrintMessage(std::format("Game Order Changed, Now is: {}\n", GetGameDirectionDisplay()), Enums::CardColor::Yellow);
     SkipToNextPlayer();
 }
 

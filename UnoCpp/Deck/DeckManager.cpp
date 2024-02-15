@@ -130,7 +130,7 @@ void DeckManager::GetBackPlayerCards()
 	for(Player* player : _playersManager->GetPlayers())
 	{
 		std::span<BaseCard*> playerCards = player->GetCards();
-		std::ranges::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
+		//std::ranges::copy(playerCards.begin(), playerCards.end(), std::back_inserter(_deck));
 
 		player->CleanPlayerHand();
 	}
@@ -138,7 +138,7 @@ void DeckManager::GetBackPlayerCards()
 
 void DeckManager::ResetDiscardPile()
 {
-	std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
+	//std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
 	_discardPile.clear();
 }
 
@@ -203,7 +203,7 @@ void DeckManager::KeepLastCardAndResetDiscardPile()
 	BaseCard* discardTopCard = _discardPile.back();
 	_discardPile.pop_back();
 
-	std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
+	//std::ranges::copy(_discardPile.begin(), _discardPile.end(), std::back_inserter(_deck));
 	_discardPile.emplace_back(discardTopCard);
 	
 	ShuffleDeck();
